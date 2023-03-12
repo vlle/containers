@@ -26,10 +26,14 @@ enable_testing()
 
 add_executable(
   hello_test
-  s21_containers.h
+  #s21_containers.h
+  s21_vector.h
+  #tests/test_vector.cc
+  #tests/test_avl_tree.cc
+  #tests/test_map.cc
+  # tests/test_multiset.cc
+  #tests/test_set.cc
   tests/test_vector.cc
-  tests/test_tree.cc
-  tests/test_avl_tree.cc
 )
 
 # ADD_LIBRARY(LibMat

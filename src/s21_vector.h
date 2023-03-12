@@ -101,8 +101,7 @@ class vector {
   size_type size() const noexcept { return size_; };
 
   size_type max_size() const noexcept {
-    std::allocator<value_type> allocator;
-    return allocator.max_size();
+    return std::numeric_limits<size_type>::max() / sizeof(value_type);
   }
 
   void reserve(size_type size) {
