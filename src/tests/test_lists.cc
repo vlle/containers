@@ -265,8 +265,6 @@ TEST(sort_test_0, list) {
   s21_tmp.push_front(20);
   s21_tmp.push_front(-40000);
 
-  list<int>::iterator s21_it = s21_tmp.begin();
-  std::list<int>::iterator it = tmp.begin();
 
   tmp.sort();
   s21_tmp.sort();
@@ -299,8 +297,6 @@ TEST(unique_test_0, list) {
   s21_tmp.push_front(4);
   s21_tmp.push_front(4);
 
-  list<int>::iterator s21_it = s21_tmp.begin();
-  std::list<int>::iterator it = tmp.begin();
 
   tmp.unique();
   s21_tmp.unique();
@@ -333,8 +329,6 @@ TEST(reverse_test_0, list) {
   s21_tmp.push_front(4);
   s21_tmp.push_front(4);
 
-  list<int>::iterator s21_it = s21_tmp.begin();
-  std::list<int>::iterator it = tmp.begin();
 
   tmp.reverse();
   s21_tmp.reverse();
@@ -349,8 +343,6 @@ TEST(merge_test_0, list) {
   std::list<int> tmp = {1, 2, 3}, other = {4, 5, 6};
   list<int> s21_tmp = {1, 2, 3}, s21_other = {4, 5, 6};
 
-  list<int>::iterator s21_it = s21_tmp.begin();
-  std::list<int>::iterator it = tmp.begin();
 
   s21_tmp.merge(s21_other);
   tmp.merge(other);
