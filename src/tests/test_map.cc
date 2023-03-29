@@ -82,9 +82,10 @@ TEST(MapSuite, IteratorCounter) {
   ASSERT_EQ(my.size(), expected.size());
   size_t counter = 0;
   size_t original_counter = 0;
-  for (auto c: my) {
+  for (auto it = my.begin(); it != my.end(); ++it) {
+    std::cout << (*it).first << std::endl;
     counter++;
-    (void) c;
+    (void) it;
   }
   for (auto c: expected) {
     original_counter++;
@@ -238,6 +239,7 @@ TEST(MapModifiers, Erase) {
 
   ASSERT_EQ(*s21_m.begin(), *std_m.begin());
   ASSERT_EQ(*++s21_m.begin(), *++std_m.begin());
+  // std::cout << (*++s21_m.begin()) << std::endl;
   s21_m.erase(++s21_m.begin());
   std_m.erase(++std_m.begin());
   EXPECT_EQ(s21_m.size(), std_m.size());

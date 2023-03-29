@@ -130,12 +130,14 @@ class map : public BinaryTree<std::pair<const Key, T>, MapCompare<std::pair<cons
   size_type erase( const Key& key ) {
     size_type count = root_->del({key, {}});
     size_ -= count;
+    std::cout << count << " erased" << std::endl;
     return count;
   }
 
   void erase(iterator pos) {
     size_type count = root_->erase(pos);
     size_ -= count;
+    std::cout << count << " erased" << std::endl;
   }
 
   void clear() {

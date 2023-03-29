@@ -482,6 +482,7 @@ namespace s21 {
       tree_iterator &operator++() noexcept {
         try {
           tree_ = next();
+          if (next_stack_.size() == 0) *this = end();
         } catch (std::out_of_range) {
           *this = end();
         };
