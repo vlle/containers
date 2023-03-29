@@ -118,6 +118,13 @@ TEST(MapSuite, IteratorCounterRight) {
   ASSERT_EQ(counter, original_counter);
 }
 
+
+TEST_F(MapTest, CopyAssigner) {
+  s21::map<int, int> mc{{1, 1}, {2, 2}, {3, 4}, {4, 4}};
+  s21::map<int, int> map_copy;
+  map_copy = mc;
+}
+
 TEST_F(MapTest, CopyConstructor) {
   s21::map<int, int> map_copy{{1, 2}, {3, 4}};
   std::map<int, int> std_map_copy{{1, 2}, {3, 4}};
