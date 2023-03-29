@@ -240,7 +240,7 @@ template <typename value_type> size_t list<value_type>::size() const noexcept {
 }
 
 template <typename value_type> bool list<value_type>::empty() const {
-  std::cout << m_size_ << std::endl;
+  // std::cout << m_size_ << std::endl;
   return m_size_ ? false : true;
 }
 /**

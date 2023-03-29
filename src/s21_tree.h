@@ -8,6 +8,7 @@
 #include <iostream>
 #include <limits>
 #include <new>
+#include <stdexcept>
 #include <type_traits>
 #include <utility>
 #include "stack/s21_stack.h"
@@ -162,7 +163,7 @@ namespace s21 {
 
     iterator begin() {
       tree_iterator it(this);
-      return it.left_node_iterator(this);
+      return it;
     }
 
     iterator end() {
@@ -172,7 +173,7 @@ namespace s21 {
 
     const_iterator cbegin() {
       const_iterator it(this);
-      return it.left_node_iterator(this);
+      return it;
     }
 
     const_iterator cend() {
@@ -405,7 +406,28 @@ namespace s21 {
       using reference = value_type&;
 
       explicit tree_iterator(BinaryTree *tree) {
+        inorder_stack(tree);
         tree_ = tree;
+      }
+
+      void inorder_stack(BinaryTree* tree) {
+        while (tree && tree->data_) {
+          next_stack_.push(tree);
+          tree = tree->left_;
+        }
+      }
+
+      BinaryTree* next() {
+        if (next_stack_.empty()) {
+          throw std::out_of_range("No next node");
+        }
+
+        BinaryTree* node = next_stack_.top();
+        next_stack_.pop();
+        if (node->right_ && node->right_->data_) {
+          inorder_stack(node->right_);
+        }
+        return node;
       }
 
       tree_iterator(const tree_iterator &other) { *this = other; }
@@ -447,19 +469,22 @@ namespace s21 {
 
 
       value_type operator*() noexcept { 
-        return tree_ && tree_->data_ ? tree_->data_->value : value_type{};
+        if (next_stack_.empty()) {
+          return tree_ && tree_->data_ ? tree_->data_->value : value_type{};
+        } else {
+          return !next_stack_.empty() ? next_stack_.top()->data_->value : value_type{};
+        }
       }
 
       value_type& value() const noexcept { return tree_->data_->value; }
 
+
       tree_iterator &operator++() noexcept {
-        BinaryTree* next = tree_->next_node();
-        BinaryTree* next_next = next->next_node();
-        if (tree_ == next_next && !tree_->right_->data_) {
+        try {
+          tree_ = next();
+        } catch (std::out_of_range) {
           *this = end();
-        } else {
-          tree_ = next;
-        }
+        };
         return *this;
       }
 
@@ -513,8 +538,8 @@ namespace s21 {
       }
 
       BinaryTree *tree_;
-      s21::stack<BinaryTree*> prev_stack;
-      s21::stack<BinaryTree*> next_stack;
+      s21::stack<BinaryTree*> next_stack_;
+      s21::stack<BinaryTree*> prev_stack_;
 
     };
 
@@ -527,7 +552,28 @@ namespace s21 {
       using reference = value_type&;
 
       explicit tree_const_iterator(BinaryTree *tree) {
+        inorder_stack(tree);
         tree_ = tree;
+      }
+
+      void inorder_stack(BinaryTree* tree) {
+        while (tree && tree->data_) {
+          next_stack_.push(tree);
+          tree = tree->left_;
+        }
+      }
+
+      BinaryTree* next() {
+        if (next_stack_.empty()) {
+          throw std::out_of_range("No next node");
+        }
+
+        BinaryTree* node = next_stack_.top();
+        next_stack_.pop();
+        if (node->right_ && node->right_->data_) {
+          inorder_stack(node->right_);
+        }
+        return node;
       }
 
       tree_const_iterator(const tree_const_iterator &other) { *this = other; }
@@ -563,21 +609,28 @@ namespace s21 {
         return tree_ == nullptr || tree_->data_ == nullptr;
       }
 
-
-      value_type operator*() noexcept { 
-        return tree_ && tree_->data_ ? tree_->data_->value : value_type{};
+      BinaryTree* data() {
+        return tree_;
       }
 
-      value_type value() const noexcept { return tree_->data_->value; }
+
+      value_type operator*() noexcept { 
+        if (next_stack_.empty()) {
+          return tree_ && tree_->data_ ? tree_->data_->value : value_type{};
+        } else {
+          return !next_stack_.empty() ? next_stack_.top()->data_->value : value_type{};
+        }
+      }
+
+      value_type& value() const noexcept { return tree_->data_->value; }
+
 
       tree_const_iterator &operator++() noexcept {
-        BinaryTree* next = tree_->next_node();
-        BinaryTree* next_next = next->next_node();
-        if (tree_ == next_next && !tree_->right_->data_) {
+        try {
+          tree_ = next();
+        } catch (std::out_of_range) {
           *this = end();
-        } else {
-          tree_ = next;
-        }
+        };
         return *this;
       }
 
@@ -631,10 +684,12 @@ namespace s21 {
       }
 
       BinaryTree *tree_;
+      s21::stack<BinaryTree*> next_stack_;
+      s21::stack<BinaryTree*> prev_stack_;
 
     };
+    };
 
-  };
 }
 
 #endif //SRC_S21_AVLTREE_H

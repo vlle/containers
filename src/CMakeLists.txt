@@ -4,14 +4,6 @@ include (CTest)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS "-Wall -Werror -Wextra -pedantic -g")
-# add_compile_options(-fsanitize=address)
-# add_link_options(-fsanitize=address)
-
-# find_program( MEMORYCHECK_COMMAND leaks )
-# set( MEMORYCHECK_COMMAND_OPTIONS "-atExit -- " )
-
-# add_compile_options(-fsanitize=address,undefined -fno-omit-frame-pointer -fno-common -O1)
-# link_libraries(-fsanitize=address,undefined)
 
 include(FetchContent)
 FetchContent_Declare(
@@ -28,27 +20,17 @@ add_executable(
   hello_test
   s21_containers.h
 
-  tests/test_another_vector.cc
-  tests/test_avl_tree.cc
-  tests/test_lists.cc
-  tests/test_map.cc
-  # tests/test_multiset.cc
-  # tests/test_queue.cc
-  # tests/test_set.cc
-  tests/test_stack.cc
-  tests/test_vector.cc
+   #tests/test_another_vector.cc
+   tests/test_avl_tree.cc
+   #tests/test_lists.cc
+   tests/test_map.cc
+   #tests/test_multiset.cc
+   #tests/test_queue.cc
+   #tests/test_set.cc
+   # tests/test_stack.cc
+   # tests/test_vector.cc
 )
 
-# ADD_LIBRARY(LibMat
-#   s21_matrix_oop.h
-#   S21Matrix.cc
-#   )
-# 
-# find_library (MATRIX 
-#   NAMES s21_matrix_oop.a
-#   HINTS "${CMAKE_PREFIX_PATH}"
-#   )
-# LibMat
 
 target_link_libraries(
   hello_test

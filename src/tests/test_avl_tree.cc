@@ -161,3 +161,19 @@ TEST_F(AvlTreeTest, IteratorBeginEnd) {
       }
       );
 }
+
+TEST(AvlIterate, IteratorBeginEnd) {
+
+  s21::BinaryTree<int> mc;
+  mc.insert(1);
+  mc.insert(2);
+  mc.insert(3);
+  mc.insert(4);
+  EXPECT_NO_THROW(
+      auto it = mc.cbegin();
+      while (it != mc.cend()) {
+        it++;
+      }
+      );
+
+}

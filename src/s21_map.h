@@ -69,7 +69,7 @@ class map : public BinaryTree<std::pair<const Key, T>, MapCompare<std::pair<cons
       return *this;
     }
     this->clear();
-    for (const_iterator it = other.begin(); it != other.end(); it++) {
+    for (const_iterator it = other.begin(); it != other.end(); ++it) {
       insert(*it);
     }
     return *this;

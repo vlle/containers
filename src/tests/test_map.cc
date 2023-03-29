@@ -226,12 +226,18 @@ TEST(MapConstructor, OperatorEqual) {
   EXPECT_EQ(s21_m.empty(), s21_se.empty());
 }
 
+TEST_F(MapTest, BeginTest) {
+  EXPECT_EQ(*my_container.begin(), *expected_container.begin());
+}
+
 TEST(MapModifiers, Erase) {
   s21::map<std::string, int> s21_m{
       {"Ivan", 20}, {"Alex", 28}, {"Nikolay", 65}, {"Elena", 43}};
   std::map<std::string, int> std_m{
       {"Ivan", 20}, {"Alex", 28}, {"Nikolay", 65}, {"Elena", 43}};
 
+  ASSERT_EQ(*s21_m.begin(), *std_m.begin());
+  ASSERT_EQ(*++s21_m.begin(), *++std_m.begin());
   s21_m.erase(++s21_m.begin());
   std_m.erase(++std_m.begin());
   EXPECT_EQ(s21_m.size(), std_m.size());
@@ -239,8 +245,10 @@ TEST(MapModifiers, Erase) {
 
   auto map_p = s21_m.begin();
   auto std_map_p = std_m.begin();
+  ASSERT_EQ(*s21_m.begin(), *std_m.begin());
+  ASSERT_EQ(*++s21_m.begin(), *++std_m.begin());
   for (; map_p != s21_m.end() && std_map_p != std_m.end(); ++map_p, ++std_map_p)
-    EXPECT_TRUE((*map_p).second == (*std_map_p).second);
+    EXPECT_EQ((*map_p).second, (*std_map_p).second);
 }
 
 
