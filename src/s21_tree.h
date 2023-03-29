@@ -10,6 +10,7 @@
 #include <new>
 #include <type_traits>
 #include <utility>
+#include "stack/s21_stack.h"
 
 namespace s21 {
   template<class T, class Comparator = std::less<T>, bool duplicate_allowance = false>
@@ -512,6 +513,8 @@ namespace s21 {
       }
 
       BinaryTree *tree_;
+      s21::stack<BinaryTree*> prev_stack;
+      s21::stack<BinaryTree*> next_stack;
 
     };
 

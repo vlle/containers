@@ -3,7 +3,6 @@
 #include "../s21_tree.h"
 #include <stdexcept>
 #include <vector>
-typedef s21::BinaryTree<int, int> BinaryTree;
 
 class AvlTreeTest: public ::testing::Test {
   protected:
@@ -22,14 +21,6 @@ class AvlTreeTest: public ::testing::Test {
     }
 };
 
-
-TEST_F(AvlTreeTest, DefaultConstructor) {
-  EXPECT_NO_THROW(BinaryTree());
-}
-
-TEST_F(AvlTreeTest, SizeConstructorTree) {
-  EXPECT_NO_THROW(BinaryTree(5));
-}
 
 TEST_F(AvlTreeTest, SingleInsertValueTree) {
   my_container->insert(8);

@@ -2,7 +2,7 @@ using namespace s21;
 #include <iostream>
 
 template <typename value_type> list<value_type>::list() : m_size_(0) {
-  head_ = new list_node(0);
+  head_ = new list_node(value_type{});
   tail_ = head_;
 }
 
