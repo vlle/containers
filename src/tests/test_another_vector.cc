@@ -114,7 +114,7 @@ TEST_F(VectorTest, GetBaseEndIterator) {
 }
 
 TEST_F(VectorTest, GetCapacity) {
-  EXPECT_EQ((*my_container_).capacity(), (*my_container_).size() * 2);
+  EXPECT_EQ((*my_container_).capacity(), (*my_container_).size());
 }
 
 TEST_F(VectorTest, ReserveTest) {

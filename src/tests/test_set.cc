@@ -13,7 +13,7 @@ TEST(SetConstructor, DefaultConstructor) {
   const std::set<int> std_s;
   EXPECT_EQ(s21_s.size(), std_s.size());
   EXPECT_EQ(s21_s.empty(), std_s.empty());
-  EXPECT_DOUBLE_EQ(s21_s.max_size(), std_s.max_size());
+  EXPECT_NEAR(s21_s.max_size(), std_s.max_size(), 0.0001);
 }
 
 TEST(SetConstructor, InitializerListConstructor) {
