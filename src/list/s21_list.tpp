@@ -49,10 +49,8 @@ template <typename value_type> list<value_type>::~list() {
   if (m_size_ > 0) {
     this->clear();
   }
-
-  if (tail_ != nullptr) {
-    delete tail_;
-  }
+  delete tail_;
+  tail_ = nullptr;
 }
 
 template <typename value_type>

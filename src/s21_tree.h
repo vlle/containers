@@ -27,34 +27,28 @@ namespace s21 {
     using iterator = tree_iterator;
     using const_iterator = tree_const_iterator;
 
-    BinaryTree() noexcept: parent_(nullptr) {
+    BinaryTree(bool root = false) noexcept: parent_(nullptr) {
       init_empty_node();
-    };
-
-    BinaryTree(BinaryTree* node) noexcept: parent_(node) {
-      init_empty_node();
-    };
-
-    BinaryTree(bool map) {
-      if (map == true) {
-        init_empty_node();
-        bool root = true;
-        parent_ = new BinaryTree(root, this);
+      if (root == true) {
+        parent_ = new BinaryTree(this, root);
         parent_->root_child_ = this;
       }
-    }
+    };
+
+    BinaryTree(BinaryTree* node, bool root = false) noexcept: parent_(node) {
+      init_empty_node();
+      if (root == true) {
+      root_child_ = node;
+      }
+      height_ = root ? -2 : -1;
+    };
+
 
     BinaryTree(const_reference value) noexcept: parent_(nullptr) {
       init_node(value);
       bool root = true;
-      parent_ = new BinaryTree(root, this);
+      parent_ = new BinaryTree(this, root);
       parent_->root_child_ = this;
-    };
-
-    BinaryTree(bool root, BinaryTree* child) noexcept: parent_(nullptr) {
-      init_empty_node();
-      height_ = root ? -2 : -1;
-      root_child_ = child;
     };
 
 
@@ -77,20 +71,13 @@ namespace s21 {
       delete_node();
     }
 
-    tree_iterator find(const value_type value) {
+    iterator find(const value_type value) {
       BinaryTree* node = find_node(value);
       if (node) {
-        return tree_iterator(node);
+        return tree_iterator(node);;
       } else {
         return end();
       }
-    }
-
-    void CopyTree(const BinaryTree& other) {
-      if (!other.data_) return;
-      insert(other.data_->value);
-      if (other.left_)  CopyTree(*other.left_);
-      if (other.right_) CopyTree(*other.right_);
     }
 
     BinaryTree *find_node(const value_type value) {
@@ -103,6 +90,7 @@ namespace s21 {
         return this;
       }
     }
+
 
     size_type count(const value_type value) {
       BinaryTree* node = find_node(value);
@@ -164,19 +152,10 @@ namespace s21 {
       return this->find(value).is_null() ? false : true;
     }
 
-
     std::pair<iterator, bool> insert(const value_type &pair) {
       std::pair<BinaryTree*, bool> p = insert_value(pair);
       iterator it = tree_iterator(p.first);
       return std::make_pair(it, p.second);
-    }
-
-    void merge(BinaryTree* other) {
-      if (!other) return;
-      if (left_) 
-        left_->merge(other->left_);
-      if (right_) 
-        right_->merge(other->right_);
     }
 
     std::string inorder_traversal(bool endl) {
@@ -188,21 +167,6 @@ namespace s21 {
       if (endl) ans += "\n";
       ans += right_->inorder_traversal(endl);
       return ans;
-    }
-
-    void height_print() {
-      if (!data_) return;
-      left_->height_print();
-      char p = 'n';
-      if (status_ == BalanceStatus::kBalanced) {
-        p = 'B';
-      } else if (status_ == BalanceStatus::kLeftHeavy) {
-        p = 'L';
-      } else if (status_ == BalanceStatus::kRightHeavy) {
-        p = 'R';
-        std::cout << data_->value << ' ' << height_ << p << std::endl;
-      }
-      right_->height_print();
     }
 
     iterator begin() {
@@ -270,6 +234,13 @@ namespace s21 {
         delete_node();
         return 0;
       }
+    }
+
+    void CopyTree(const BinaryTree& other) {
+      if (!other.data_) return;
+      insert(other.data_->value);
+      if (other.left_)  CopyTree(*other.left_);
+      if (other.right_) CopyTree(*other.right_);
     }
 
 

@@ -5,9 +5,8 @@
 
 namespace s21 {
 template <class T>
-class set: public BinaryTree<T>{
+class set {
  public:
-  using BinaryTree<T>::BinaryTree;
   using key_type = T;
   using value_type = T;
   using reference = T &;
@@ -15,7 +14,6 @@ class set: public BinaryTree<T>{
   using iterator = typename BinaryTree<T>::iterator;
   using const_iterator = typename BinaryTree<T>::const_iterator;
   using size_type = std::size_t;
-  static constexpr bool root = true;
 
 public:
   set() {
@@ -37,10 +35,8 @@ public:
   }
 
   set(set && other) noexcept {
-    std::swap(other.root_, root_);
-    std::swap(other.size_, size_);
-    other.root_ = nullptr;
-    other.size_ = 0;
+    size_ = std::exchange(other.size_, 0);
+    root_ = std::exchange(other.root_, nullptr);
   }
 
   set& operator=(const set& other) {
@@ -54,48 +50,6 @@ public:
     size_ = 0;
     delete root_;
     root_ = nullptr;
-  }
-
-
-  bool empty() const noexcept {
-    return size_ == 0;
-  }
-
-  void clear() {
-    delete root_;
-    root_ = new BinaryTree<T>(root);
-    size_ = 0;
-  }
-
-  iterator find(const_reference value) {
-    return root_->find(value);
-  }
-
-  void erase(iterator pos) {
-    size_type count = root_->erase(pos);
-    size_ -= count;
-  }
-
-
-  std::pair<iterator, bool> insert(const_reference value) {
-    std::pair<iterator, bool> ret = root_->insert(value);
-    if (ret.second == true) size_++;
-    return ret;
-  }
-
-
-
-  bool contains(const T value) {
-    return root_->contains(value);
-  }
-
-  size_type size() const noexcept {
-    return size_;
-  }
-
-  size_type max_size() const noexcept {
-    // TODO:CHECK
-    return std::numeric_limits<size_type>::max() / sizeof(BinaryTree<T>) / 2;
   }
 
   iterator begin() {
@@ -114,7 +68,55 @@ public:
     return root_->cend();
   }
 
+  bool empty() const noexcept {
+    return size_ == 0;
+  }
+
+  size_type size() const noexcept {
+    return size_;
+  }
+
+  size_type max_size() const noexcept {
+    return std::numeric_limits<size_type>::max() / sizeof(BinaryTree<T>) / 2;
+  }
+
+  void clear() {
+    delete root_;
+    root_ = new BinaryTree<T>(root);
+    size_ = 0;
+  }
+
+  std::pair<iterator, bool> insert(const_reference value) {
+    std::pair<iterator, bool> ret = root_->insert(value);
+    if (ret.second == true) size_++;
+    return ret;
+  }
+
+  void erase(iterator pos) {
+    size_type count = root_->erase(pos);
+    size_ -= count;
+  }
+
+  void swap(set &other) {
+    std::swap(other.root_, this->root_);
+    std::swap(other.size_, this->size_);
+  }
+
+
+  iterator find(const_reference value) {
+    return root_->find(value);
+  }
+
+
+  bool contains(const T value) {
+    return root_->contains(value);
+  }
+
+
+
 private:
+  static constexpr bool root = true;
+
   size_type size_;
   BinaryTree<T> *root_;
 };

@@ -20,9 +20,9 @@ add_executable(
   hello_test
   s21_containers.h
 
-   tests/test_another_vector.cc
+  tests/test_another_vector.cc
    tests/test_avl_tree.cc
-   tests/test_lists.cc
+  tests/test_lists.cc
    tests/test_map.cc
    #tests/test_multiset.cc
    #tests/test_queue.cc

@@ -15,9 +15,8 @@ class MapCompare {
 };
 
 template <typename Key, typename T>
-class map : public BinaryTree<std::pair<const Key, T>, MapCompare<std::pair<const Key, T>>> {
+class map {
  public:
-  using BinaryTree<std::pair<const Key, T>, MapCompare<std::pair<const Key, T>>>::BinaryTree;
   using key_type = Key;
   using mapped_type = T;
   using value_type = std::pair<const key_type, mapped_type>;
@@ -31,14 +30,13 @@ class map : public BinaryTree<std::pair<const Key, T>, MapCompare<std::pair<cons
  public:
 
   map() {
-    bool map = true;
     size_ = 0;
-    root_ = new BinaryTree<value_type, key_compare>(map);
+    root_ = new BinaryTree<value_type, key_compare>(root);
   }
 
   map(std::initializer_list<value_type> const &items) {
     size_ = 0;
-    root_ = new BinaryTree<value_type, key_compare>(true);
+    root_ = new BinaryTree<value_type, key_compare>(root);
     for (value_type c: items) {
       insert(c);
     }
@@ -46,10 +44,8 @@ class map : public BinaryTree<std::pair<const Key, T>, MapCompare<std::pair<cons
   
   map(const map& other) {
     size_ = 0;
-    root_ = new BinaryTree<value_type, key_compare>(true);
-    for (const_iterator it = other.begin(); it != other.end(); it++) {
-      insert(*it);
-    }
+    root_ = new BinaryTree<value_type, key_compare>(root);
+    *this = other;
   }
 
   map(map && other) noexcept {
@@ -66,13 +62,9 @@ class map : public BinaryTree<std::pair<const Key, T>, MapCompare<std::pair<cons
   }
 
   map& operator=(const map& other) {
-    if (this == &other) {
-      return *this;
-    }
-    this->clear();
-    for (const_iterator it = other.begin(); it != other.end(); it++) {
-      insert(*it);
-    }
+    if (!other.root_) return *this;
+    size_ = other.size_;
+    *root_ = *other.root_;
     return *this;
   }
 
@@ -82,7 +74,7 @@ class map : public BinaryTree<std::pair<const Key, T>, MapCompare<std::pair<cons
 
   mapped_type& operator[](const key_type &key) {
     try {
-      at(key);
+      return at(key);
     } catch (std::out_of_range) {
       root_->insert({key, {}});
     }
@@ -146,8 +138,7 @@ class map : public BinaryTree<std::pair<const Key, T>, MapCompare<std::pair<cons
   }
 
   size_type count(const key_type key) {
-    value_type value = std::make_pair(key, 0);
-    return root_->count(value);
+    return root_->count({key, {}});
   }
 
   size_type count(const value_type value) {
@@ -179,7 +170,6 @@ class map : public BinaryTree<std::pair<const Key, T>, MapCompare<std::pair<cons
   }
 
  private:
-
   mapped_type& FindByKey(const key_type &key) {
     auto pair = std::make_pair(key, 0);
     auto res = root_->find_node(pair);
@@ -187,6 +177,7 @@ class map : public BinaryTree<std::pair<const Key, T>, MapCompare<std::pair<cons
     return res->value().second;
   }
 
+  static constexpr bool root = true;
   size_type size_;
   BinaryTree<value_type, key_compare> *root_;
 };
