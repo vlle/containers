@@ -36,11 +36,7 @@ public:
   set(const set& other) {
     size_ = 0;
     root_ = new BinaryTree<T>(true);
-    if (other.size_ > 0) {
-      for (const_iterator it = other.begin(); it != other.end(); it++) {
-        insert(*it);
-      }
-    }
+    *this = other;
   }
 
   set(set && other) noexcept {
