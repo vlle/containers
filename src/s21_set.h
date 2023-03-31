@@ -15,27 +15,24 @@ class set: public BinaryTree<T>{
   using iterator = typename BinaryTree<T>::iterator;
   using const_iterator = typename BinaryTree<T>::const_iterator;
   using size_type = std::size_t;
+  static constexpr bool root = true;
 
 public:
   set() {
     size_ = 0;
-    root_ = new BinaryTree<T>(true);
+    root_ = new BinaryTree<T>(root);
   }
 
-  void print() {
-    std::cout << 1 << std::endl;
-  };
   set(std::initializer_list<value_type> const &items) {
     size_ = 0;
-    root_ = new BinaryTree<T>(true);
-    for (value_type item : items)
+    root_ = new BinaryTree<T>(root);
+    for (const value_type &item: items)
       insert(item);
-    print();
   }
 
   set(const set& other) {
     size_ = 0;
-    root_ = new BinaryTree<T>(true);
+    root_ = new BinaryTree<T>(root);
     *this = other;
   }
 
@@ -66,7 +63,7 @@ public:
 
   void clear() {
     delete root_;
-    root_ = new BinaryTree<T>(true);
+    root_ = new BinaryTree<T>(root);
     size_ = 0;
   }
 
@@ -81,14 +78,9 @@ public:
 
 
   std::pair<iterator, bool> insert(const_reference value) {
-    bool is_value_inserted = false;
-    iterator it = root_->find(value);
-    if (it.is_null()) {
-      it = root_->insert(value);
-      size_++;
-      is_value_inserted = true;
-    }
-    return std::make_pair(it, is_value_inserted);
+    std::pair<iterator, bool> ret = root_->insert(value);
+    if (ret.second == true) size_++;
+    return ret;
   }
 
 

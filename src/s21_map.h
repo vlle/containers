@@ -155,14 +155,9 @@ class map : public BinaryTree<std::pair<const Key, T>, MapCompare<std::pair<cons
   }
 
   std::pair<iterator, bool> insert(const_reference value) {
-    bool is_value_inserted = false;
-    iterator it = root_->find(value);
-    if (it.is_null()) {
-      it = root_->insert(value);
-      size_++;
-      is_value_inserted = true;
-    }
-    return std::make_pair(it, is_value_inserted);
+    std::pair<iterator, bool> ret = root_->insert(value);
+    if (ret.second == true) size_++;
+    return ret;
   }
 
   std::pair<iterator, bool> insert(const key_type& key, const mapped_type& obj) {

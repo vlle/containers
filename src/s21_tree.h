@@ -165,9 +165,10 @@ namespace s21 {
     }
 
 
-    tree_iterator insert(const value_type &pair) {
-      auto r = insert_value(pair);
-      return tree_iterator(r);
+    std::pair<iterator, bool> insert(const value_type &pair) {
+      std::pair<BinaryTree*, bool> p = insert_value(pair);
+      iterator it = tree_iterator(p.first);
+      return std::make_pair(it, p.second);
     }
 
     void merge(BinaryTree* other) {
@@ -353,16 +354,16 @@ namespace s21 {
     }
 
 
-    BinaryTree *insert_value(const_reference value) {
+    std::pair<BinaryTree *, bool>insert_value(const_reference value) {
       if (!data_) {
         data_ = new node_(value);
         left_ = new BinaryTree(this);
         right_ = new BinaryTree(this);
         height_ = 0;
         assign_balance_status();
-        return this;
+        return std::make_pair(this, true);
       } else if (comparator_(value, data_->value) || comparator_(data_->value, value)) {
-        BinaryTree *ret = nullptr;
+        std::pair<BinaryTree*, bool> ret = {{}, {}};
         if (comparator_(value, data_->value)) {
           ret = left_->insert_value(value);
         } else if (comparator_(data_->value, value)) {
@@ -375,8 +376,10 @@ namespace s21 {
         return ret;
       } else if (duplicate_allowance == true) {
         data_->count++;
-      } 
-      return this;
+        return std::make_pair(this, true);
+      } else {
+        return std::make_pair(this, false);
+      }
     }
 
 
