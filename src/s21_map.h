@@ -31,13 +31,14 @@ class map : public BinaryTree<std::pair<const Key, T>, MapCompare<std::pair<cons
  public:
 
   map() {
+    bool map = true;
     size_ = 0;
-    root_ = new BinaryTree<value_type, key_compare>;
+    root_ = new BinaryTree<value_type, key_compare>(map);
   }
 
   map(std::initializer_list<value_type> const &items) {
     size_ = 0;
-    root_ = new BinaryTree<value_type, key_compare>;
+    root_ = new BinaryTree<value_type, key_compare>(true);
     for (value_type c: items) {
       insert(c);
     }
@@ -45,7 +46,7 @@ class map : public BinaryTree<std::pair<const Key, T>, MapCompare<std::pair<cons
   
   map(const map& other) {
     size_ = 0;
-    root_ = new BinaryTree<value_type, key_compare>;
+    root_ = new BinaryTree<value_type, key_compare>(true);
     for (const_iterator it = other.begin(); it != other.end(); it++) {
       insert(*it);
     }
@@ -69,7 +70,7 @@ class map : public BinaryTree<std::pair<const Key, T>, MapCompare<std::pair<cons
       return *this;
     }
     this->clear();
-    for (const_iterator it = other.begin(); it != other.end(); ++it) {
+    for (const_iterator it = other.begin(); it != other.end(); it++) {
       insert(*it);
     }
     return *this;
@@ -130,14 +131,12 @@ class map : public BinaryTree<std::pair<const Key, T>, MapCompare<std::pair<cons
   size_type erase( const Key& key ) {
     size_type count = root_->del({key, {}});
     size_ -= count;
-    std::cout << count << " erased" << std::endl;
     return count;
   }
 
   void erase(iterator pos) {
     size_type count = root_->erase(pos);
     size_ -= count;
-    std::cout << count << " erased" << std::endl;
   }
 
   void clear() {
@@ -181,13 +180,7 @@ class map : public BinaryTree<std::pair<const Key, T>, MapCompare<std::pair<cons
   }
 
   bool contains(const Key &key) {
-    try {
-      FindByKey(key);
-    }
-    catch (std::out_of_range) {
-      return false;
-    }
-    return true;
+    return root_->contains({key, {}});
   }
 
  private:

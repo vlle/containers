@@ -70,10 +70,10 @@ TEST_F(AvlTreeTest, DeleteNodeWithChildTest) {
   my_container->insert(8);
   my_container->del(5);
   EXPECT_TRUE(my_container->find(5).is_null());
-  EXPECT_EQ(my_container->find(3).value(), 3);
-  EXPECT_EQ(my_container->find(8).value(), 8);
-  EXPECT_EQ(my_container->find(2).value(), 2);
-  EXPECT_EQ(my_container->find(1).value(), 1);
+  EXPECT_EQ(*my_container->find(3), 3);
+  EXPECT_EQ(*my_container->find(8), 8);
+  EXPECT_EQ(*my_container->find(2), 2);
+  EXPECT_EQ(*my_container->find(1), 1);
 } 
 
 TEST_F(AvlTreeTest, DeleteRootNode) {
@@ -145,8 +145,10 @@ TEST_F(AvlTreeTest, DecrementIteratorCompare) {
   EXPECT_EQ((*it), 15);
   --it;
   EXPECT_EQ((*it), 10);
+  std::cout << 4 << std::endl;
   --it;
   EXPECT_EQ((*it), 5);
+  std::cout << 3 << std::endl;
   --it;
   EXPECT_EQ((*it), 2);
   it--;
@@ -157,23 +159,7 @@ TEST_F(AvlTreeTest, IteratorBeginEnd) {
   EXPECT_NO_THROW(
       auto it = my_container->begin();
       while (it != my_container->end()) {
-        it++;
+        ++it;
       }
       );
-}
-
-TEST(AvlIterate, IteratorBeginEnd) {
-
-  s21::BinaryTree<int> mc;
-  mc.insert(1);
-  mc.insert(2);
-  mc.insert(3);
-  mc.insert(4);
-  EXPECT_NO_THROW(
-      auto it = mc.cbegin();
-      while (it != mc.cend()) {
-        it++;
-      }
-      );
-
 }

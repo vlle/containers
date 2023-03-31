@@ -35,22 +35,40 @@ namespace s21 {
       init_empty_node();
     };
 
+    BinaryTree(bool map) {
+      if (map == true) {
+        init_empty_node();
+        bool root = true;
+        parent_ = new BinaryTree(root, this);
+        parent_->root_child_ = this;
+      }
+    }
+
     BinaryTree(const_reference value) noexcept: parent_(nullptr) {
       init_node(value);
+      bool root = true;
+      parent_ = new BinaryTree(root, this);
+      parent_->root_child_ = this;
     };
 
+    BinaryTree(bool root, BinaryTree* child) noexcept: parent_(nullptr) {
+      init_empty_node();
+      height_ = root ? -2 : -1;
+      root_child_ = child;
+    };
+
+
     ~BinaryTree() noexcept {
+      if (parent_ && parent_->height_ == -2) delete parent_;
       delete_node();
     }
 
     tree_iterator find(const value_type value) {
-      if (!data_) return end();
-      if (comparator_(value, data_->value)) {
-        return left_->find(value);
-      } else if (comparator_(data_->value, value)) {
-        return right_->find(value);
+      BinaryTree* node = find_node(value);
+      if (node) {
+        return tree_iterator(node);
       } else {
-        return tree_iterator(this);
+        return end();
       }
     }
 
@@ -121,6 +139,10 @@ namespace s21 {
       return std::numeric_limits<size_type>::max();   
     }
 
+    bool contains(const value_type value) {
+      return this->find(value).is_null() ? false : true;
+    }
+
 
     tree_iterator insert(const value_type &pair) {
       auto r = insert_value(pair);
@@ -162,23 +184,23 @@ namespace s21 {
     }
 
     iterator begin() {
-      tree_iterator it(this);
+      tree_iterator it(minimum_node(this));
       return it;
     }
 
     iterator end() {
       tree_iterator it(this);
-      return it.right_node_iterator(this);
+      return it.end();
     }
 
     const_iterator cbegin() {
-      const_iterator it(this);
+      const_iterator it(minimum_node(this));
       return it;
     }
 
     const_iterator cend() {
       const_iterator it(this);
-      return it.right_node_iterator(this);
+      return it.end();
     }
 
 
@@ -196,10 +218,12 @@ namespace s21 {
       left_ = new BinaryTree(this);
       right_ = new BinaryTree(this);
       height_ = 0;
+      root_child_ = nullptr;
       data_ = new node_(value);
     }
 
     void init_empty_node() {
+      root_child_ = nullptr;
       left_ = nullptr;
       right_ = nullptr;
       height_ = -1;
@@ -294,14 +318,14 @@ namespace s21 {
     BinaryTree *search_and_swap(BinaryTree *node) {
       BinaryTree *to_delete = nullptr;
       if (!node) return to_delete;
-      if (node->right_->data_) {
-        to_delete = node->right_;
-        while (to_delete->right_->data_) {
+      if (node->left_ && node->left_->data_) {
+        to_delete = node->left_;
+        while (to_delete->right_ && to_delete->right_->data_) {
           to_delete = to_delete->right_;
         }
         std::swap(node->data_, to_delete->data_);
       } else {
-        to_delete = node->left_;
+        to_delete = node->right_;
         std::swap(node->data_, to_delete->data_);
       }
       return to_delete;
@@ -334,54 +358,31 @@ namespace s21 {
       return this;
     }
 
-    BinaryTree *next_node() {
-      BinaryTree *res = this;
-      if (res->right_ && !res->right_->data_) {
-        while (res && res->parent_ && res->parent_->left_ != res) {
-          res = res->parent_;
-        }
-        if (res->parent_) res = res->parent_;
-      } else {
-        res = res->right_;
-        while (res && res->left_ && res->left_->data_) {
-          res = res->left_;
-        }
-      }
-      return res;
-    }
-
-    BinaryTree *prev_node() {
-      BinaryTree *res = this;
-      if (res->left_ && res->left_->data_) {
-        res = res->left_;
-        while (res->right_->data_) {
-          res = res->right_;
-        }
-      } else {
-        if (!res->parent_) return this;
-        if (res->parent_->right_ == res) {
-          return res->parent_;
-        } else if (res->parent_->left_ == res) {
-          while (res->parent_->right_ != res) {
-            if (!res->parent_) {
-              return nullptr;
-            }
-            res = res->parent_;
-          }
-        }
-      }
-      return res;
-    }
 
     enum class BalanceStatus {
-      kBalanced = 'E',
-      kLeftHeavy = 'L',
-      kRightHeavy = 'R',
+      kBalanced,
+      kLeftHeavy,
+      kRightHeavy,
     };
 
     BinaryTree *left_;
+    BinaryTree *root_child_;
     BinaryTree *right_;
     BinaryTree *parent_;
+
+    static BinaryTree* minimum_node(BinaryTree* node) {
+      while (node && node->left_ && node->left_->data_) {
+        node = node->left_;
+      }
+      return node;
+    }
+    static BinaryTree* maximum_node(BinaryTree* node) {
+      while (node && node->right_ && node->right_->data_) {
+        node = node->right_;
+      }
+      return node;
+    }
+
     int height_;
     BalanceStatus status_;
 
@@ -406,28 +407,7 @@ namespace s21 {
       using reference = value_type&;
 
       explicit tree_iterator(BinaryTree *tree) {
-        inorder_stack(tree);
         tree_ = tree;
-      }
-
-      void inorder_stack(BinaryTree* tree) {
-        while (tree && tree->data_) {
-          next_stack_.push(tree);
-          tree = tree->left_;
-        }
-      }
-
-      BinaryTree* next() {
-        if (next_stack_.empty()) {
-          throw std::out_of_range("No next node");
-        }
-
-        BinaryTree* node = next_stack_.top();
-        next_stack_.pop();
-        if (node->right_ && node->right_->data_) {
-          inorder_stack(node->right_);
-        }
-        return node;
       }
 
       tree_iterator(const tree_iterator &other) { *this = other; }
@@ -446,12 +426,13 @@ namespace s21 {
       }
 
       tree_iterator end() {
-        return right_node_iterator(tree_);
+        BinaryTree*node = tree_;
+        while (node && node->height_ != -2) node = node->parent_;
+        return tree_iterator(node);
       }
 
       tree_iterator left_node_iterator(BinaryTree *tree) {
-        tree = left_most_tree(tree);
-        return tree_iterator(tree);
+        return tree_iterator(minimum_node(tree));
       }
 
       tree_iterator right_node_iterator(BinaryTree *tree) {
@@ -467,25 +448,67 @@ namespace s21 {
         return tree_;
       }
 
-
-      value_type operator*() noexcept { 
-        if (next_stack_.empty()) {
-          return tree_ && tree_->data_ ? tree_->data_->value : value_type{};
+      std::pair<BinaryTree*, bool> next_node(BinaryTree* res) {
+        if (!res || res->height_ == -2) return std::make_pair(res, true);
+        if (res->right_ && !res->right_->data_) {
+          while (res && res->parent_ && res->parent_->left_ != res) {
+            if (res->height_ == -2) return std::make_pair(res, true);
+            res = res->parent_;
+          }
+          if (res->parent_) res = res->parent_;
         } else {
-          return !next_stack_.empty() ? next_stack_.top()->data_->value : value_type{};
+          res = res->right_;
+          while (res && res->left_ && res->left_->data_) {
+            res = res->left_;
+          }
         }
+        return std::make_pair(res, false);
+      }
+
+      std::pair<BinaryTree*, bool> prev_node(BinaryTree* res) {
+        if (!res) return std::make_pair(nullptr, true);
+        if (res->root_child_) {
+          res = res->root_child_;
+          while (res && res->right_ && res->right_->data_) res = res->right_;
+          return std::make_pair(res, false);
+        }
+        if (res->left_ && res->left_->data_) {
+          res = res->left_;
+          while (res->right_->data_) {
+            res = res->right_;
+          }
+        } else {
+          if (res->parent_->right_ == res) {
+            return std::make_pair(res->parent_, false);
+          } else if (res->parent_->left_ == res) {
+            while (res->parent_->right_ != res) {
+              if (!res->parent_) {
+                return std::make_pair(nullptr, true);
+              }
+              res = res->parent_;
+            }
+          }
+        }
+        return std::make_pair(res, false);
+      }
+
+
+      value_type operator*() { 
+        if (!tree_ || !tree_->data_) {
+          throw std::runtime_error("No value");
+        }
+        return tree_->data_->value;
       }
 
       value_type& value() const noexcept { return tree_->data_->value; }
 
-
       tree_iterator &operator++() noexcept {
-        try {
-          tree_ = next();
-          if (next_stack_.size() == 0) *this = end();
-        } catch (std::out_of_range) {
+        std::pair<BinaryTree*, bool> next = next_node(tree_);
+        if (next.second == true) {
           *this = end();
-        };
+        } else {
+          tree_ = next.first;
+        }
         return *this;
       }
 
@@ -496,7 +519,7 @@ namespace s21 {
       }
 
       tree_iterator &operator--() noexcept {
-        tree_ = tree_->prev_node();
+        tree_ = prev_node(tree_).first;
         return *this;
       }
 
@@ -539,8 +562,6 @@ namespace s21 {
       }
 
       BinaryTree *tree_;
-      s21::stack<BinaryTree*> next_stack_;
-      s21::stack<BinaryTree*> prev_stack_;
 
     };
 
@@ -553,28 +574,7 @@ namespace s21 {
       using reference = value_type&;
 
       explicit tree_const_iterator(BinaryTree *tree) {
-        inorder_stack(tree);
         tree_ = tree;
-      }
-
-      void inorder_stack(BinaryTree* tree) {
-        while (tree && tree->data_) {
-          next_stack_.push(tree);
-          tree = tree->left_;
-        }
-      }
-
-      BinaryTree* next() {
-        if (next_stack_.empty()) {
-          throw std::out_of_range("No next node");
-        }
-
-        BinaryTree* node = next_stack_.top();
-        next_stack_.pop();
-        if (node->right_ && node->right_->data_) {
-          inorder_stack(node->right_);
-        }
-        return node;
       }
 
       tree_const_iterator(const tree_const_iterator &other) { *this = other; }
@@ -593,12 +593,13 @@ namespace s21 {
       }
 
       tree_const_iterator end() {
-        return right_node_iterator(tree_);
+        BinaryTree*node = tree_;
+        while (node && node->height_ != -2) node = node->parent_;
+        return tree_const_iterator(node);
       }
 
       tree_const_iterator left_node_iterator(BinaryTree *tree) {
-        tree = left_most_tree(tree);
-        return tree_const_iterator(tree);
+        return tree_const_iterator(minimum_node(tree));
       }
 
       tree_const_iterator right_node_iterator(BinaryTree *tree) {
@@ -614,24 +615,64 @@ namespace s21 {
         return tree_;
       }
 
+      std::pair<BinaryTree*, bool> next_node(BinaryTree* res) {
+        if (!res || res->height_ == -2) return std::make_pair(res, true);
+        if (res->right_ && !res->right_->data_) {
+          while (res && res->parent_ && res->parent_->left_ != res) {
+            if (res->height_ == -2) return std::make_pair(res, true);
+            res = res->parent_;
+          }
+          if (res->parent_) res = res->parent_;
+        } else {
+          res = res->right_;
+          while (res && res->left_ && res->left_->data_) {
+            res = res->left_;
+          }
+        }
+        return std::make_pair(res, false);
+      }
+
+      std::pair<BinaryTree*, bool> prev_node(BinaryTree* res) {
+        if (!res) return std::make_pair(nullptr, true);
+        if (res->root_child_) {
+          res = res->root_child_;
+          while (res->right_ && res->right_->data_) res = res->right_;
+          return std::make_pair(res, false);
+        }
+        if (res->left_ && res->left_->data_) {
+          res = res->left_;
+          while (res->right_->data_) {
+            res = res->right_;
+          }
+        } else {
+          if (res->parent_->right_ == res) {
+            return std::make_pair(res->parent_, false);
+          } else if (res->parent_->left_ == res) {
+            while (res->parent_->right_ != res) {
+              if (!res->parent_) {
+                return std::make_pair(nullptr, true);
+              }
+              res = res->parent_;
+            }
+          }
+        }
+        return std::make_pair(res, false);
+      }
+
 
       value_type operator*() noexcept { 
-        if (next_stack_.empty()) {
-          return tree_ && tree_->data_ ? tree_->data_->value : value_type{};
-        } else {
-          return !next_stack_.empty() ? next_stack_.top()->data_->value : value_type{};
-        }
+        return tree_ && tree_->data_ ? tree_->data_->value : value_type{};
       }
 
       value_type& value() const noexcept { return tree_->data_->value; }
 
-
       tree_const_iterator &operator++() noexcept {
-        try {
-          tree_ = next();
-        } catch (std::out_of_range) {
+        std::pair<BinaryTree*, bool> next = next_node(tree_);
+        if (next.second == true) {
           *this = end();
-        };
+        } else {
+          tree_ = next.first;
+        }
         return *this;
       }
 
@@ -642,7 +683,7 @@ namespace s21 {
       }
 
       tree_const_iterator &operator--() noexcept {
-        tree_ = tree_->prev_node();
+        tree_ = prev_node(tree_).first;
         return *this;
       }
 
@@ -685,12 +726,10 @@ namespace s21 {
       }
 
       BinaryTree *tree_;
-      s21::stack<BinaryTree*> next_stack_;
-      s21::stack<BinaryTree*> prev_stack_;
 
     };
-    };
 
+  };
 }
 
 #endif //SRC_S21_AVLTREE_H
