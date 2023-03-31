@@ -251,8 +251,13 @@ template <typename value_type> bool list<value_type>::empty() const {
  */
 template <typename value_type>
 size_t list<value_type>::max_size() const noexcept {
+#ifdef __linux__
   return std::numeric_limits<std::ptrdiff_t>().max() /
          sizeof(list_node<value_type>);
+#else
+  return std::numeric_limits<std::ptrdiff_t>().max() /
+         sizeof(list_node<value_type>) * 2;
+#endif
 }
 
 template <typename value_type> const value_type &list<value_type>::front() {
