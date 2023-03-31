@@ -58,6 +58,20 @@ namespace s21 {
     };
 
 
+    BinaryTree(const BinaryTree& other) {
+      if (!other) throw std::invalid_argument("No root");
+      CopyTree(other);
+    }
+
+    BinaryTree& operator=(const BinaryTree& other) {
+      if (this == &other) {
+        return *this;
+      }
+      this->delete_node();
+      CopyTree(other);
+      return *this;
+    }
+
     ~BinaryTree() noexcept {
       if (parent_ && parent_->height_ == -2) delete parent_;
       delete_node();
@@ -70,6 +84,13 @@ namespace s21 {
       } else {
         return end();
       }
+    }
+
+    void CopyTree(const BinaryTree& other) {
+      if (!other.data_) return;
+      insert(other.data_->value);
+      if (other.left_)  CopyTree(*other.left_);
+      if (other.right_) CopyTree(*other.right_);
     }
 
     BinaryTree *find_node(const value_type value) {

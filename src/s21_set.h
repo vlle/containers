@@ -5,8 +5,9 @@
 
 namespace s21 {
 template <class T>
-class set {
+class set: public BinaryTree<T>{
  public:
+  using BinaryTree<T>::BinaryTree;
   using key_type = T;
   using value_type = T;
   using reference = T &;
@@ -50,13 +51,9 @@ public:
   }
 
   set& operator=(const set& other) {
-    if (this == &other) {
-      return *this;
-    }
-    this->clear();
-    for (const_iterator it = other.begin(); it != other.end(); it++) {
-      insert(*it);
-    }
+    if (!other.root_) return *this;
+    size_ = other.size_;
+    *root_ = *other.root_;
     return *this;
   }
 
