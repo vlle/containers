@@ -365,3 +365,40 @@ TEST(VectorModifiers, Clear) {
   EXPECT_EQ(vector_str.size(), std_vector_str.size());
   EXPECT_EQ(vector_str.capacity(), std_vector_str.capacity());
 }
+
+TEST(VectorEmplace, Emplace) {
+  s21::vector<std::string> vector_s21;
+  std::vector<std::string> vector_std;
+
+  vector_s21.emplace(vector_s21.begin(), "One");
+  vector_std.emplace(vector_std.begin(), "One");
+  vector_s21.emplace(vector_s21.begin(), "Two");
+  vector_std.emplace(vector_std.begin(), "Two");
+  vector_s21.emplace(vector_s21.begin(), "Three");
+  vector_std.emplace(vector_std.begin(), "Three");
+
+  for (size_t i = 0; i < vector_s21.size(); i++) {
+    EXPECT_EQ(vector_s21[i], vector_std[i]);
+  }
+
+  EXPECT_EQ(vector_s21.size(), vector_std.size());
+  EXPECT_EQ(vector_s21.capacity(), vector_std.capacity());
+}
+
+TEST(VectorEmplace, EmplaceBack) {
+  s21::vector<int> vector_s21_1;
+  s21::vector<int> vector_s21_2;
+
+  vector_s21_1.push_back(1);
+  vector_s21_1.push_back(65);
+  vector_s21_1.push_back(12);
+
+  vector_s21_2.emplace_back(1, 65, 12);
+
+  for (size_t i = 0; i < vector_s21_1.size(); i++) {
+  EXPECT_EQ(vector_s21_1[i], vector_s21_2[i]);
+  }
+
+  EXPECT_EQ(vector_s21_1.size(), vector_s21_2.size());
+  EXPECT_EQ(vector_s21_1.capacity(), vector_s21_2.capacity());
+}
