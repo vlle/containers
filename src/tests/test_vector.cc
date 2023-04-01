@@ -396,7 +396,7 @@ TEST(VectorEmplace, EmplaceBack) {
   vector_s21_2.emplace_back(1, 65, 12);
 
   for (size_t i = 0; i < vector_s21_1.size(); i++) {
-  EXPECT_EQ(vector_s21_1[i], vector_s21_2[i]);
+    EXPECT_EQ(vector_s21_1[i], vector_s21_2[i]);
   }
 
   EXPECT_EQ(vector_s21_1.size(), vector_s21_2.size());
