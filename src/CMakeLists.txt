@@ -24,7 +24,7 @@ add_executable(
    tests/test_avl_tree.cc
   tests/test_lists.cc
    tests/test_map.cc
-   #tests/test_multiset.cc
+   tests/test_multiset.cc
    #tests/test_queue.cc
    tests/test_set.cc
    tests/test_stack.cc

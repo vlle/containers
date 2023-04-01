@@ -5,33 +5,33 @@
 #include "s21_tree.h"
 
 namespace s21 {
-template <class T>
+template <class T, class Compare = std::less<T>>
 class set {
  public:
   using key_type = T;
   using value_type = T;
   using reference = T &;
   using const_reference = const T &;
-  using iterator = typename BinaryTree<T>::iterator;
-  using const_iterator = typename BinaryTree<T>::const_iterator;
+  using iterator = typename BinaryTree<T, Compare>::iterator;
+  using const_iterator = typename BinaryTree<T, Compare>::const_iterator;
   using size_type = std::size_t;
 
 public:
   set() {
     size_ = 0;
-    root_ = new BinaryTree<T>(root);
+    root_ = new BinaryTree<T, Compare>(root);
   }
 
   set(std::initializer_list<value_type> const &items) {
     size_ = 0;
-    root_ = new BinaryTree<T>(root);
+    root_ = new BinaryTree<T, Compare>(root);
     for (const value_type &item: items)
       insert(item);
   }
 
   set(const set& other) {
     size_ = 0;
-    root_ = new BinaryTree<T>(root);
+    root_ = new BinaryTree<T, Compare>(root);
     *this = other;
   }
 
@@ -78,12 +78,12 @@ public:
   }
 
   size_type max_size() const noexcept {
-    return std::numeric_limits<size_type>::max() / sizeof(BinaryTree<T>) / 2;
+    return std::numeric_limits<size_type>::max() / sizeof(BinaryTree<T, Compare>) / 2;
   }
 
   void clear() {
     delete root_;
-    root_ = new BinaryTree<T>(root);
+    root_ = new BinaryTree<T, Compare>(root);
     size_ = 0;
   }
 
@@ -139,13 +139,10 @@ public:
     return root_->contains(value);
   }
 
-
-
 private:
   static constexpr bool root = true;
-
   size_type size_;
-  BinaryTree<T> *root_;
+  BinaryTree<T, Compare> *root_;
 };
 }  // namespace s21
 

@@ -14,7 +14,7 @@
 #include "stack/s21_stack.h"
 
 namespace s21 {
-  template<class T, class Comparator = std::less<T>, bool duplicate_allowance = false>
+  template<class T, class Comparator = std::less<T>>
     class BinaryTree {
       public:
         struct tree_iterator;
@@ -116,7 +116,7 @@ namespace s21 {
         }
 
         bool contains(const value_type value) {
-          return this->find(value).is_null() ? false : true;
+          return this->FindNode(value) ? true : false;
         }
 
         std::pair<iterator, bool> insert(const value_type &pair) {
@@ -322,8 +322,6 @@ namespace s21 {
             AssignBalanceStatus();
             BalanceNode();
             return ret;
-          } else if (duplicate_allowance == true) {
-            return std::make_pair(this, true);
           } else {
             return std::make_pair(this, false);
           }
