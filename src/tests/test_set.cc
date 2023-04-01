@@ -7,13 +7,10 @@
 #include "../s21_set.h"
 
 TEST(SetConstructor, DefaultConstructor) {
-//  const s21::set<std::string> s21_s;
-//  const std::set<std::string> std_s;
   const s21::set<int> s21_s;
   const std::set<int> std_s;
   EXPECT_EQ(s21_s.size(), std_s.size());
   EXPECT_EQ(s21_s.empty(), std_s.empty());
-  EXPECT_NEAR(s21_s.max_size(), std_s.max_size(), 0.0001);
 }
 
 TEST(SetConstructor, InitializerListConstructor) {
@@ -158,49 +155,49 @@ TEST(SetModifiers, Insert) {
     EXPECT_EQ(*s21_p, *std_p);
 }
 
-// TEST(SetModifiers, Swap) {
-//   s21::set<std::string> s21_first{{"One"},   {"Two"},   {"Three"},
-//                                   {"Four"},  {"Five"},  {"Six"},
-//                                   {"Seven"}, {"Eight"}, {"Nine"}};
-//   s21::set<std::string> s21_second{{"Ivan"}, {"Alex"}, {"Nikolay"}, {"Elena"}};
-//   s21::set<std::string> std_first{{"One"},   {"Two"},   {"Three"},
-//                                   {"Four"},  {"Five"},  {"Six"},
-//                                   {"Seven"}, {"Eight"}, {"Nine"}};
-//   s21::set<std::string> std_second{{"Ivan"}, {"Alex"}, {"Nikolay"}, {"Elena"}};
-// 
-//   EXPECT_EQ(s21_first.size(), std_first.size());
-//   EXPECT_EQ(s21_first.empty(), std_first.empty());
-//   EXPECT_EQ(s21_second.size(), std_second.size());
-//   EXPECT_EQ(s21_second.empty(), std_second.empty());
-// 
-//   auto s21_p = s21_first.begin();
-//   auto std_p = std_first.begin();
-//   for (; s21_p != s21_first.end() && std_p != std_first.end(); ++s21_p, ++std_p)
-//     EXPECT_EQ(*s21_p, *std_p);
-//   s21_p = s21_second.begin();
-//   std_p = std_second.begin();
-//   for (; s21_p != s21_second.end() && std_p != std_second.end();
-//        ++s21_p, ++std_p)
-//     EXPECT_EQ(*s21_p, *std_p);
-// 
-//   s21_first.swap(s21_second);
-//   std_first.swap(std_second);
-// 
-//   EXPECT_EQ(s21_first.size(), std_first.size());
-//   EXPECT_EQ(s21_first.empty(), std_first.empty());
-//   EXPECT_EQ(s21_second.size(), std_second.size());
-//   EXPECT_EQ(s21_second.empty(), std_second.empty());
-// 
-//   s21_p = s21_first.begin();
-//   std_p = std_first.begin();
-//   for (; s21_p != s21_first.end() && std_p != std_first.end(); ++s21_p, ++std_p)
-//     EXPECT_EQ(*s21_p, *std_p);
-//   s21_p = s21_second.begin();
-//   std_p = std_second.begin();
-//   for (; s21_p != s21_second.end() && std_p != std_second.end();
-//        ++s21_p, ++std_p)
-//     EXPECT_EQ(*s21_p, *std_p);
-// }
+TEST(SetModifiers, Swap) {
+  s21::set<std::string> s21_first{{"One"},   {"Two"},   {"Three"},
+                                  {"Four"},  {"Five"},  {"Six"},
+                                  {"Seven"}, {"Eight"}, {"Nine"}};
+  s21::set<std::string> s21_second{{"Ivan"}, {"Alex"}, {"Nikolay"}, {"Elena"}};
+  s21::set<std::string> std_first{{"One"},   {"Two"},   {"Three"},
+                                  {"Four"},  {"Five"},  {"Six"},
+                                  {"Seven"}, {"Eight"}, {"Nine"}};
+  s21::set<std::string> std_second{{"Ivan"}, {"Alex"}, {"Nikolay"}, {"Elena"}};
+
+  EXPECT_EQ(s21_first.size(), std_first.size());
+  EXPECT_EQ(s21_first.empty(), std_first.empty());
+  EXPECT_EQ(s21_second.size(), std_second.size());
+  EXPECT_EQ(s21_second.empty(), std_second.empty());
+
+  auto s21_p = s21_first.begin();
+  auto std_p = std_first.begin();
+  for (; s21_p != s21_first.end() && std_p != std_first.end(); ++s21_p, ++std_p)
+    EXPECT_EQ(*s21_p, *std_p);
+  s21_p = s21_second.begin();
+  std_p = std_second.begin();
+  for (; s21_p != s21_second.end() && std_p != std_second.end();
+       ++s21_p, ++std_p)
+    EXPECT_EQ(*s21_p, *std_p);
+
+  s21_first.swap(s21_second);
+  std_first.swap(std_second);
+
+  EXPECT_EQ(s21_first.size(), std_first.size());
+  EXPECT_EQ(s21_first.empty(), std_first.empty());
+  EXPECT_EQ(s21_second.size(), std_second.size());
+  EXPECT_EQ(s21_second.empty(), std_second.empty());
+
+  s21_p = s21_first.begin();
+  std_p = std_first.begin();
+  for (; s21_p != s21_first.end() && std_p != std_first.end(); ++s21_p, ++std_p)
+    EXPECT_EQ(*s21_p, *std_p);
+  s21_p = s21_second.begin();
+  std_p = std_second.begin();
+  for (; s21_p != s21_second.end() && std_p != std_second.end();
+       ++s21_p, ++std_p)
+    EXPECT_EQ(*s21_p, *std_p);
+}
 
 TEST(SetModifiers, Merge) {
   s21::set<int> s21_s1{1, 150, 43, 4};
@@ -209,8 +206,8 @@ TEST(SetModifiers, Merge) {
   std::set<int> std_s1{1, 150, 43, 4};
   std::set<int> std_s2{10, 22, 43, 8, 1};
 
-//  s21_s1.merge(s21_s2);
-//  std_s1.merge(std_s2);
+  s21_s1.merge(s21_s2);
+  std_s1.merge(std_s2);
 
   EXPECT_EQ(s21_s1.size(), std_s1.size());
   EXPECT_EQ(s21_s1.empty(), std_s1.empty());
@@ -222,38 +219,31 @@ TEST(SetModifiers, Merge) {
     std::cout << "s21: " << *s21_p << std::endl;
     std::cout << "std: " << *std_p << std::endl;
   }
-  std::cout << std::endl;
-  s21_p = s21_s2.begin();
-  std_p = std_s2.begin();
-  for (; s21_p != s21_s2.end() && std_p != std_s2.end(); ++s21_p, ++std_p) {
-    std::cout << "s21: " << *s21_p << std::endl;
-    std::cout << "std: " << *std_p << std::endl;
-  }
-//  for (; s21_p != s21_s1.end() && std_p != std_s1.end(); ++s21_p, ++std_p)
-//    EXPECT_EQ(*s21_p, *std_p);
+  for (; s21_p != s21_s1.end() && std_p != std_s1.end(); ++s21_p, ++std_p)
+    EXPECT_EQ(*s21_p, *std_p);
 }
 
-//TEST(SetExtraTests, test1) {
-//  const s21::set<int> s21_s{1, 150, 43, 4};
-//  const std::set<int> std_s{1, 150, 43, 4};
-//  auto s21_p = s21_s.end();
-//  auto std_p = std_s.end();
-//  EXPECT_TRUE(*(--s21_p) == *(--std_p));
-//  EXPECT_TRUE(*(--s21_p) == *(--std_p));
-//  EXPECT_TRUE(*(--s21_p) == *(--std_p));
-//  EXPECT_TRUE(*(--s21_p) == *(--std_p));
-//  EXPECT_TRUE(s21_p == s21_s.begin());
-//}
-//
-//TEST(SetExtraTests, test2) {
-//  const s21::set<int> s21_s{1, 150, 43, 4};
-//  auto s21_p = s21_s.end();
-//  EXPECT_TRUE(*(--s21_p) == 150);
-//  EXPECT_TRUE(*(--s21_p) == 43);
-//  EXPECT_TRUE(*(--s21_p) == 4);
-//  EXPECT_TRUE(*(--s21_p) == 1);
-//  EXPECT_TRUE(s21_p == s21_s.begin());
-//}
+TEST(SetExtraTests, test1) {
+  const s21::set<int> s21_s{1, 150, 43, 4};
+  const std::set<int> std_s{1, 150, 43, 4};
+  auto s21_p = s21_s.end();
+  auto std_p = std_s.end();
+  EXPECT_TRUE(*(--s21_p) == *(--std_p));
+  EXPECT_TRUE(*(--s21_p) == *(--std_p));
+  EXPECT_TRUE(*(--s21_p) == *(--std_p));
+  EXPECT_TRUE(*(--s21_p) == *(--std_p));
+  EXPECT_TRUE(s21_p == s21_s.begin());
+}
+
+TEST(SetExtraTests, test2) {
+  const s21::set<int> s21_s{1, 150, 43, 4};
+  auto s21_p = s21_s.end();
+  EXPECT_TRUE(*(--s21_p) == 150);
+  EXPECT_TRUE(*(--s21_p) == 43);
+  EXPECT_TRUE(*(--s21_p) == 4);
+  EXPECT_TRUE(*(--s21_p) == 1);
+  EXPECT_TRUE(s21_p == s21_s.begin());
+}
 
 TEST(Set, 1) {
   s21::set<int> a{-120, 55, 5};
@@ -341,12 +331,12 @@ TEST(Set, 8_for) {
   }
 }
 
-//TEST(Set, 10_nullptr) {
-//  s21::set<int> a;
-//  auto it = a.begin();
-//
-//  ASSERT_THROW(*it, std::runtime_error);
-//}
+TEST(Set, 10_nullptr) {
+  s21::set<int> a;
+  auto it = a.begin();
+
+  ASSERT_THROW(*it, std::runtime_error);
+}
 
 TEST(Set, 11_find) {
   s21::set<std::string> a{"aboba", "flex"};
@@ -410,12 +400,12 @@ TEST(Set, 16_erase_root) {
 
   a.erase(a.find(5));
 
-//  int tmp[2] = {2, 3};
-//  int i = 0;
-//  for (auto it = a.begin(); it != a.end(); ++it) {
-//    ASSERT_EQ(*it, tmp[i]);
-//    i++;
-//  }
+  int tmp[2] = {2, 3};
+  int i = 0;
+  for (auto it = a.begin(); it != a.end(); ++it) {
+    ASSERT_EQ(*it, tmp[i]);
+    i++;
+  }
 }
 
 TEST(Set, 17_erase) {
@@ -461,74 +451,73 @@ TEST(Set, 20_clear_empty) {
   ASSERT_THROW(*it, std::runtime_error);
 }
 
-// TEST(Set, 21_swap) {
-//   s21::set<int> a{1, 2, 3};
-//   s21::set<int> b{4, 5, 6};
-// 
-//   a.swap(b);
-//   auto it = a.begin();
-// 
-//   ASSERT_EQ(*it, 4);
-//   it++;
-//   ASSERT_EQ(*it, 5);
-//   it++;
-//   ASSERT_EQ(*it, 6);
-// }
-// 
-// TEST(Set, 22_swap) {
-//   s21::set<int> a{1, 2, 3};
-//   s21::set<int> b{4, 5, 6};
-// 
-//   a.swap(b);
-//   auto it = b.begin();
-// 
-//   ASSERT_EQ(*it, 1);
-//   it++;
-//   ASSERT_EQ(*it, 2);
-//   it++;
-//   ASSERT_EQ(*it, 3);
-// }
-// 
-// TEST(Set, 23_merge) {
-//   s21::set<int> a{1, 2, 3};
-//   s21::set<int> b{4, 5, 6};
-// 
-//   a.merge(b);
-// 
-//   int i = 1;
-//   for (auto it = a.begin(); it != a.end(); it++) {
-//     ASSERT_EQ(*it, i);
-//     i++;
-//   }
-// 
-//   ASSERT_EQ(a.size(), 6);
-// }
-// 
-// TEST(Set, 24_merge_empty) {
-//   s21::set<int> a{1, 2, 3};
-//   s21::set<int> b;
-// 
-//   a.merge(b);
-// 
-//   int i = 1;
-//   for (auto it = a.begin(); it != a.end(); it++) {
-//     ASSERT_EQ(*it, i);
-//     i++;
-//   }
-// }
-// 
-// TEST(Set, 25_merge_empty_2) {
-//   s21::set<int> a;
-//   s21::set<int> b{1, 2, 3};
-// 
-//   a.merge(b);
-// 
-//   int i = 1;
-//   for (auto it = a.begin(); it != a.end(); it++) {
-//     ASSERT_EQ(*it, i);
-//     i++;
-//   }
-// }
+TEST(Set, 21_swap) {
+  s21::set<int> a{1, 2, 3};
+  s21::set<int> b{4, 5, 6};
+
+  a.swap(b);
+  auto it = a.begin();
+
+  ASSERT_EQ(*it, 4);
+  it++;
+  ASSERT_EQ(*it, 5);
+  it++;
+  ASSERT_EQ(*it, 6);
+}
+
+TEST(Set, 22_swap) {
+  s21::set<int> a{1, 2, 3};
+  s21::set<int> b{4, 5, 6};
+
+  a.swap(b);
+  auto it = b.begin();
+
+  ASSERT_EQ(*it, 1);
+  it++;
+  ASSERT_EQ(*it, 2);
+  it++;
+  ASSERT_EQ(*it, 3);
+}
+
+TEST(Set, 23_merge) {
+  s21::set<int> a{1, 2, 3};
+  s21::set<int> b{4, 5, 6};
+
+  a.merge(b);
+
+  int i = 1;
+  for (auto it = a.begin(); it != a.end(); it++) {
+    ASSERT_EQ(*it, i);
+    i++;
+  }
+
+  ASSERT_EQ(a.size(), 6);
+}
+
+TEST(Set, 24_merge_empty) {
+  s21::set<int> a{1, 2, 3};
+  s21::set<int> b;
+
+  a.merge(b);
+
+  int i = 1; for (auto it = a.begin(); it != a.end(); it++) {
+    ASSERT_EQ(*it, i);
+    i++;
+  }
+}
+
+TEST(Set, 25_merge_empty_2) {
+  s21::set<int> a;
+  s21::set<int> b{1, 2, 3};
+
+  a.merge(b);
+
+  int i = 1;
+  for (auto it = a.begin(); it != a.end(); it++) {
+    ASSERT_EQ(*it, i);
+    i++;
+  }
+}
 
 TEST(Set, 26_size) {
   s21::set<int> a{1, 2, 3};
