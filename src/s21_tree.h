@@ -39,8 +39,8 @@ namespace s21 {
           InitEmptyNode();
           if (root == true) {
             root_child_ = node;
+            height_ = -2;
           }
-          height_ = root ? -2 : -1;
         };
 
 

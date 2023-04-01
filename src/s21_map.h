@@ -49,10 +49,8 @@ class map {
   }
 
   map(map && other) noexcept {
-    std::swap(other.root_, root_);
-    std::swap(other.size_, size_);
-    other.root = nullptr;
-    other.size = 0;
+    size_ = std::exchange(other.size_, 0);
+    root_ = std::exchange(other.root_, nullptr);
   }
 
   ~map() {
@@ -107,6 +105,7 @@ class map {
 
   void merge(map& other) {
     s21::vector<key_type> values_to_erase;
+    if (other.empty()) return;
     for (iterator it = other.begin(); it != other.end(); it++) {
       size_type i = count(*it);
       if (i == 0) {

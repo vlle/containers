@@ -1,6 +1,7 @@
 #ifndef SRC_S21_SET_H
 #define SRC_S21_SET_H
 
+#include "s21_vector.h"
 #include "s21_tree.h"
 
 namespace s21 {
@@ -92,9 +93,35 @@ public:
     return ret;
   }
 
+  size_type erase( const T& value ) {
+    size_type count = root_->del(value);
+    size_ -= count;
+    return count;
+  }
+
   void erase(iterator pos) {
     size_type count = root_->erase(pos);
     size_ -= count;
+  }
+
+  size_type count(const value_type value) {
+    return root_->count(value);
+  }
+
+  void merge(set& other) {
+    s21::vector<key_type> values_to_erase;
+    if (other.empty()) return;
+    for (iterator it = other.begin(); it != other.end(); it++) {
+      size_type i = count(*it);
+      if (i == 0) {
+        insert(*it);
+        values_to_erase.push_back(*it);
+      }
+    }
+    while (!values_to_erase.empty()) {
+      other.erase(values_to_erase.back());
+      values_to_erase.pop_back();
+    }
   }
 
   void swap(set &other) {
