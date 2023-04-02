@@ -17,7 +17,7 @@ leak: hello_test
 
 .PHONY: clean
 clean:
-	@-rm -rf *.o *.a *.txt *.gcno *.gcda *.info test report
+	@-rm -rf *.o *.a *.gcno *.gcda *.info test report
 
 .PHONY: gcov_report
 gcov_report:

@@ -225,7 +225,7 @@ void list<value_type>::splice(const_iterator pos, list &other) {
 
     m_size_ += other.m_size_;
 
-    delete[] other.tail_;
+    delete other.tail_;
 
     other.head_ = nullptr;
     other.tail_ = nullptr;

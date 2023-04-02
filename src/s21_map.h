@@ -73,7 +73,7 @@ class map {
   mapped_type& operator[](const key_type &key) {
     try {
       return at(key);
-    } catch (std::out_of_range) {
+    } catch (std::out_of_range const&) {
       root_->insert({key, {}});
     }
     return at(key);

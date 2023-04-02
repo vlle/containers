@@ -370,9 +370,9 @@ namespace s21 {
           using iterator_category = std::bidirectional_iterator_tag;
           using difference_type = std::ptrdiff_t;
 
-          using value_type = value_type;
-          using pointer = value_type*;
-          using reference = value_type&;
+          using local_value_type = value_type;
+          using pointer = local_value_type*;
+          using reference = local_value_type&;
 
           explicit tree_iterator(BinaryTree *tree) {
             tree_ = tree;
@@ -461,14 +461,14 @@ namespace s21 {
           }
 
 
-          value_type operator*() { 
+          local_value_type operator*() { 
             if (!tree_ || !tree_->data_) {
               throw std::runtime_error("No value");
             }
             return tree_->data_->value;
           }
 
-          value_type& value() const noexcept { return tree_->data_->value; }
+          local_value_type& value() const noexcept { return tree_->data_->value; }
 
           tree_iterator &operator++() noexcept {
             std::pair<BinaryTree*, bool> next = next_node(tree_);
@@ -537,9 +537,9 @@ namespace s21 {
           using iterator_category = std::bidirectional_iterator_tag;
           using difference_type = std::ptrdiff_t;
 
-          using value_type = const value_type;
-          using pointer = value_type*;
-          using reference = value_type&;
+          using const_value_type = const value_type;
+          using pointer = const_value_type*;
+          using reference = const_value_type&;
 
           explicit tree_const_iterator(BinaryTree *tree) {
             tree_ = tree;
@@ -628,11 +628,11 @@ namespace s21 {
           }
 
 
-          value_type operator*() noexcept { 
-            return tree_ && tree_->data_ ? tree_->data_->value : value_type{};
+          const_value_type operator*() noexcept { 
+            return tree_ && tree_->data_ ? tree_->data_->value : const_value_type{};
           }
 
-          value_type& value() const noexcept { return tree_->data_->value; }
+          const_value_type& value() const noexcept { return tree_->data_->value; }
 
           tree_const_iterator &operator++() noexcept {
             std::pair<BinaryTree*, bool> next = next_node(tree_);
