@@ -178,7 +178,7 @@ template <typename value_type> void list<value_type>::reverse() {
   list_node<value_type> *ptr_1 = head_;
   list_node<value_type> *ptr_2 = ptr_1->next_;
 
-  ptr_1->next_ = nullptr;
+  ptr_1->next_ = tail_;
   ptr_1->prev_ = ptr_2;
 
   while (ptr_2->next_ != nullptr) {
@@ -188,7 +188,7 @@ template <typename value_type> void list<value_type>::reverse() {
     ptr_2 = ptr_2->prev_;
   }
 
-  tail_ = ptr_2->next_;
+  // tail_ = ptr_2->next_;
   head_ = ptr_1;
 }
 
