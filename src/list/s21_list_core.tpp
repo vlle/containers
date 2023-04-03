@@ -11,8 +11,6 @@ template <typename T> void list<T>::push_back(const T &e) {
 }
 
 template <typename T> void list<T>::pop_back() {
-  std::cout << tail_->data_ << std::endl;
-
   list_node<T> *tmp = tail_->prev_;
   tail_->prev_ = tmp->prev_;
 

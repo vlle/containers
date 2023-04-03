@@ -124,7 +124,7 @@ template <typename value_type> void list<value_type>::sort() {
   list_node<value_type> *curr = head_;
   int swaped = 0;
 
-  while (1) {
+  while (true) {
     while (curr->next_ != tail_) {
       if (curr->data_ > curr->next_->data_) {
         swap_data(&(curr->data_), &(curr->next_->data_));
@@ -188,7 +188,6 @@ template <typename value_type> void list<value_type>::reverse() {
     ptr_2 = ptr_2->prev_;
   }
 
-  // tail_ = ptr_2->next_;
   head_ = ptr_1;
 }
 
@@ -238,9 +237,9 @@ template <typename value_type> size_t list<value_type>::size() const noexcept {
 }
 
 template <typename value_type> bool list<value_type>::empty() const {
-  // std::cout << m_size_ << std::endl;
-  return m_size_ ? false : true;
+  return m_size_ == 0;
 }
+
 /**
  * This value typically reflects the theoretical limit on the size of
  *  the container, at most std::numeric_limits<difference_type>::max().
@@ -250,7 +249,7 @@ template <typename value_type> bool list<value_type>::empty() const {
 template <typename value_type>
 size_t list<value_type>::max_size() const noexcept {
 #ifdef __linux__
-  return std::numeric_limits<std::ptrdiff_t>().max() /
+  return std::numeric_limits<long>::max() /
          sizeof(list_node<value_type>);
 #else
   return std::numeric_limits<std::ptrdiff_t>().max() /

@@ -145,10 +145,8 @@ TEST_F(AvlTreeTest, DecrementIteratorCompare) {
   EXPECT_EQ((*it), 15);
   --it;
   EXPECT_EQ((*it), 10);
-  std::cout << 4 << std::endl;
   --it;
   EXPECT_EQ((*it), 5);
-  std::cout << 3 << std::endl;
   --it;
   EXPECT_EQ((*it), 2);
   it--;

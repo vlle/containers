@@ -108,8 +108,7 @@ TEST(SetModifiers, Erase) {
   auto std_p = std_s.begin();
 
   for (; s21_p != s21_s.end() && std_p != std_s.end(); ++s21_p, ++std_p) {
-    std::cout << "s21: " << *s21_p << std::endl;
-    std::cout << "std: " << *std_p << std::endl;
+    EXPECT_EQ(*s21_p, *std_p);
   }
 }
 
@@ -216,8 +215,7 @@ TEST(SetModifiers, Merge) {
   auto s21_p = s21_s1.begin();
   auto std_p = std_s1.begin();
   for (; s21_p != s21_s1.end() && std_p != std_s1.end(); ++s21_p, ++std_p) {
-    std::cout << "s21: " << *s21_p << std::endl;
-    std::cout << "std: " << *std_p << std::endl;
+      EXPECT_EQ(*s21_p, *std_p);
   }
   for (; s21_p != s21_s1.end() && std_p != std_s1.end(); ++s21_p, ++std_p)
     EXPECT_EQ(*s21_p, *std_p);
