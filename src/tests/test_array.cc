@@ -6,7 +6,7 @@
 #include "../s21_array.h"
 
 class ArrayTest : public ::testing::Test {
-protected:
+ protected:
   s21::array<int, 5> arr_int{1, 2, 3, 4, 5};
   s21::array<std::string, 3> arr_str{"one", "two", "three"};
   const s21::array<int, 5> carr_int{1, 2, 3, 4, 5};
@@ -70,24 +70,23 @@ TEST_F(ArrayTest, Front) {
   EXPECT_EQ(*carr_int.begin(), 1);
 }
 
-
 // Because of -Werror it causes compilation error.
 // Standard does not allow zero sized arrays
-//TEST_F(ArrayTest, BackException) {
+// TEST_F(ArrayTest, BackException) {
 //  s21::array<int, 0> array0;
 //  EXPECT_ANY_THROW(array0.back());
 //  const s21::array<int, 0> carray0;
 //  EXPECT_ANY_THROW(carray0.back());
 //}
 //
-//TEST_F(ArrayTest, FrontException) {
+// TEST_F(ArrayTest, FrontException) {
 //  s21::array<int, 0> array0;
 //  EXPECT_ANY_THROW(array0.front());
 //  const s21::array<int, 0> carray0;
 //  EXPECT_ANY_THROW(carray0.front());
 //}
 //
-//TEST_F(ArrayTest, Empty) {
+// TEST_F(ArrayTest, Empty) {
 //  EXPECT_FALSE(arr_int.empty());
 //  s21::array<int, 0> empty_arr;
 //  EXPECT_TRUE(empty_arr.empty());
@@ -168,5 +167,3 @@ TEST_F(ArrayTest, Fill) {
   arr_int.fill(0);
   for (auto elem : arr_int) EXPECT_EQ(elem, 0);
 }
-
-

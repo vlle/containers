@@ -2,11 +2,13 @@
 #define _SRC_QUEUE_S21_QUEUE_H_
 
 #include <initializer_list>
+
 #include "s21_list.h"
 
 namespace s21 {
-template <typename T> class queue {
-public:
+template <typename T>
+class queue {
+ public:
   using value_type = T;
   using reference = T &;
   using const_reference = const T &;
@@ -30,13 +32,14 @@ public:
   void swap(queue &other);
 
   template <typename... Args>
-  void emplace_back(Args&&... args);
+  void emplace_back(Args &&...args);
 
-private:
+ private:
   list<value_type> object;
 };
 
-template <typename value_type> queue<value_type>::queue() = default;
+template <typename value_type>
+queue<value_type>::queue() = default;
 
 template <typename value_type>
 queue<value_type>::queue(std::initializer_list<value_type> const &items) {
@@ -45,7 +48,8 @@ queue<value_type>::queue(std::initializer_list<value_type> const &items) {
   }
 }
 
-template <typename value_type> queue<value_type>::~queue() = default;
+template <typename value_type>
+queue<value_type>::~queue() = default;
 
 template <typename value_type>
 typename queue<value_type>::const_reference queue<value_type>::front() {
@@ -57,7 +61,8 @@ typename queue<value_type>::const_reference queue<value_type>::back() {
   return *(--object.end());
 }
 
-template <typename value_type> bool queue<value_type>::empty() const {
+template <typename value_type>
+bool queue<value_type>::empty() const {
   return object.empty();
 }
 
@@ -71,20 +76,22 @@ void queue<value_type>::push(const_reference value) {
   object.push_back(value);
 }
 
-template <typename value_type> void queue<value_type>::pop() {
+template <typename value_type>
+void queue<value_type>::pop() {
   if (object.size() != 0) {
     object.pop_front();
   }
 }
 
-template <typename value_type> void queue<value_type>::swap(queue &other) {
+template <typename value_type>
+void queue<value_type>::swap(queue &other) {
   object.swap(other.object);
 }
 
 template <typename value_type>
 template <typename... Args>
-void queue<value_type>::emplace_back(Args &&... args) {}
+void queue<value_type>::emplace_back(Args &&...args) {}
 
-} // namespace s21
+}  // namespace s21
 
-#endif // _SRC_QUEUE_S21_QUEUE_H_
+#endif  // _SRC_QUEUE_S21_QUEUE_H_

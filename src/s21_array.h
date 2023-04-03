@@ -7,8 +7,9 @@
 #include <stdexcept>
 
 namespace s21 {
-template <class T, std::size_t S> class array {
-public:
+template <class T, std::size_t S>
+class array {
+ public:
   using value_type = T;
   using reference = T &;
   using const_reference = const T &;
@@ -17,7 +18,7 @@ public:
   using size_type = std::size_t;
 
   // Member functions
-public:
+ public:
   array() noexcept = default;
 
   array(std::initializer_list<value_type> const &items) {
@@ -25,32 +26,27 @@ public:
       throw std::runtime_error(
           "s21::array::array(std::initializer_list<value_type> const &items) "
           "Size of initializer_list is not equal to size of array");
-    for (size_type i = 0; i < S; i++)
-      data_[i] = items.begin()[i];
+    for (size_type i = 0; i < S; i++) data_[i] = items.begin()[i];
   }
 
   array(const array &other) noexcept {
-    for (size_type i = 0; i < S; i++)
-      data_[i] = other.data_[i];
+    for (size_type i = 0; i < S; i++) data_[i] = other.data_[i];
   }
 
   array &operator=(const array &other) noexcept {
-    for (size_type i = 0; i < S; i++)
-      data_[i] = other.data_[i];
+    for (size_type i = 0; i < S; i++) data_[i] = other.data_[i];
     return *this;
   }
 
   array(array &&other) noexcept {
     if (this != &other) {
-      for (size_type i = 0; i < S; i++)
-        data_[i] = std::move(other.data_[i]);
+      for (size_type i = 0; i < S; i++) data_[i] = std::move(other.data_[i]);
     }
   }
 
   array &operator=(array &&other) noexcept {
     if (this != &other) {
-      for (size_type i = 0; i < S; i++)
-        data_[i] = std::move(other.data_[i]);
+      for (size_type i = 0; i < S; i++) data_[i] = std::move(other.data_[i]);
     }
     return *this;
   }
@@ -58,7 +54,7 @@ public:
   ~array() noexcept = default;
 
   // Element access
-public:
+ public:
   reference at(size_type pos) {
     if (pos >= S)
       throw std::out_of_range("s21::array::at Index is out of range");
@@ -108,7 +104,7 @@ public:
   const_iterator data() const noexcept { return data_; }
 
   // Iterators
-public:
+ public:
   iterator begin() noexcept { return data_; }
 
   const_iterator begin() const noexcept { return data_; }
@@ -118,7 +114,7 @@ public:
   const_iterator end() const noexcept { return data_ + S; }
 
   // Capacity
-public:
+ public:
   [[nodiscard]] bool empty() const noexcept { return begin() == end(); }
 
   [[nodiscard]] size_type size() const noexcept { return S; }
@@ -126,7 +122,7 @@ public:
   [[nodiscard]] size_type max_size() const noexcept { return S; }
 
   // Modifiers
-public:
+ public:
   void swap(array &other) { std::swap_ranges(begin(), end(), other.begin()); }
 
   void fill(const_reference value) {
@@ -135,9 +131,9 @@ public:
     }
   }
 
-private:
+ private:
   value_type data_[S] = {};
 };
-} // namespace s21
+}  // namespace s21
 
-#endif // SRC_S21_ARRAY_H
+#endif  // SRC_S21_ARRAY_H
