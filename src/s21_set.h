@@ -1,8 +1,8 @@
 #ifndef SRC_S21_SET_H
 #define SRC_S21_SET_H
 
-#include "s21_vector.h"
 #include "s21_tree.h"
+#include "s21_vector.h"
 
 namespace s21 {
 template <class T, class Compare = std::less<T>>
@@ -16,7 +16,7 @@ class set {
   using const_iterator = typename BinaryTree<T, Compare>::const_iterator;
   using size_type = std::size_t;
 
-public:
+ public:
   set() {
     size_ = 0;
     root_ = new BinaryTree<T, Compare>(root);
@@ -25,22 +25,21 @@ public:
   set(std::initializer_list<value_type> const &items) {
     size_ = 0;
     root_ = new BinaryTree<T, Compare>(root);
-    for (const value_type &item: items)
-      insert(item);
+    for (const value_type &item : items) insert(item);
   }
 
-  set(const set& other) {
+  set(const set &other) {
     size_ = 0;
     root_ = new BinaryTree<T, Compare>(root);
     *this = other;
   }
 
-  set(set && other) noexcept {
+  set(set &&other) noexcept {
     size_ = std::exchange(other.size_, 0);
     root_ = std::exchange(other.root_, nullptr);
   }
 
-  set& operator=(const set& other) {
+  set &operator=(const set &other) {
     if (!other.root_) return *this;
     size_ = other.size_;
     *root_ = *other.root_;
@@ -53,32 +52,21 @@ public:
     root_ = nullptr;
   }
 
-  iterator begin() {
-    return root_->begin();
-  }
+  iterator begin() { return root_->begin(); }
 
-  iterator end() {
-    return root_->end();
-  }
+  iterator end() { return root_->end(); }
 
-  const_iterator begin() const {
-    return root_->cbegin();
-  }
+  const_iterator begin() const { return root_->cbegin(); }
 
-  const_iterator end() const {
-    return root_->cend();
-  }
+  const_iterator end() const { return root_->cend(); }
 
-  bool empty() const noexcept {
-    return size_ == 0;
-  }
+  bool empty() const noexcept { return size_ == 0; }
 
-  size_type size() const noexcept {
-    return size_;
-  }
+  size_type size() const noexcept { return size_; }
 
   size_type max_size() const noexcept {
-    return std::numeric_limits<size_type>::max() / sizeof(BinaryTree<T, Compare>) / 2;
+    return std::numeric_limits<size_type>::max() /
+           sizeof(BinaryTree<T, Compare>) / 2;
   }
 
   void clear() {
@@ -93,7 +81,7 @@ public:
     return ret;
   }
 
-  size_type erase( const T& value ) {
+  size_type erase(const T &value) {
     size_type count = root_->del(value);
     size_ -= count;
     return count;
@@ -104,11 +92,9 @@ public:
     size_ -= count;
   }
 
-  size_type count(const value_type value) {
-    return root_->count(value);
-  }
+  size_type count(const value_type value) { return root_->count(value); }
 
-  void merge(set& other) {
+  void merge(set &other) {
     s21::vector<key_type> values_to_erase;
     if (other.empty()) return;
     for (iterator it = other.begin(); it != other.end(); it++) {
@@ -129,17 +115,11 @@ public:
     std::swap(other.size_, this->size_);
   }
 
+  iterator find(const_reference value) { return root_->find(value); }
 
-  iterator find(const_reference value) {
-    return root_->find(value);
-  }
+  bool contains(const T value) { return root_->contains(value); }
 
-
-  bool contains(const T value) {
-    return root_->contains(value);
-  }
-
-private:
+ private:
   static constexpr bool root = true;
   size_type size_;
   BinaryTree<T, Compare> *root_;

@@ -211,11 +211,10 @@ TEST(SetModifiers, Merge) {
   EXPECT_EQ(s21_s1.size(), std_s1.size());
   EXPECT_EQ(s21_s1.empty(), std_s1.empty());
 
-
   auto s21_p = s21_s1.begin();
   auto std_p = std_s1.begin();
   for (; s21_p != s21_s1.end() && std_p != std_s1.end(); ++s21_p, ++std_p) {
-      EXPECT_EQ(*s21_p, *std_p);
+    EXPECT_EQ(*s21_p, *std_p);
   }
   for (; s21_p != s21_s1.end() && std_p != std_s1.end(); ++s21_p, ++std_p)
     EXPECT_EQ(*s21_p, *std_p);
@@ -340,7 +339,6 @@ TEST(Set, 11_find) {
   s21::set<std::string> a{"aboba", "flex"};
   auto it = a.find("flex");
 
-
   ASSERT_EQ(*it, "flex");
 }
 
@@ -410,7 +408,6 @@ TEST(Set, 17_erase) {
   s21::set<int> a{5, 2, 3};
 
   a.erase(a.find(3));
-
 
   ASSERT_EQ(*a.find(2), 2);
   ASSERT_EQ(*a.find(5), 5);
@@ -498,7 +495,8 @@ TEST(Set, 24_merge_empty) {
 
   a.merge(b);
 
-  int i = 1; for (auto it = a.begin(); it != a.end(); it++) {
+  int i = 1;
+  for (auto it = a.begin(); it != a.end(); it++) {
     ASSERT_EQ(*it, i);
     i++;
   }
@@ -588,7 +586,6 @@ TEST(Set, 35_insert) {
   auto pr1 = aboba.insert(5);
   ASSERT_EQ(pr1.second, false);
 }
-
 
 TEST(Set, 36_additional) {
   s21::set<int> ad{132, 120, 122, 121, 118, 119, 140, 135, 134, 138, 137, 136};

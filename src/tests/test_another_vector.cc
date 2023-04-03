@@ -1,7 +1,9 @@
 #include <gtest/gtest.h>
-#include "../s21_vector.h"
+
 #include <stdexcept>
 #include <vector>
+
+#include "../s21_vector.h"
 
 class VectorTest : public ::testing::Test {
  protected:
@@ -9,9 +11,9 @@ class VectorTest : public ::testing::Test {
   std::vector<int>* original_container_;
 
   void SetUp() override {
-     // q0_ remains empty
-     my_container_ = new s21::vector<int>{1,2,4};
-     original_container_ = new std::vector<int>{1,3, 5};
+    // q0_ remains empty
+    my_container_ = new s21::vector<int>{1, 2, 4};
+    original_container_ = new std::vector<int>{1, 3, 5};
   }
 
   void TearDown() override {
@@ -19,7 +21,6 @@ class VectorTest : public ::testing::Test {
     delete original_container_;
   }
 };
-
 
 TEST(VectorSuite, DefaultConstructorVector) {
   auto my_vector = s21::vector<int>();
@@ -58,7 +59,7 @@ TEST(VectorSuite, CopyConstructorVector) {
 }
 
 TEST_F(VectorTest, OperatorEq) {
-  auto original_vector = s21::vector<int>({4,5,1});
+  auto original_vector = s21::vector<int>({4, 5, 1});
   *my_container_ = original_vector;
   EXPECT_EQ((*my_container_).size(), original_vector.size());
   for (size_t i = 0; i != original_vector.size(); ++i) {
@@ -70,9 +71,7 @@ TEST_F(VectorTest, ThrowAtOutOfRange) {
   EXPECT_THROW((*original_container_).at(4), std::out_of_range);
 }
 
-TEST_F(VectorTest, GetAtValue) {
-  EXPECT_EQ((*original_container_).at(2), 5);
-}
+TEST_F(VectorTest, GetAtValue) { EXPECT_EQ((*original_container_).at(2), 5); }
 
 TEST_F(VectorTest, SetAtValue) {
   (*my_container_).at(2) = 4;
@@ -84,9 +83,7 @@ TEST_F(VectorTest, SetBracketsValue) {
   EXPECT_EQ((*my_container_).at(2), 4);
 }
 
-TEST_F(VectorTest, GetData) {
-  ASSERT_TRUE((*my_container_).data() != nullptr);
-}
+TEST_F(VectorTest, GetData) { ASSERT_TRUE((*my_container_).data() != nullptr); }
 
 TEST_F(VectorTest, GetFront) {
   (*my_container_)[0] = 10;
@@ -110,7 +107,7 @@ TEST_F(VectorTest, GetBaseBeginIterator) {
 }
 
 TEST_F(VectorTest, GetBaseEndIterator) {
-  EXPECT_NE(*((*my_container_).end()-1), *((*original_container_).end()-1));
+  EXPECT_NE(*((*my_container_).end() - 1), *((*original_container_).end() - 1));
 }
 
 TEST_F(VectorTest, GetCapacity) {
@@ -154,9 +151,9 @@ TEST_F(VectorTest, ClearTest) {
 }
 
 TEST_F(VectorTest, InsertTest) {
-  *original_container_ = std::vector<int>({1,2,4});
-  (*my_container_).insert((*my_container_).begin()+1, 5);
-  (*original_container_).insert((*original_container_).begin()+1, 5);
+  *original_container_ = std::vector<int>({1, 2, 4});
+  (*my_container_).insert((*my_container_).begin() + 1, 5);
+  (*original_container_).insert((*original_container_).begin() + 1, 5);
   EXPECT_EQ((*my_container_).size(), (*original_container_).size());
   for (unsigned long i = 0; i != (*my_container_).size(); ++i) {
     EXPECT_EQ((*my_container_).at(i), (*original_container_).at(i));
@@ -164,9 +161,9 @@ TEST_F(VectorTest, InsertTest) {
 }
 
 TEST_F(VectorTest, EraseTest) {
-  *original_container_ = std::vector<int>({1,2,4});
-  (*my_container_).erase((*my_container_).begin()+1);
-  (*original_container_).erase((*original_container_).begin()+1);
+  *original_container_ = std::vector<int>({1, 2, 4});
+  (*my_container_).erase((*my_container_).begin() + 1);
+  (*original_container_).erase((*original_container_).begin() + 1);
   EXPECT_EQ((*my_container_).size(), (*original_container_).size());
   for (unsigned long i = 0; i != (*my_container_).size(); ++i) {
     EXPECT_EQ((*my_container_).at(i), (*original_container_).at(i));
@@ -187,5 +184,4 @@ TEST(VectorSuite, SwapTest) {
   for (size_t i = 0; i != expected_vector.size(); ++i) {
     EXPECT_EQ(expected_vector[i], my_vector2[i]);
   }
-
 }

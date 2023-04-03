@@ -146,7 +146,8 @@
 //   auto multiset_p = multiset.begin();
 //   auto std_multiset_p = std_multiset.begin();
 
-//   for (; multiset_p != multiset.end() && std_multiset_p != std_multiset.end();
+//   for (; multiset_p != multiset.end() && std_multiset_p !=
+//   std_multiset.end();
 //        ++multiset_p, ++std_multiset_p)
 //     EXPECT_EQ(*multiset_p, *std_multiset_p);
 // }
@@ -155,8 +156,9 @@
 //   s21::multiset<std::string> multiset1{{"One"},   {"Two"},  {"Three"},
 //                                        {"Four"},  {"Five"}, {"Four"},
 //                                        {"Three"}, {"Two"},  {"One"}};
-//   s21::multiset<std::string> multiset2{{"Ivan"}, {"Alex"}, {"Ivan"}, {"Elena"}};
-//   s21::multiset<std::string> std_multiset1{{"One"},   {"Two"},  {"Three"},
+//   s21::multiset<std::string> multiset2{{"Ivan"}, {"Alex"}, {"Ivan"},
+//   {"Elena"}}; s21::multiset<std::string> std_multiset1{{"One"},   {"Two"},
+//   {"Three"},
 //                                            {"Four"},  {"Five"}, {"Four"},
 //                                            {"Three"}, {"Two"},  {"One"}};
 //   s21::multiset<std::string> std_multiset2{
@@ -170,12 +172,14 @@
 
 //   auto multiset_p = multiset1.begin();
 //   auto std_multiset_p = std_multiset1.begin();
-//   for (; multiset_p != multiset1.end() && std_multiset_p != std_multiset1.end();
+//   for (; multiset_p != multiset1.end() && std_multiset_p !=
+//   std_multiset1.end();
 //        ++multiset_p, ++std_multiset_p)
 //     EXPECT_EQ(*multiset_p, *std_multiset_p);
 //   multiset_p = multiset2.begin();
 //   std_multiset_p = std_multiset2.begin();
-//   for (; multiset_p != multiset2.end() && std_multiset_p != std_multiset2.end();
+//   for (; multiset_p != multiset2.end() && std_multiset_p !=
+//   std_multiset2.end();
 //        ++multiset_p, ++std_multiset_p)
 //     EXPECT_EQ(*multiset_p, *std_multiset_p);
 
@@ -189,12 +193,14 @@
 
 //   multiset_p = multiset1.begin();
 //   std_multiset_p = std_multiset1.begin();
-//   for (; multiset_p != multiset1.end() && std_multiset_p != std_multiset1.end();
+//   for (; multiset_p != multiset1.end() && std_multiset_p !=
+//   std_multiset1.end();
 //        ++multiset_p, ++std_multiset_p)
 //     EXPECT_EQ(*multiset_p, *std_multiset_p);
 //   multiset_p = multiset2.begin();
 //   std_multiset_p = std_multiset2.begin();
-//   for (; multiset_p != multiset2.end() && std_multiset_p != std_multiset2.end();
+//   for (; multiset_p != multiset2.end() && std_multiset_p !=
+//   std_multiset2.end();
 //        ++multiset_p, ++std_multiset_p)
 //     EXPECT_EQ(*multiset_p, *std_multiset_p);
 // }
@@ -214,7 +220,8 @@
 
 //   auto multiset_p = multiset1.begin();
 //   auto std_multiset_p = std_multiset1.begin();
-//   for (; multiset_p != multiset1.end() && std_multiset_p != std_multiset1.end();
+//   for (; multiset_p != multiset1.end() && std_multiset_p !=
+//   std_multiset1.end();
 //        ++multiset_p, ++std_multiset_p)
 //     EXPECT_EQ(*multiset_p, *std_multiset_p);
 // }
@@ -262,7 +269,7 @@
 //   EXPECT_EQ(*(iter).first, *(std_iter).first);
 //   EXPECT_EQ(*(iter).second, *(std_iter).second);
 // }
-// 
+//
 // TEST(MultisetLookup, LowerBound) {
 //   s21::multiset<int> multiset{1, 150, 43, 1, 23, 1, 55, 43};
 //   std::multiset<int> std_multiset{1, 150, 43, 1, 23, 1, 55, 43};
@@ -270,7 +277,7 @@
 //   auto std_iter = std_multiset.lower_bound(43);
 //   EXPECT_EQ(*(iter), *(std_iter));
 // }
-// 
+//
 // TEST(MultisetLookup, UpperBound) {
 //   s21::multiset<int> multiset{1, 150, 43, 1, 23, 1, 55, 43};
 //   std::multiset<int> std_multiset{1, 150, 43, 1, 23, 1, 55, 43};

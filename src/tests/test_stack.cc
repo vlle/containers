@@ -1,6 +1,8 @@
-#include "../stack/s21_stack.h"
 #include <gtest/gtest.h>
+
 #include <stack>
+
+#include "../s21_stack.h"
 
 using namespace s21;
 

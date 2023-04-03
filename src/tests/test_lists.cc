@@ -1,8 +1,9 @@
 #include <gtest/gtest.h>
 
-#include "../list/s21_list.h"
 #include <iostream>
 #include <list>
+
+#include "../s21_list.h"
 
 using namespace s21;
 
@@ -81,7 +82,8 @@ TEST(constructor_test_0, list) {
   list<int> tmp_copy(tmp);
 
   list<int>::iterator j = tmp.begin();
-  for (list<int>::iterator i = tmp_copy.begin(); i != tmp_copy.end(); i++, j++) {
+  for (list<int>::iterator i = tmp_copy.begin(); i != tmp_copy.end();
+       i++, j++) {
     EXPECT_EQ(*i, *j);
   }
 }
@@ -109,7 +111,8 @@ TEST(constructor_test_2, list) {
   list<int> s21_curr(std::move(s21_tmp));
 
   std::list<int>::iterator j = curr.begin();
-  for (list<int>::iterator i = s21_curr.begin(); i != s21_curr.end(); i++, j++) {
+  for (list<int>::iterator i = s21_curr.begin(); i != s21_curr.end();
+       i++, j++) {
     EXPECT_EQ(*i, *j);
   }
 }
@@ -265,7 +268,6 @@ TEST(sort_test_0, list) {
   s21_tmp.push_front(20);
   s21_tmp.push_front(-40000);
 
-
   tmp.sort();
   s21_tmp.sort();
 
@@ -296,7 +298,6 @@ TEST(unique_test_0, list) {
   s21_tmp.push_front(4);
   s21_tmp.push_front(4);
   s21_tmp.push_front(4);
-
 
   tmp.unique();
   s21_tmp.unique();
@@ -329,7 +330,6 @@ TEST(reverse_test_0, list) {
   s21_tmp.push_front(4);
   s21_tmp.push_front(4);
 
-
   tmp.reverse();
   s21_tmp.reverse();
 
@@ -342,7 +342,6 @@ TEST(reverse_test_0, list) {
 TEST(merge_test_0, list) {
   std::list<int> tmp = {1, 2, 3}, other = {4, 5, 6};
   list<int> s21_tmp = {1, 2, 3}, s21_other = {4, 5, 6};
-
 
   s21_tmp.merge(s21_other);
   tmp.merge(other);
@@ -362,14 +361,15 @@ TEST(swap_test_0, list) {
   std::list<int> list_2 = {1, 2, 3, 4, 5, 6};
   list_1.swap(list_2);
 
-
   std::list<int>::iterator j = list_1.begin();
-  for (list<int>::iterator i = s21_list_1.begin(); i != s21_list_1.end(); i++, j++) {
+  for (list<int>::iterator i = s21_list_1.begin(); i != s21_list_1.end();
+       i++, j++) {
     EXPECT_EQ(*i, *j);
   }
 
   j = list_2.begin();
-  for (list<int>::iterator i = s21_list_2.begin(); i != s21_list_2.end(); i++, j++) {
+  for (list<int>::iterator i = s21_list_2.begin(); i != s21_list_2.end();
+       i++, j++) {
     EXPECT_EQ(*i, *j);
   }
 }

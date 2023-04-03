@@ -1,8 +1,8 @@
 #ifndef SRC_S21_MULTISET_H
 #define SRC_S21_MULTISET_H
 
-#include "s21_tree.h"
 #include "s21_set.h"
+#include "s21_tree.h"
 
 namespace s21 {
 template <class T>

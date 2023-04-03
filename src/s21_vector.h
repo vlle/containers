@@ -54,9 +54,7 @@ class vector {
     return *this;
   }
 
-  vector &operator=(vector &&v)
-
-      noexcept {
+  vector &operator=(vector &&v) noexcept {
     if (this != &v) {
       delete[] arr_;
       size_ = std::exchange(v.size_, 0);
@@ -212,7 +210,7 @@ class vector {
   }
 
   template <typename... Args>
-  iterator emplace(const_iterator pos, Args &&... args) {
+  iterator emplace(const_iterator pos, Args &&...args) {
     iterator ret = nullptr;
     auto id = pos - begin();
     for (auto &&item : {std::forward<Args>(args)...})
@@ -221,7 +219,7 @@ class vector {
   }
 
   template <typename... Args>
-  void emplace_back(Args &&... args) {
+  void emplace_back(Args &&...args) {
     for (auto &&item : {std::forward<Args>(args)...}) push_back(item);
   }
 

@@ -1,7 +1,9 @@
 #include <gtest/gtest.h>
-#include "../queue/s21_queue.h"
-#include <queue>
+
 #include <iostream>
+#include <queue>
+
+#include "../queue/s21_queue.h"
 
 using namespace s21;
 
@@ -25,7 +27,7 @@ TEST(queue_test_0, queue) {
 
   EXPECT_EQ(s21_tmp.front(), tmp.front());
   EXPECT_EQ(s21_tmp.empty(), tmp.empty());
-  
+
   s21_tmp.pop();
   s21_tmp.pop();
   tmp.pop();
@@ -39,7 +41,7 @@ TEST(queue_test_1, queue) {
   std::queue<int> tmp({1, 2, 3});
 
   EXPECT_EQ(s21_tmp_0.size(), tmp.size());
-  
+
   queue<int> s21_tmp_1 = s21_tmp_0;
 
   EXPECT_EQ(s21_tmp_0.front(), tmp.front());
