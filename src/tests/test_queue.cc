@@ -3,7 +3,7 @@
 #include <iostream>
 #include <queue>
 
-#include "../queue/s21_queue.h"
+#include "../s21_queue.h"
 
 using namespace s21;
 
