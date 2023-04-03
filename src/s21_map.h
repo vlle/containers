@@ -93,8 +93,8 @@ class map {
     s21::vector<key_type> values_to_erase;
     if (other.empty()) return;
     for (iterator it = other.begin(); it != other.end(); it++) {
-      size_type i = count(*it);
-      if (i == 0) {
+      iterator i = find(*it);
+      if (i == end()) {
         insert(*it);
         values_to_erase.push_back((*it).first);
       }
@@ -104,6 +104,8 @@ class map {
       values_to_erase.pop_back();
     }
   }
+
+  iterator find(const_reference value) { return root_->find(value); }
 
   size_type erase(const Key& key) {
     size_type count = root_->del({key, {}});
@@ -122,9 +124,9 @@ class map {
     size_ = 0;
   }
 
-  size_type count(const key_type key) { return root_->count({key, {}}); }
+  size_type count(const value_type value) { return root_->count_unique(value); }
 
-  size_type count(const value_type value) { return root_->count(value); }
+  size_type count(const Key& key) { return root_->count_unique({key, {}}); }
 
   std::pair<iterator, bool> insert(const_reference value) {
     std::pair<iterator, bool> ret = root_->insert(value);

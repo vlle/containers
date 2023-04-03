@@ -88,9 +88,9 @@ void queue<value_type>::swap(queue &other) {
   object.swap(other.object);
 }
 
-template <typename value_type>
-template <typename... Args>
-void queue<value_type>::emplace_back(Args &&...args) {}
+// template <typename value_type>
+// template <typename... Args>
+// void queue<value_type>::emplace_back(Args &&...args) {}
 
 }  // namespace s21
 

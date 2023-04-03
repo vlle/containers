@@ -92,14 +92,14 @@ class set {
     size_ -= count;
   }
 
-  size_type count(const value_type value) { return root_->count(value); }
+  size_type count(const value_type value) { return root_->count_unique(value); }
 
   void merge(set &other) {
     s21::vector<key_type> values_to_erase;
     if (other.empty()) return;
     for (iterator it = other.begin(); it != other.end(); it++) {
-      size_type i = count(*it);
-      if (i == 0) {
+      iterator i = find(*it);
+      if (i == end()) {
         insert(*it);
         values_to_erase.push_back(*it);
       }

@@ -65,6 +65,11 @@ class BinaryTree {
     return *this;
   }
 
+  BinaryTree &operator+=(const BinaryTree &other) {
+    CopyTree(other);
+    return *this;
+  }
+
   ~BinaryTree() noexcept {
     if (parent_ && parent_->height_ == -2) delete parent_;
     DeleteNode();
@@ -74,7 +79,6 @@ class BinaryTree {
     BinaryTree *node = FindNode(value);
     if (node) {
       return tree_iterator(node);
-      ;
     } else {
       return end();
     }
@@ -92,9 +96,16 @@ class BinaryTree {
   }
 
   size_type count(const value_type value) {
-    BinaryTree *node = FindNode(value);
-    return node ? 1 : 0;
+    iterator it = find(value);
+    size_type count = 0;
+    while (*it == value && it != end()) {
+      --it;
+      ++count;
+    }
+    return count;
   }
+
+  size_type count_unique(const value_type value) { return FindNode(value) ? 1 : 0; }
 
   value_type &value() { return data_->value; }
 
@@ -116,6 +127,12 @@ class BinaryTree {
 
   std::pair<iterator, bool> insert(const value_type &pair) {
     std::pair<BinaryTree *, bool> p = InsertValue(pair);
+    iterator it = tree_iterator(p.first);
+    return std::make_pair(it, p.second);
+  }
+
+  std::pair<iterator, bool> insert_non_unique(const value_type &pair) {
+    std::pair<BinaryTree *, bool> p = InsertNonUniqueValue(pair);
     iterator it = tree_iterator(p.first);
     return std::make_pair(it, p.second);
   }
@@ -293,6 +310,30 @@ class BinaryTree {
       std::swap(node->data_, to_delete->data_);
     }
     return to_delete;
+  }
+
+  std::pair<BinaryTree *, bool> InsertNonUniqueValue(const_reference value) {
+    if (!data_) {
+      data_ = new node_(value);
+      left_ = new BinaryTree(this);
+      right_ = new BinaryTree(this);
+      height_ = 0;
+      AssignBalanceStatus();
+      return std::make_pair(this, true);
+    } else {
+      std::pair<BinaryTree *, bool> ret = {{}, {}};
+      if (comparator_(value, data_->value) ) {
+        ret = left_->InsertNonUniqueValue(value);
+      } else if (comparator_(data_->value, value) || (!(comparator_(value, data_->value) &&
+               !comparator_(data_->value, value)))) {
+        ret = right_->InsertNonUniqueValue(value);
+      }
+      height_++;
+      UpdateHeight();
+      AssignBalanceStatus();
+      BalanceNode();
+      return ret;
+    }
   }
 
   std::pair<BinaryTree *, bool> InsertValue(const_reference value) {
