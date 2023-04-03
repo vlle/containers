@@ -1,5 +1,5 @@
 CC := g++
-CFLAGS := --coverage -Wall -Werror -Wextra -std=c++17 -lstdc++
+CFLAGS := #--coverage -Wall -Werror -Wextra -std=c++17
 TFLAGS := -lgtest -pthread
 
 .PHONY: all 

@@ -104,22 +104,43 @@ class BinaryTree {
     }
   }
 
-  template <typename... Args>
-  s21::vector<std::pair<iterator, bool>> emplace(Args &&...args) {
-  s21::vector<std::pair<iterator, bool>> ret;
-    for (auto &&item : {std::forward<Args>(args)...})
-      ret.push_back(insert(item));
-    return ret;
+  iterator find_multi(const value_type value) {
+    BinaryTree *node = FindNode(value);
+    if (node) {
+      return tree_iterator(node);
+    } else {
+      return end();
+    }
+  }
+
+  bool equal(value_type value) {
+    return !(comparator_(data_->value, value) && !comparator_(value, data_->value));
+  }
+
+  BinaryTree *FindMultiNode(const value_type value) {
+    if (!data_) return nullptr;
+    if (comparator_(value, data_->value)) {
+      return left_->FindMultiNode(value);
+    } else if (comparator_(data_->value, value)) {
+      return right_->FindMultiNode(value);
+    } else {
+      BinaryTree *node = this;
+      while (node->equal(value)) {
+        if (node->right_->data_ && node->right_->equal(value)) node = node->right_;
+      }
+      return node;
+    }
+  }
+
+  size_type count_all(const value_type value) {
+    if (!data_) return 0;
+    else {
+      return (value == data_->value ? 1 : 0) + left_->count_all(value) + right_->count_all(value);
+    }
   }
 
   size_type count(const value_type value) {
-    iterator it = find(value);
-    size_type count = 0;
-    while (*it == value && it != end()) {
-      --it;
-      ++count;
-    }
-    return count;
+    return count_all(value); /* cursed */
   }
 
   size_type count_unique(const value_type value) { return FindNode(value) ? 1 : 0; }
@@ -142,7 +163,7 @@ class BinaryTree {
     return this->FindNode(value) ? true : false;
   }
 
-  
+
 
   std::pair<iterator, bool> insert(const value_type &pair) {
     std::pair<BinaryTree *, bool> p = InsertValue(pair);
@@ -190,10 +211,10 @@ class BinaryTree {
   friend std::ostream &operator<<(std::ostream &o, const BinaryTree &node) {
     if (node.left_ && node.right_ && node.data_) {
       return o << &node << ' ' << node.left_ << ' ' << node.right_ << ' '
-               << node.data_->value;
+        << node.data_->value;
     } else {
       return o << &node << ' ' << node.left_ << ' ' << node.right_ << ' '
-               << node.data_;
+        << node.data_;
     }
   }
 
@@ -351,7 +372,7 @@ class BinaryTree {
       if (comparator_(value, data_->value) ) {
         ret = left_->InsertNonUniqueValue(value);
       } else if (comparator_(data_->value, value) || (!(comparator_(value, data_->value) &&
-               !comparator_(data_->value, value)))) {
+              !comparator_(data_->value, value)))) {
         ret = right_->InsertNonUniqueValue(value);
       }
       height_++;
@@ -371,7 +392,7 @@ class BinaryTree {
       AssignBalanceStatus();
       return std::make_pair(this, true);
     } else if (comparator_(value, data_->value) ||
-               comparator_(data_->value, value)) {
+        comparator_(data_->value, value)) {
       std::pair<BinaryTree *, bool> ret = {{}, {}};
       if (comparator_(value, data_->value)) {
         ret = left_->InsertValue(value);
@@ -416,10 +437,10 @@ class BinaryTree {
   BalanceStatus status_;
 
   struct node_ {
-   public:
-    value_type value;
+    public:
+      value_type value;
 
-    node_(value_type value) noexcept : value(value){};
+      node_(value_type value) noexcept : value(value){};
   };
 
   node_ *data_;
@@ -500,6 +521,11 @@ class BinaryTree {
           return std::make_pair(res->parent_, false);
         } else if (res->parent_->left_ == res) {
           while (res->parent_->right_ != res) {
+            if (res->root_child_) {
+              res = res->root_child_;
+              while (res && res->right_ && res->right_->data_) res = res->right_;
+              return std::make_pair(res, false);
+            }
             if (!res->parent_) {
               return std::make_pair(nullptr, true);
             }
@@ -561,7 +587,7 @@ class BinaryTree {
       return tree_ != other.tree_;
     }
 
-   private:
+    private:
     BinaryTree *left_most_tree(BinaryTree *tree) {
       while (tree->left_ && tree->left_->data_) {
         tree = tree->left_;
@@ -712,7 +738,7 @@ class BinaryTree {
       return tree_ != other.tree_;
     }
 
-   private:
+    private:
     BinaryTree *left_most_tree(BinaryTree *tree) {
       while (tree->left_ && tree->left_->data_) {
         tree = tree->left_;

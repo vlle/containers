@@ -167,12 +167,18 @@ TEST(MultisetModifiers, Insert) {
 
 TEST(MultisetModifiers, Swap) {
   s21::multiset<std::string> multiset1{{"One"},   {"Two"},  {"Three"},
-                                       {"Four"},  {"Five"}, {"Four"},
+                                           {"Three"}, {"Two"},  {"One"},
+                                           {"Four"},  {"Five"}, {"Four"},
+                                           {"Three"}, {"Two"},  {"One"},
+                                           {"Three"}, {"Two"},  {"One"},
                                        {"Three"}, {"Two"},  {"One"}};
   s21::multiset<std::string> multiset2{{"Ivan"}, {"Alex"}, {"Ivan"},
   {"Elena"}}; s21::multiset<std::string> std_multiset1{{"One"},   {"Two"},
   {"Three"},
+                                           {"Three"}, {"Two"},  {"One"},
                                            {"Four"},  {"Five"}, {"Four"},
+                                           {"Three"}, {"Two"},  {"One"},
+                                           {"Three"}, {"Two"},  {"One"},
                                            {"Three"}, {"Two"},  {"One"}};
   s21::multiset<std::string> std_multiset2{
       {"Ivan"}, {"Alex"}, {"Ivan"}, {"Elena"}};
@@ -266,13 +272,14 @@ TEST(MultisetExtraTests, test1) {
 //   EXPECT_EQ(multiset_p, multiset_p.begin());
 // }
 
-// TEST(MultisetLookup, Count) {
-//   s21::multiset<int> multiset{1, 150, 43, 1, 23, 1, 55, 43};
-//   auto res1 = multiset.count(1);
-//   auto res2 = multiset.count(43);
-//   EXPECT_EQ(res1, 3);
-//   EXPECT_EQ(res2, 2);
-// }
+TEST(MultisetLookup, Count) {
+  s21::multiset<int> multiset{1, 150, 43, 1, 23, 1, 55, 43};
+  ASSERT_EQ(multiset.size(), 8);
+  auto res1 = multiset.count(1);
+  auto res2 = multiset.count(43);
+  EXPECT_EQ(res1, 3);
+  EXPECT_EQ(res2, 2);
+}
 
 // TEST(MultisetLookup, EqualRange) {
 //   s21::multiset<int> multiset{1, 150, 43, 1, 23, 1, 55, 43};
