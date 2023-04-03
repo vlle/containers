@@ -81,6 +81,15 @@ class multiset {
     return ret;
   }
 
+  template <typename... Args>
+  s21::vector<std::pair<iterator, bool>> emplace(Args &&...args) {
+  s21::vector<std::pair<iterator, bool>> ret;
+    for (auto &&item : {std::forward<Args>(args)...})
+      ret.push_back(insert(item));
+    return ret;
+  }
+
+
   size_type erase(const T &value) {
     size_type count = root_->del(value);
     size_ -= count;
@@ -94,7 +103,6 @@ class multiset {
 
   size_type count(const value_type value) { return root_->count(value); }
 
-  size_type count_unique(const value_type value) { return root_->FindNode(value) ? 1 : 0; }
 
   void merge(multiset &other) {
     *root_ += other.root_;
@@ -108,7 +116,7 @@ class multiset {
 
   iterator find(const_reference value) { return root_->find(value); }
 
-  bool contains(const T value) { return root_->contains(value); }
+  bool contains(const T value) const { return root_->contains(value); }
 
  private:
   static constexpr bool root = true;

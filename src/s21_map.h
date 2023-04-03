@@ -134,6 +134,14 @@ class map {
     return ret;
   }
 
+  template <typename... Args>
+  s21::vector<std::pair<iterator, bool>> emplace(Args &&...args) {
+  s21::vector<std::pair<iterator, bool>> ret;
+    for (auto &&item : {std::forward<Args>(args)...})
+      ret.push_back(insert(item));
+    return ret;
+  }
+
   std::pair<iterator, bool> insert(const key_type& key,
                                    const mapped_type& obj) {
     value_type value = std::make_pair(key, obj);

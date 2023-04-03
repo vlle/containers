@@ -12,7 +12,7 @@
 #include <type_traits>
 #include <utility>
 
-#include "s21_stack.h"
+#include "s21_vector.h"
 
 namespace s21 {
 template <class T, class Comparator = std::less<T>>
@@ -65,6 +65,15 @@ class BinaryTree {
     return *this;
   }
 
+  BinaryTree& CopyEverything(const BinaryTree &other) {
+    if (this == &other) {
+      return *this;
+    }
+    this->DeleteNode();
+    CopyNonUniqueTree(other);
+    return *this;
+  }
+
   BinaryTree &operator+=(const BinaryTree &other) {
     CopyTree(other);
     return *this;
@@ -93,6 +102,14 @@ class BinaryTree {
     } else {
       return this;
     }
+  }
+
+  template <typename... Args>
+  s21::vector<std::pair<iterator, bool>> emplace(Args &&...args) {
+  s21::vector<std::pair<iterator, bool>> ret;
+    for (auto &&item : {std::forward<Args>(args)...})
+      ret.push_back(insert(item));
+    return ret;
   }
 
   size_type count(const value_type value) {
@@ -124,6 +141,8 @@ class BinaryTree {
   bool contains(const value_type value) {
     return this->FindNode(value) ? true : false;
   }
+
+  
 
   std::pair<iterator, bool> insert(const value_type &pair) {
     std::pair<BinaryTree *, bool> p = InsertValue(pair);
@@ -215,6 +234,13 @@ class BinaryTree {
     insert(other.data_->value);
     if (other.left_) CopyTree(*other.left_);
     if (other.right_) CopyTree(*other.right_);
+  }
+
+  void CopyNonUniqueTree(const BinaryTree &other) {
+    if (!other.data_) return;
+    insert_non_unique(other.data_->value);
+    if (other.left_) CopyNonUniqueTree(*other.left_);
+    if (other.right_) CopyNonUniqueTree(*other.right_);
   }
 
   size_type DeleteByAddress(BinaryTree *node) {

@@ -115,6 +115,14 @@ class set {
     std::swap(other.size_, this->size_);
   }
 
+  template <typename... Args>
+  s21::vector<std::pair<iterator, bool>> emplace(Args &&...args) {
+  s21::vector<std::pair<iterator, bool>> ret;
+    for (auto &&item : {std::forward<Args>(args)...})
+      ret.push_back(insert(item));
+    return ret;
+  }
+
   iterator find(const_reference value) { return root_->find(value); }
 
   bool contains(const T value) { return root_->contains(value); }
