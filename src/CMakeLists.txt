@@ -29,6 +29,7 @@ add_executable(
    tests/test_set.cc
    tests/test_stack.cc
    tests/test_vector.cc
+   tests/test_array.cc
 )
 
 

@@ -1,4 +1,6 @@
 CC := g++
+CFLAGS := --coverage -Wall -Werror -Wextra -std=c++17 -lstdc++
+TFLAGS := -lgtest -pthread
 
 .PHONY: all 
 all: test
@@ -21,7 +23,7 @@ clean:
 
 .PHONY: gcov_report
 gcov_report:
-	@$(CC) $(COVERAGE) $(CFLAGS) tests/main_test.cc -o test $(TFLAGS)
+	@$(CC) $(CFLAGS) tests/main_test.cc -o test $(TFLAGS)
 	@./test
 	@lcov -t "test" -c -d ./ --no-external -o ./coverage.info
 	@genhtml -o ./report/ ./coverage.info
