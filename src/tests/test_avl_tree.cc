@@ -67,9 +67,17 @@ TEST(AvlTreeSuite, IteratePoorly) {
   my_container.insert_non_unique(43);
   my_container.insert_non_unique(55);
   my_container.insert_non_unique(150);
-  // for (auto it = v.rbegin(), it != v.rend(); ++it) {
-  //   EXPECT_EQ(val, *it)
-  // }
+  auto it = my_container.begin();
+  for (size_t i = 0; i != 7; ++i) {
+    EXPECT_EQ(v[i], *it);
+    ++it;
+  }
+  it = my_container.end();
+  --it;
+  for (int i = 6; i != -1; --i) {
+    EXPECT_EQ(v[i], *it);
+    --it;
+  }
 }
 
 

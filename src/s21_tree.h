@@ -153,7 +153,6 @@ class BinaryTree {
 
   /* Returns an iterator pointing to the first element that is not less than (i.e. greater or equal to) key. */
   iterator lower_bound( const value_type& key ) {
-    std::cout << this->inorder_traversal(true) << std::endl;
     BinaryTree*node = this;
     while (node->data_ && comparator_(node->data_->value, key)) {
       node = node->right_;
@@ -553,11 +552,10 @@ class BinaryTree {
           return std::make_pair(res->parent_, false);
         } else if (res->parent_->left_ == res) {
           while (res->parent_->right_ != res) {
-            if (!res->parent_) {
-              return std::make_pair(nullptr, true);
-            }
             res = res->parent_;
+            if (res->height_ == -2) return std::make_pair(res->root_child_, false);
           }
+          if (res->parent_->right_ == res) res = res->parent_;
         }
       }
       return std::make_pair(res, false);
@@ -711,6 +709,7 @@ class BinaryTree {
             }
             res = res->parent_;
           }
+          res = res->parent_;
         }
       }
       return std::make_pair(res, false);
