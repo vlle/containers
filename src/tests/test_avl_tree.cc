@@ -58,6 +58,21 @@ TEST(AvlTreeSuite, LeftRightRotate) {
   EXPECT_EQ(my_container.find(1).value(), 1);
 }
 
+TEST(AvlTreeSuite, IteratePoorly) {
+  s21::BinaryTree my_container = s21::BinaryTree<int, std::less<int>>(1);
+  std::vector<int> v{1, 1, 1, 23, 43, 55, 150};
+  my_container.insert_non_unique(1);
+  my_container.insert_non_unique(1);
+  my_container.insert_non_unique(23);
+  my_container.insert_non_unique(43);
+  my_container.insert_non_unique(55);
+  my_container.insert_non_unique(150);
+  // for (auto it = v.rbegin(), it != v.rend(); ++it) {
+  //   EXPECT_EQ(val, *it)
+  // }
+}
+
+
 TEST_F(AvlTreeTest, SimpleDeleteTest) {
   my_container->del(1);
   EXPECT_TRUE(my_container->find(1).is_null());
@@ -152,5 +167,5 @@ TEST_F(AvlTreeTest, DecrementIteratorCompare) {
 
 TEST_F(AvlTreeTest, IteratorBeginEnd) {
   EXPECT_NO_THROW(auto it = my_container->begin();
-                  while (it != my_container->end()) { ++it; });
+      while (it != my_container->end()) { ++it; });
 }

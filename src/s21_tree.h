@@ -537,11 +537,11 @@ class BinaryTree {
       return std::make_pair(res, false);
     }
 
+
     std::pair<BinaryTree *, bool> prev_node(BinaryTree *res) {
-      if (!res) return std::make_pair(nullptr, true);
       if (res->root_child_) {
         res = res->root_child_;
-        while (res && res->right_ && res->right_->data_) res = res->right_;
+        while (res->right_ && res->right_->data_) res = res->right_;
         return std::make_pair(res, false);
       }
       if (res->left_ && res->left_->data_) {
@@ -552,7 +552,7 @@ class BinaryTree {
       } else {
         if (res->parent_->right_ == res) {
           return std::make_pair(res->parent_, false);
-        } else if (res->parent_->left_ == res) {
+        } else  {
           while (res->parent_->right_ != res) {
             if (!res->parent_) {
               return std::make_pair(nullptr, true);
@@ -692,7 +692,6 @@ class BinaryTree {
     }
 
     std::pair<BinaryTree *, bool> prev_node(BinaryTree *res) {
-      if (!res) return std::make_pair(nullptr, true);
       if (res->root_child_) {
         res = res->root_child_;
         while (res->right_ && res->right_->data_) res = res->right_;
@@ -706,7 +705,7 @@ class BinaryTree {
       } else {
         if (res->parent_->right_ == res) {
           return std::make_pair(res->parent_, false);
-        } else if (res->parent_->left_ == res) {
+        } else  {
           while (res->parent_->right_ != res) {
             if (!res->parent_) {
               return std::make_pair(nullptr, true);
