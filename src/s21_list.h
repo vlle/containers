@@ -318,6 +318,21 @@ class list {
     }
   }
 
+  template<typename... Args>
+  iterator emplace(const_iterator pos, Args &&...args) {
+
+  }
+
+  template<typename... Args>
+  void emplace_back(Args &&...args) {
+
+  }
+
+  template<typename... Args>
+  void emplace_front(Args &&...args) {
+
+  }
+
   class ListIterator {
     friend list;
 
