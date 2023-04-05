@@ -103,6 +103,17 @@ class multiset {
 
   size_type count(const value_type value) { return root_->count(value); }
 
+  iterator lower_bound( const value_type& key ) {
+    return root_->lower_bound(key);
+  }
+
+  iterator upper_bound( const value_type& key ) {
+    return root_->upper_bound(key);
+  }
+
+  std::pair<iterator, iterator> equal_range(const value_type& key) {
+    return std::make_pair(root_->lower_bound(key), root_->upper_bound(key));
+  }
 
   void merge(multiset &other) {
     std::cout << root_->inorder_traversal(true) << std::endl;

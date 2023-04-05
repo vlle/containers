@@ -42,12 +42,6 @@ TEST(MultisetConstructor, CopyConstructor) {
   EXPECT_TRUE(multiset_copy.contains("public") && multiset.contains("public"));
   EXPECT_TRUE(multiset_copy.contains("private") && multiset.contains("private"));
   EXPECT_TRUE(multiset_copy.contains("protected") && multiset.contains("protected"));
-
-  // for (; multiset_p != multiset_copy.end() &&
-  //        std_multiset_p != std_multiset_copy.end();
-  //      ++multiset_p, ++std_multiset_p)
-  //   EXPECT_EQ(*multiset_p, *std_multiset_p);
-
   EXPECT_EQ(multiset_copy.size(), std_multiset_copy.size());
   EXPECT_EQ(multiset_copy.empty(), std_multiset_copy.empty());
 }
@@ -259,18 +253,18 @@ TEST(MultisetExtraTests, test1) {
   EXPECT_TRUE(multiset_p == multiset.begin());
 }
 
-// TEST(MultisetExtraTests, test2) {
-//   const s21::multiset<int> multiset{1, 150, 43, 1, 23, 55, 43};
-//   auto multiset_p = multiset.end();
-//   EXPECT_EQ(*(--multiset_p), 150);
-//   EXPECT_EQ(*(--multiset_p), 55);
-//   EXPECT_EQ(*(--multiset_p), 43);
-//   EXPECT_EQ(*(--multiset_p), 43);
-//   EXPECT_EQ(*(--multiset_p), 23);
-//   EXPECT_EQ(*(--multiset_p), 1);
-//   EXPECT_EQ(*(--multiset_p), 1);
-//   EXPECT_EQ(multiset_p, multiset_p.begin());
-// }
+TEST(MultisetExtraTests, test2) {
+  const s21::multiset<int> multiset{1, 150, 43, 1, 23, 55, 43};
+  auto multiset_p = multiset.end();
+  EXPECT_EQ(*(--multiset_p), 150);
+  EXPECT_EQ(*(--multiset_p), 55);
+  EXPECT_EQ(*(--multiset_p), 43);
+  EXPECT_EQ(*(--multiset_p), 43);
+  EXPECT_EQ(*(--multiset_p), 23);
+  EXPECT_EQ(*(--multiset_p), 1);
+  EXPECT_EQ(*(--multiset_p), 1);
+  EXPECT_EQ(multiset_p, multiset_p.begin());
+}
 
 TEST(MultisetLookup, Count) {
   s21::multiset<int> multiset{1, 150, 43, 1, 23, 1, 55, 43};
@@ -281,27 +275,27 @@ TEST(MultisetLookup, Count) {
   EXPECT_EQ(res2, 2);
 }
 
-// TEST(MultisetLookup, EqualRange) {
-//   s21::multiset<int> multiset{1, 150, 43, 1, 23, 1, 55, 43};
-//   std::multiset<int> std_multiset{1, 150, 43, 1, 23, 1, 55, 43};
-//   auto iter = multiset.equal_range(43);
-//   auto std_iter = std_multiset.equal_range(43);
-//   EXPECT_EQ(*(iter).first, *(std_iter).first);
-//   EXPECT_EQ(*(iter).second, *(std_iter).second);
-// }
-// 
-// TEST(MultisetLookup, LowerBound) {
-//   s21::multiset<int> multiset{1, 150, 43, 1, 23, 1, 55, 43};
-//   std::multiset<int> std_multiset{1, 150, 43, 1, 23, 1, 55, 43};
-//   auto iter = multiset.lower_bound(43);
-//   auto std_iter = std_multiset.lower_bound(43);
-//   EXPECT_EQ(*(iter), *(std_iter));
-// }
-// 
-// TEST(MultisetLookup, UpperBound) {
-//   s21::multiset<int> multiset{1, 150, 43, 1, 23, 1, 55, 43};
-//   std::multiset<int> std_multiset{1, 150, 43, 1, 23, 1, 55, 43};
-//   auto iter = multiset.upper_bound(43);
-//   auto std_iter = std_multiset.upper_bound(43);
-//   EXPECT_EQ(*(iter), *(std_iter));
-// }
+TEST(MultisetLookup, EqualRange) {
+  s21::multiset<int> multiset{1, 150, 43, 1, 23, 1, 55, 43};
+  std::multiset<int> std_multiset{1, 150, 43, 1, 23, 1, 55, 43};
+  auto iter = multiset.equal_range(43);
+  auto std_iter = std_multiset.equal_range(43);
+  EXPECT_EQ(*(iter).first, *(std_iter).first);
+  EXPECT_EQ(*(iter).second, *(std_iter).second);
+}
+
+TEST(MultisetLookup, LowerBound) {
+  s21::multiset<int> multiset{1, 150, 43, 1, 23, 1, 55, 43};
+  std::multiset<int> std_multiset{1, 150, 43, 1, 23, 1, 55, 43};
+  auto iter = multiset.lower_bound(43);
+  auto std_iter = std_multiset.lower_bound(43);
+  EXPECT_EQ(*(iter), *(std_iter));
+}
+
+TEST(MultisetLookup, UpperBound) {
+  s21::multiset<int> multiset{1, 150, 43, 1, 23, 1, 55, 43};
+  std::multiset<int> std_multiset{1, 150, 43, 1, 23, 1, 55, 43};
+  auto iter = multiset.upper_bound(43);
+  auto std_iter = std_multiset.upper_bound(43);
+  EXPECT_EQ(*(iter), *(std_iter));
+}

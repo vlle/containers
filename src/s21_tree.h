@@ -150,6 +150,27 @@ class BinaryTree {
 
   size_type count_unique(const value_type value) { return FindNode(value) ? 1 : 0; }
 
+
+  /* Returns an iterator pointing to the first element that is not less than (i.e. greater or equal to) key. */
+  iterator lower_bound( const value_type& key ) {
+    std::cout << this->inorder_traversal(true) << std::endl;
+    BinaryTree*node = this;
+    while (node->data_ && comparator_(node->data_->value, key)) {
+      node = node->right_;
+    }
+    node = MinimumNode(node);
+    return node ? iterator(node) : end();
+  }
+
+  iterator upper_bound( const value_type& key ) {
+    BinaryTree*node = this;
+    while (node->data_ && !comparator_(node->data_->value, key)) {
+      node = node->left_;
+    }
+    node = node->right_;
+    return node ? iterator(node) : end();
+  }
+
   value_type &value() { return data_->value; }
 
   size_type del(const_reference value) {
@@ -533,11 +554,6 @@ class BinaryTree {
           return std::make_pair(res->parent_, false);
         } else if (res->parent_->left_ == res) {
           while (res->parent_->right_ != res) {
-            if (res->root_child_) {
-              res = res->root_child_;
-              while (res && res->right_ && res->right_->data_) res = res->right_;
-              return std::make_pair(res, false);
-            }
             if (!res->parent_) {
               return std::make_pair(nullptr, true);
             }
