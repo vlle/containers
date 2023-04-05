@@ -234,8 +234,8 @@ TEST(MultisetModifiers, Merge) {
   multiset1.merge(multiset2);
   std_multiset1.merge(std_multiset2);
 
-  EXPECT_EQ(multiset1.size(), std_multiset1.size());
-  EXPECT_EQ(multiset1.empty(), std_multiset1.empty());
+  ASSERT_EQ(multiset1.size(), std_multiset1.size());
+  ASSERT_EQ(multiset1.empty(), std_multiset1.empty());
 
   auto multiset_p = multiset1.begin();
   auto std_multiset_p = std_multiset1.begin();

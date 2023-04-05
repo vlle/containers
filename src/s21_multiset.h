@@ -105,8 +105,10 @@ class multiset {
 
 
   void merge(multiset &other) {
-    *root_ += other.root_;
+    std::cout << root_->inorder_traversal(true) << std::endl;
+    root_->Merge(other.root_);
     size_ += other.size_;
+    std::cout << root_->inorder_traversal(true) << std::endl;
   }
 
   void swap(multiset &other) {

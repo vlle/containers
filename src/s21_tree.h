@@ -84,6 +84,11 @@ class BinaryTree {
     DeleteNode();
   }
 
+  void Merge(const BinaryTree*other ) {
+    // this->DeleteNode();
+    this->CopyAllTree(other);
+  }
+
   iterator find(const value_type value) {
     BinaryTree *node = FindNode(value);
     if (node) {
@@ -216,6 +221,13 @@ class BinaryTree {
       return o << &node << ' ' << node.left_ << ' ' << node.right_ << ' '
         << node.data_;
     }
+  }
+
+  void CopyAllTree(const BinaryTree* other) {
+    if (!other || !other->data_) return;
+    CopyAllTree(other->left_);
+    InsertNonUniqueValue(other->data_->value);
+    CopyAllTree(other->right_);
   }
 
  private:
