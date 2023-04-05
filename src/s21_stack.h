@@ -9,84 +9,49 @@ namespace s21 {
 template <class T>
 class stack {
  public:
+  // in-class type overrides
   using value_type = T;
   using reference = T &;
   using const_reference = const T &;
   using size_type = size_t;
 
-  stack();
-  stack(std::initializer_list<T> const &items);
-  stack(const stack &s);
-  stack(stack &&s);
-  ~stack();
-  stack &operator=(stack &&s);
+  // main public methods for interacting with the class
+  stack() = default;
 
-  const_reference top();
+  stack(std::initializer_list<T> const &items) {
+    for (auto p = items.begin(); p != items.end(); p++) {
+      object.push_back(*p);
+    }
+  }
 
-  bool empty() const;
-  size_type size();
+  stack(const stack &s) = default;
 
-  void push(const_reference value);
-  void pop();
-  void swap(stack &other);
+  stack(stack &&s) { object = std::move(s.object); }
+
+  ~stack() = default;
+
+  stack &operator=(stack &&s) = default;
+
+  // methods for accessing the elements of the class
+  const_reference top() { return *(--object.end()); }
+
+  // methods for accessing the container capacity information
+  bool empty() const { return object.empty(); }
+
+  size_type size() { return object.size(); }
+
+  // methods for modifying a container
+  void push(const_reference value) { object.push_back(value); }
+
+  void pop() {
+    if (object.size() != 0) object.pop_back();
+  }
+
+  void swap(stack &other) { object.swap(other.object); }
 
  private:
   s21::list<T> object;
 };
-
-template <typename value_type>
-stack<value_type>::stack() = default;
-
-template <typename value_type>
-stack<value_type>::stack(const stack &s) = default;
-
-template <typename value_type>
-stack<value_type>::stack(stack &&s) {
-  object = std::move(s.object);
-}
-
-template <typename value_type>
-stack<value_type> &stack<value_type>::operator=(stack &&s) = default;
-
-template <typename value_type>
-stack<value_type>::stack(std::initializer_list<value_type> const &items) {
-  for (auto p = items.begin(); p != items.end(); p++) {
-    object.push_back(*p);
-  }
-}
-
-template <typename value_type>
-stack<value_type>::~stack() = default;
-
-template <typename value_type>
-typename stack<value_type>::size_type stack<value_type>::size() {
-  return object.size();
-}
-
-template <typename value_type>
-void stack<value_type>::push(const_reference value) {
-  object.push_back(value);
-}
-
-template <typename value_type>
-void stack<value_type>::pop() {
-  if (object.size() != 0) object.pop_back();
-}
-
-template <typename value_type>
-void stack<value_type>::swap(stack &other) {
-  object.swap(other.object);
-}
-
-template <typename value_type>
-bool stack<value_type>::empty() const {
-  return object.empty();
-}
-
-template <typename value_type>
-const value_type &stack<value_type>::top() {
-  return *(--object.end());
-}
 
 }  // namespace s21
 

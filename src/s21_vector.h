@@ -10,8 +10,8 @@
 namespace s21 {
 template <typename T>
 class vector {
-  // in-class type overrides
  public:
+  // in-class type overrides
   using value_type = T;
   using reference = T &;
   using const_reference = const T &;
@@ -20,7 +20,6 @@ class vector {
   using size_type = size_t;
 
   // Main public methods for interacting with the class
- public:
   vector() : size_(0), capacity_(0), arr_(nullptr) {}
 
   explicit vector(size_type n)
@@ -35,9 +34,7 @@ class vector {
     std::copy(v.arr_, v.arr_ + v.size_, arr_);
   }
 
-  vector(vector &&v)
-
-      noexcept {
+  vector(vector &&v) noexcept {
     size_ = std::exchange(v.size_, 0);
     capacity_ = std::exchange(v.capacity_, 0);
     arr_ = std::exchange(v.arr_, nullptr);
@@ -65,7 +62,6 @@ class vector {
   }
 
   // Methods for accessing the elements of the class
- public:
   reference at(size_type pos) {
     if (pos >= size_) throw std::out_of_range("Index is out of range");
     return arr_[pos];
@@ -88,20 +84,11 @@ class vector {
 
   const_reference back() const { return *(cend() - 1); }
 
-  iterator data()
+  iterator data() noexcept { return arr_; }
 
-      noexcept {
-    return arr_;
-  }
-
-  const_iterator data() const
-
-      noexcept {
-    return arr_;
-  }
+  const_iterator data() const noexcept { return arr_; }
 
   // Methods for iterating over class elements
- public:
   iterator begin() { return arr_; }
 
   const_iterator cbegin() const { return arr_; }
@@ -111,22 +98,11 @@ class vector {
   const_iterator cend() const { return arr_ + size_; }
 
   // Methods for accessing the container capacity information
- public:
-  bool empty() const
+  bool empty() const noexcept { return size_ == 0; }
 
-      noexcept {
-    return size_ == 0;
-  }
+  size_type size() const noexcept { return size_; };
 
-  size_type size() const
-
-      noexcept {
-    return size_;
-  };
-
-  size_type max_size() const
-
-      noexcept {
+  size_type max_size() const noexcept {
     return std::numeric_limits<size_type>::max() / sizeof(value_type) / 2;
   }
 
@@ -142,11 +118,7 @@ class vector {
     }
   }
 
-  size_type capacity() const
-
-      noexcept {
-    return capacity_;
-  }
+  size_type capacity() const noexcept { return capacity_; }
 
   void shrink_to_fit() {
     if (capacity_ != size_) {
@@ -156,7 +128,6 @@ class vector {
   }
 
   // Methods for accessing the container capacity information
- public:
   void clear() { size_ = 0; }
 
   iterator insert(iterator pos, const_reference value) {
@@ -210,7 +181,7 @@ class vector {
   }
 
   template <typename... Args>
-  iterator emplace(const_iterator pos, Args &&...args) {
+  iterator emplace(const_iterator pos, Args &&... args) {
     iterator ret = nullptr;
     auto id = pos - begin();
     for (auto &&item : {std::forward<Args>(args)...})
@@ -219,7 +190,7 @@ class vector {
   }
 
   template <typename... Args>
-  void emplace_back(Args &&...args) {
+  void emplace_back(Args &&... args) {
     for (auto &&item : {std::forward<Args>(args)...}) push_back(item);
   }
 

@@ -40,8 +40,10 @@ TEST(MultisetConstructor, CopyConstructor) {
   std_multiset_copy = std_multiset;
 
   EXPECT_TRUE(multiset_copy.contains("public") && multiset.contains("public"));
-  EXPECT_TRUE(multiset_copy.contains("private") && multiset.contains("private"));
-  EXPECT_TRUE(multiset_copy.contains("protected") && multiset.contains("protected"));
+  EXPECT_TRUE(multiset_copy.contains("private") &&
+              multiset.contains("private"));
+  EXPECT_TRUE(multiset_copy.contains("protected") &&
+              multiset.contains("protected"));
   EXPECT_EQ(multiset_copy.size(), std_multiset_copy.size());
   EXPECT_EQ(multiset_copy.empty(), std_multiset_copy.empty());
 }
@@ -83,28 +85,24 @@ TEST(MultisetConstructor, OperatorEqual) {
 }
 
 TEST(MultisetModifiers, Erase) {
-  s21::multiset<std::string> multiset{{"One"},  {"One"}, {"Two"},   {"Three"},
-                                      {"Four"},  {"Five"},  {"Six"},
-                                          {"Four"},  {"Five"},  {"Six"},
-                                          {"Four"},  {"Five"},  {"Six"},
-                                      {"Seven"}, {"Eight"}, {"Nine"}};
+  s21::multiset<std::string> multiset{{"One"},  {"One"},   {"Two"},   {"Three"},
+                                      {"Four"}, {"Five"},  {"Six"},   {"Four"},
+                                      {"Five"}, {"Six"},   {"Four"},  {"Five"},
+                                      {"Six"},  {"Seven"}, {"Eight"}, {"Nine"}};
 
-  std::multiset<std::string> std_multiset{{"One"},  {"One"}, {"Two"},   {"Three"},
-                                          {"Four"},  {"Five"},  {"Six"},
-                                          {"Four"},  {"Five"},  {"Six"},
-                                          {"Four"},  {"Five"},  {"Six"},
-                                          {"Seven"}, {"Eight"}, {"Nine"}};
+  std::multiset<std::string> std_multiset{
+      {"One"}, {"One"},   {"Two"},   {"Three"}, {"Four"}, {"Five"},
+      {"Six"}, {"Four"},  {"Five"},  {"Six"},   {"Four"}, {"Five"},
+      {"Six"}, {"Seven"}, {"Eight"}, {"Nine"}};
 
   // multiset.erase(--multiset.end());
   // std_multiset.erase(--std_multiset.end());
   auto multiset_p = multiset.begin();
   auto std_multiset_p = std_multiset.begin();
 
-  for (; multiset_p != multiset.end() &&
-         std_multiset_p != std_multiset.end();
+  for (; multiset_p != multiset.end() && std_multiset_p != std_multiset.end();
        ++multiset_p, ++std_multiset_p)
     EXPECT_EQ(*multiset_p, *std_multiset_p);
-
 
   EXPECT_EQ(multiset.size(), std_multiset.size());
   EXPECT_EQ(multiset.empty(), std_multiset.empty());
@@ -119,7 +117,7 @@ TEST(MultisetLookup, Find) {
                                           {"Four"},  {"Five"},  {"Six"},
                                           {"Seven"}, {"Eight"}, {"Nine"}};
 
-  EXPECT_EQ(*multiset.find("One"),  *std_multiset.find("One"));
+  EXPECT_EQ(*multiset.find("One"), *std_multiset.find("One"));
   EXPECT_EQ(*multiset.find("Nine"), *std_multiset.find("Nine"));
 }
 
@@ -153,27 +151,21 @@ TEST(MultisetModifiers, Insert) {
   auto multiset_p = multiset.begin();
   auto std_multiset_p = std_multiset.begin();
 
-  for (; multiset_p != multiset.end() && std_multiset_p !=
-  std_multiset.end();
+  for (; multiset_p != multiset.end() && std_multiset_p != std_multiset.end();
        ++multiset_p, ++std_multiset_p)
     EXPECT_EQ(*multiset_p, *std_multiset_p);
 }
 
 TEST(MultisetModifiers, Swap) {
-  s21::multiset<std::string> multiset1{{"One"},   {"Two"},  {"Three"},
-                                           {"Three"}, {"Two"},  {"One"},
-                                           {"Four"},  {"Five"}, {"Four"},
-                                           {"Three"}, {"Two"},  {"One"},
-                                           {"Three"}, {"Two"},  {"One"},
-                                       {"Three"}, {"Two"},  {"One"}};
-  s21::multiset<std::string> multiset2{{"Ivan"}, {"Alex"}, {"Ivan"},
-  {"Elena"}}; s21::multiset<std::string> std_multiset1{{"One"},   {"Two"},
-  {"Three"},
-                                           {"Three"}, {"Two"},  {"One"},
-                                           {"Four"},  {"Five"}, {"Four"},
-                                           {"Three"}, {"Two"},  {"One"},
-                                           {"Three"}, {"Two"},  {"One"},
-                                           {"Three"}, {"Two"},  {"One"}};
+  s21::multiset<std::string> multiset1{
+      {"One"},   {"Two"},  {"Three"}, {"Three"}, {"Two"}, {"One"},
+      {"Four"},  {"Five"}, {"Four"},  {"Three"}, {"Two"}, {"One"},
+      {"Three"}, {"Two"},  {"One"},   {"Three"}, {"Two"}, {"One"}};
+  s21::multiset<std::string> multiset2{{"Ivan"}, {"Alex"}, {"Ivan"}, {"Elena"}};
+  s21::multiset<std::string> std_multiset1{
+      {"One"},   {"Two"},  {"Three"}, {"Three"}, {"Two"}, {"One"},
+      {"Four"},  {"Five"}, {"Four"},  {"Three"}, {"Two"}, {"One"},
+      {"Three"}, {"Two"},  {"One"},   {"Three"}, {"Two"}, {"One"}};
   s21::multiset<std::string> std_multiset2{
       {"Ivan"}, {"Alex"}, {"Ivan"}, {"Elena"}};
 
@@ -185,14 +177,12 @@ TEST(MultisetModifiers, Swap) {
 
   auto multiset_p = multiset1.begin();
   auto std_multiset_p = std_multiset1.begin();
-  for (; multiset_p != multiset1.end() && std_multiset_p !=
-  std_multiset1.end();
+  for (; multiset_p != multiset1.end() && std_multiset_p != std_multiset1.end();
        ++multiset_p, ++std_multiset_p)
     EXPECT_EQ(*multiset_p, *std_multiset_p);
   multiset_p = multiset2.begin();
   std_multiset_p = std_multiset2.begin();
-  for (; multiset_p != multiset2.end() && std_multiset_p !=
-  std_multiset2.end();
+  for (; multiset_p != multiset2.end() && std_multiset_p != std_multiset2.end();
        ++multiset_p, ++std_multiset_p)
     EXPECT_EQ(*multiset_p, *std_multiset_p);
 
@@ -206,14 +196,12 @@ TEST(MultisetModifiers, Swap) {
 
   multiset_p = multiset1.begin();
   std_multiset_p = std_multiset1.begin();
-  for (; multiset_p != multiset1.end() && std_multiset_p !=
-  std_multiset1.end();
+  for (; multiset_p != multiset1.end() && std_multiset_p != std_multiset1.end();
        ++multiset_p, ++std_multiset_p)
     EXPECT_EQ(*multiset_p, *std_multiset_p);
   multiset_p = multiset2.begin();
   std_multiset_p = std_multiset2.begin();
-  for (; multiset_p != multiset2.end() && std_multiset_p !=
-  std_multiset2.end();
+  for (; multiset_p != multiset2.end() && std_multiset_p != std_multiset2.end();
        ++multiset_p, ++std_multiset_p)
     EXPECT_EQ(*multiset_p, *std_multiset_p);
 }
@@ -233,8 +221,7 @@ TEST(MultisetModifiers, Merge) {
 
   auto multiset_p = multiset1.begin();
   auto std_multiset_p = std_multiset1.begin();
-  for (; multiset_p != multiset1.end() && std_multiset_p !=
-  std_multiset1.end();
+  for (; multiset_p != multiset1.end() && std_multiset_p != std_multiset1.end();
        ++multiset_p, ++std_multiset_p)
     EXPECT_EQ(*multiset_p, *std_multiset_p);
 }

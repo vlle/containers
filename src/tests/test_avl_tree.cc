@@ -80,7 +80,6 @@ TEST(AvlTreeSuite, IteratePoorly) {
   }
 }
 
-
 TEST_F(AvlTreeTest, SimpleDeleteTest) {
   my_container->del(1);
   EXPECT_TRUE(my_container->find(1).is_null());
@@ -175,5 +174,5 @@ TEST_F(AvlTreeTest, DecrementIteratorCompare) {
 
 TEST_F(AvlTreeTest, IteratorBeginEnd) {
   EXPECT_NO_THROW(auto it = my_container->begin();
-      while (it != my_container->end()) { ++it; });
+                  while (it != my_container->end()) { ++it; });
 }

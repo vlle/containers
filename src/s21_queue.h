@@ -9,88 +9,56 @@ namespace s21 {
 template <typename T>
 class queue {
  public:
+  // in-class type overrides
   using value_type = T;
   using reference = T &;
   using const_reference = const T &;
   using size_type = size_t;
 
-  queue();
-  queue(std::initializer_list<value_type> const &items);
+  // main methods for interacting with the class
+  queue() = default;
+
+  queue(std::initializer_list<value_type> const &items) {
+    for (auto p = items.begin(); p != items.end(); p++) {
+      object.push_back(*p);
+    }
+  }
+
   queue(const queue &q) = default;
+
   queue(queue &&q) = default;
-  ~queue();
+
+  ~queue() = default;
+
   queue &operator=(queue &&q) = default;
 
-  const_reference front();
-  const_reference back();
+  // methods for accessing the elements of the class
+  const_reference front() { return *(object.begin()); }
 
-  bool empty() const;
-  size_type size();
+  const_reference back() { return *(--object.end()); }
 
-  void push(const_reference value);
-  void pop();
-  void swap(queue &other);
+  // methods for accessing the container capacity information
+  bool empty() const { return object.empty(); }
+
+  size_type size() { return object.size(); }
+
+  // methods for modifying a container
+  void push(const_reference value) { object.push_back(value); }
+
+  void pop() {
+    if (object.size() != 0) {
+      object.pop_front();
+    }
+  }
+
+  void swap(queue &other) { object.swap(other.object); }
 
   template <typename... Args>
-  void emplace_back(Args &&...args);
+  void emplace_back(Args &&... args) {}
 
  private:
   list<value_type> object;
 };
-
-template <typename value_type>
-queue<value_type>::queue() = default;
-
-template <typename value_type>
-queue<value_type>::queue(std::initializer_list<value_type> const &items) {
-  for (auto p = items.begin(); p != items.end(); p++) {
-    object.push_back(*p);
-  }
-}
-
-template <typename value_type>
-queue<value_type>::~queue() = default;
-
-template <typename value_type>
-typename queue<value_type>::const_reference queue<value_type>::front() {
-  return *(object.begin());
-}
-
-template <typename value_type>
-typename queue<value_type>::const_reference queue<value_type>::back() {
-  return *(--object.end());
-}
-
-template <typename value_type>
-bool queue<value_type>::empty() const {
-  return object.empty();
-}
-
-template <typename value_type>
-typename queue<value_type>::size_type queue<value_type>::size() {
-  return object.size();
-}
-
-template <typename value_type>
-void queue<value_type>::push(const_reference value) {
-  object.push_back(value);
-}
-
-template <typename value_type>
-void queue<value_type>::pop() {
-  if (object.size() != 0) {
-    object.pop_front();
-  }
-}
-
-template <typename value_type>
-void queue<value_type>::swap(queue &other) {
-  object.swap(other.object);
-}
-
-// template <typename value_type>
-// template <typename... Args>
-// void queue<value_type>::emplace_back(Args &&...args) {}
 
 }  // namespace s21
 

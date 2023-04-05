@@ -17,6 +17,7 @@ class MapCompare {
 template <typename Key, typename T>
 class map {
  public:
+  // in-class type overrides
   using key_type = Key;
   using mapped_type = T;
   using value_type = std::pair<const key_type, mapped_type>;
@@ -28,7 +29,7 @@ class map {
       typename BinaryTree<value_type, key_compare>::const_iterator;
   using size_type = std::size_t;
 
- public:
+  // main methods for interacting with the class
   map() {
     size_ = 0;
     root_ = new BinaryTree<value_type, key_compare>(root);
@@ -66,6 +67,7 @@ class map {
     return *this;
   }
 
+  // methods for accessing the elements of the class
   mapped_type& at(const key_type& key) { return FindByKey(key); }
 
   mapped_type& operator[](const key_type& key) {
@@ -77,6 +79,7 @@ class map {
     return at(key);
   }
 
+  // methods for iterating over class elements (access to iterator)
   iterator begin() { return root_->begin(); }
 
   iterator end() { return root_->end(); }
@@ -85,10 +88,12 @@ class map {
 
   const_iterator end() const { return root_->cend(); }
 
-  size_type size() { return size_; }
-
+  // methods for accessing the container capacity information
   bool empty() { return size_ == 0; }
 
+  size_type size() { return size_; }
+
+  // methods for modifying a container
   void merge(map& other) {
     s21::vector<key_type> values_to_erase;
     if (other.empty()) return;
@@ -135,9 +140,9 @@ class map {
   }
 
   template <typename... Args>
-  s21::vector<std::pair<iterator, bool>> emplace(Args &&...args) {
-  s21::vector<std::pair<iterator, bool>> ret;
-    for (auto &&item : {std::forward<Args>(args)...})
+  s21::vector<std::pair<iterator, bool>> emplace(Args&&... args) {
+    s21::vector<std::pair<iterator, bool>> ret;
+    for (auto&& item : {std::forward<Args>(args)...})
       ret.push_back(insert(item));
     return ret;
   }
@@ -158,6 +163,7 @@ class map {
     return ret;
   }
 
+  // methods for viewing the container
   bool contains(const Key& key) { return root_->contains({key, {}}); }
 
  private:

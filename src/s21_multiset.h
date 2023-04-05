@@ -8,6 +8,7 @@ namespace s21 {
 template <class T, class Compare = std::less<T>>
 class multiset {
  public:
+  // in-class type overrides
   using key_type = T;
   using value_type = T;
   using reference = T &;
@@ -16,7 +17,7 @@ class multiset {
   using const_iterator = typename BinaryTree<T, Compare>::const_iterator;
   using size_type = std::size_t;
 
- public:
+  // main methods for interacting with the class
   multiset() {
     size_ = 0;
     root_ = new BinaryTree<T, Compare>(root);
@@ -52,6 +53,7 @@ class multiset {
     root_ = nullptr;
   }
 
+  // methods for iterating over class elements (access to iterators)
   iterator begin() { return root_->begin(); }
 
   iterator end() { return root_->end(); }
@@ -60,6 +62,7 @@ class multiset {
 
   const_iterator end() const { return root_->cend(); }
 
+  // methods for accessing the container capacity information
   bool empty() const noexcept { return size_ == 0; }
 
   size_type size() const noexcept { return size_; }
@@ -69,6 +72,7 @@ class multiset {
            sizeof(BinaryTree<T, Compare>) / 2;
   }
 
+  // methods for modifying a container
   void clear() {
     delete root_;
     root_ = new BinaryTree<T, Compare>(root);
@@ -81,15 +85,13 @@ class multiset {
     return ret;
   }
 
-
   template <typename... Args>
-  s21::vector<std::pair<iterator, bool>> emplace(Args &&...args) {
-  s21::vector<std::pair<iterator, bool>> ret;
+  s21::vector<std::pair<iterator, bool>> emplace(Args &&... args) {
+    s21::vector<std::pair<iterator, bool>> ret;
     for (auto &&item : {std::forward<Args>(args)...})
       ret.push_back(insert(item));
     return ret;
   }
-
 
   size_type erase(const T &value) {
     size_type count = root_->del(value);
@@ -102,20 +104,6 @@ class multiset {
     size_ -= count;
   }
 
-  size_type count(const value_type value) { return root_->count(value); }
-
-  iterator lower_bound( const value_type& key ) {
-    return root_->lower_bound(key);
-  }
-
-  iterator upper_bound( const value_type& key ) {
-    return root_->upper_bound(key);
-  }
-
-  std::pair<iterator, iterator> equal_range(const value_type& key) {
-    return std::make_pair(root_->lower_bound(key), root_->upper_bound(key));
-  }
-
   void merge(multiset &other) {
     std::cout << root_->inorder_traversal(true) << std::endl;
     root_->Merge(other.root_);
@@ -126,6 +114,21 @@ class multiset {
   void swap(multiset &other) {
     std::swap(other.root_, this->root_);
     std::swap(other.size_, this->size_);
+  }
+
+  // methods for viewing the container
+  size_type count(const value_type value) { return root_->count(value); }
+
+  iterator lower_bound(const value_type &key) {
+    return root_->lower_bound(key);
+  }
+
+  iterator upper_bound(const value_type &key) {
+    return root_->upper_bound(key);
+  }
+
+  std::pair<iterator, iterator> equal_range(const value_type &key) {
+    return std::make_pair(root_->lower_bound(key), root_->upper_bound(key));
   }
 
   iterator find(const_reference value) { return root_->find(value); }

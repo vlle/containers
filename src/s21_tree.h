@@ -65,7 +65,7 @@ class BinaryTree {
     return *this;
   }
 
-  BinaryTree& CopyEverything(const BinaryTree &other) {
+  BinaryTree &CopyEverything(const BinaryTree &other) {
     if (this == &other) {
       return *this;
     }
@@ -84,7 +84,7 @@ class BinaryTree {
     DeleteNode();
   }
 
-  void Merge(const BinaryTree*other ) {
+  void Merge(const BinaryTree *other) {
     // this->DeleteNode();
     this->CopyAllTree(other);
   }
@@ -119,7 +119,8 @@ class BinaryTree {
   }
 
   bool equal(value_type value) {
-    return !(comparator_(data_->value, value) && !comparator_(value, data_->value));
+    return !(comparator_(data_->value, value) &&
+             !comparator_(value, data_->value));
   }
 
   BinaryTree *FindMultiNode(const value_type value) {
@@ -131,16 +132,19 @@ class BinaryTree {
     } else {
       BinaryTree *node = this;
       while (node->equal(value)) {
-        if (node->right_->data_ && node->right_->equal(value)) node = node->right_;
+        if (node->right_->data_ && node->right_->equal(value))
+          node = node->right_;
       }
       return node;
     }
   }
 
   size_type count_all(const value_type value) {
-    if (!data_) return 0;
+    if (!data_)
+      return 0;
     else {
-      return (value == data_->value ? 1 : 0) + left_->count_all(value) + right_->count_all(value);
+      return (value == data_->value ? 1 : 0) + left_->count_all(value) +
+             right_->count_all(value);
     }
   }
 
@@ -148,12 +152,14 @@ class BinaryTree {
     return count_all(value); /* cursed */
   }
 
-  size_type count_unique(const value_type value) { return FindNode(value) ? 1 : 0; }
+  size_type count_unique(const value_type value) {
+    return FindNode(value) ? 1 : 0;
+  }
 
-
-  /* Returns an iterator pointing to the first element that is not less than (i.e. greater or equal to) key. */
-  iterator lower_bound( const value_type& key ) {
-    BinaryTree*node = this;
+  /* Returns an iterator pointing to the first element that is not less than
+   * (i.e. greater or equal to) key. */
+  iterator lower_bound(const value_type &key) {
+    BinaryTree *node = this;
     while (node->data_ && comparator_(node->data_->value, key)) {
       node = node->right_;
     }
@@ -161,8 +167,8 @@ class BinaryTree {
     return node ? iterator(node) : end();
   }
 
-  iterator upper_bound( const value_type& key ) {
-    BinaryTree*node = this;
+  iterator upper_bound(const value_type &key) {
+    BinaryTree *node = this;
     while (node->data_ && !comparator_(node->data_->value, key)) {
       node = node->left_;
     }
@@ -187,8 +193,6 @@ class BinaryTree {
   bool contains(const value_type value) {
     return this->FindNode(value) ? true : false;
   }
-
-
 
   std::pair<iterator, bool> insert(const value_type &pair) {
     std::pair<BinaryTree *, bool> p = InsertValue(pair);
@@ -236,14 +240,14 @@ class BinaryTree {
   friend std::ostream &operator<<(std::ostream &o, const BinaryTree &node) {
     if (node.left_ && node.right_ && node.data_) {
       return o << &node << ' ' << node.left_ << ' ' << node.right_ << ' '
-        << node.data_->value;
+               << node.data_->value;
     } else {
       return o << &node << ' ' << node.left_ << ' ' << node.right_ << ' '
-        << node.data_;
+               << node.data_;
     }
   }
 
-  void CopyAllTree(const BinaryTree* other) {
+  void CopyAllTree(const BinaryTree *other) {
     if (!other || !other->data_) return;
     CopyAllTree(other->left_);
     InsertNonUniqueValue(other->data_->value);
@@ -401,10 +405,11 @@ class BinaryTree {
       return std::make_pair(this, true);
     } else {
       std::pair<BinaryTree *, bool> ret = {{}, {}};
-      if (comparator_(value, data_->value) ) {
+      if (comparator_(value, data_->value)) {
         ret = left_->InsertNonUniqueValue(value);
-      } else if (comparator_(data_->value, value) || (!(comparator_(value, data_->value) &&
-              !comparator_(data_->value, value)))) {
+      } else if (comparator_(data_->value, value) ||
+                 (!(comparator_(value, data_->value) &&
+                    !comparator_(data_->value, value)))) {
         ret = right_->InsertNonUniqueValue(value);
       }
       height_++;
@@ -424,7 +429,7 @@ class BinaryTree {
       AssignBalanceStatus();
       return std::make_pair(this, true);
     } else if (comparator_(value, data_->value) ||
-        comparator_(data_->value, value)) {
+               comparator_(data_->value, value)) {
       std::pair<BinaryTree *, bool> ret = {{}, {}};
       if (comparator_(value, data_->value)) {
         ret = left_->InsertValue(value);
@@ -469,10 +474,10 @@ class BinaryTree {
   BalanceStatus status_;
 
   struct node_ {
-    public:
-      value_type value;
+   public:
+    value_type value;
 
-      node_(value_type value) noexcept : value(value){};
+    node_(value_type value) noexcept : value(value){};
   };
 
   node_ *data_;
@@ -553,7 +558,8 @@ class BinaryTree {
         } else if (res->parent_->left_ == res) {
           while (res->parent_->right_ != res) {
             res = res->parent_;
-            if (res->height_ == -2) return std::make_pair(res->root_child_, false);
+            if (res->height_ == -2)
+              return std::make_pair(res->root_child_, false);
           }
           if (res->parent_->right_ == res) res = res->parent_;
         }
@@ -612,7 +618,7 @@ class BinaryTree {
       return tree_ != other.tree_;
     }
 
-    private:
+   private:
     BinaryTree *left_most_tree(BinaryTree *tree) {
       while (tree->left_ && tree->left_->data_) {
         tree = tree->left_;
@@ -763,7 +769,7 @@ class BinaryTree {
       return tree_ != other.tree_;
     }
 
-    private:
+   private:
     BinaryTree *left_most_tree(BinaryTree *tree) {
       while (tree->left_ && tree->left_->data_) {
         tree = tree->left_;

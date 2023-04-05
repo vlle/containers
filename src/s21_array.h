@@ -10,6 +10,7 @@ namespace s21 {
 template <class T, std::size_t S>
 class array {
  public:
+  // in-class type overrides
   using value_type = T;
   using reference = T &;
   using const_reference = const T &;
@@ -17,8 +18,7 @@ class array {
   using const_iterator = const T *;
   using size_type = std::size_t;
 
-  // Member functions
- public:
+  // main methods for interacting with the class
   array() noexcept = default;
 
   array(std::initializer_list<value_type> const &items) {
@@ -53,8 +53,7 @@ class array {
 
   ~array() noexcept = default;
 
-  // Element access
- public:
+  // methods for accessing the elements of the class
   reference at(size_type pos) {
     if (pos >= S)
       throw std::out_of_range("s21::array::at Index is out of range");
@@ -103,8 +102,7 @@ class array {
 
   const_iterator data() const noexcept { return data_; }
 
-  // Iterators
- public:
+  // methods for iterating over class elements (access to iterators)
   iterator begin() noexcept { return data_; }
 
   const_iterator begin() const noexcept { return data_; }
@@ -113,16 +111,14 @@ class array {
 
   const_iterator end() const noexcept { return data_ + S; }
 
-  // Capacity
- public:
+  // methods for accessing the container capacity information
   [[nodiscard]] bool empty() const noexcept { return begin() == end(); }
 
   [[nodiscard]] size_type size() const noexcept { return S; }
 
   [[nodiscard]] size_type max_size() const noexcept { return S; }
 
-  // Modifiers
- public:
+  // methods for modifying a container
   void swap(array &other) { std::swap_ranges(begin(), end(), other.begin()); }
 
   void fill(const_reference value) {
