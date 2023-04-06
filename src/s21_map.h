@@ -140,11 +140,8 @@ class map {
   }
 
   template <typename... Args>
-  s21::vector<std::pair<iterator, bool>> emplace(Args&&... args) {
-    s21::vector<std::pair<iterator, bool>> ret;
-    for (auto&& item : {std::forward<Args>(args)...})
-      ret.push_back(insert(item));
-    return ret;
+  s21::vector<std::pair<iterator, bool>> emplace(Args &&... args) {
+    return root_->Emplace(std::forward<Args>(args)...);
   }
 
   std::pair<iterator, bool> insert(const key_type& key,

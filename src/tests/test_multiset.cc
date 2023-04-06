@@ -286,3 +286,14 @@ TEST(MultisetLookup, UpperBound) {
   auto std_iter = std_multiset.upper_bound(43);
   EXPECT_EQ(*(iter), *(std_iter));
 }
+
+TEST(MultisetModifiers, Emplace) {
+  s21::multiset<int> ad{132, 120, 122, 121, 118, 119, 140, 135, 134, 138, 137, 136};
+  ad.emplace(12, 999, 133);
+  bool find = ad.contains(12);
+  EXPECT_TRUE(find);
+  find = ad.contains(999);
+  EXPECT_TRUE(find);
+  find = ad.contains(133);
+  EXPECT_TRUE(find);
+}

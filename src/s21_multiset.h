@@ -87,10 +87,7 @@ class multiset {
 
   template <typename... Args>
   s21::vector<std::pair<iterator, bool>> emplace(Args &&... args) {
-    s21::vector<std::pair<iterator, bool>> ret;
-    for (auto &&item : {std::forward<Args>(args)...})
-      ret.push_back(insert(item));
-    return ret;
+    return root_->Emplace(std::forward<Args>(args)...);
   }
 
   size_type erase(const T &value) {
@@ -105,10 +102,8 @@ class multiset {
   }
 
   void merge(multiset &other) {
-    std::cout << root_->inorder_traversal(true) << std::endl;
     root_->Merge(other.root_);
     size_ += other.size_;
-    std::cout << root_->inorder_traversal(true) << std::endl;
   }
 
   void swap(multiset &other) {
