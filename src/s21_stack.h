@@ -49,6 +49,11 @@ class stack {
 
   void swap(stack &other) { object.swap(other.object); }
 
+  template <typename... Args>
+  void emplace_front(Args &&... args) {
+    object.emplace_back(std::forward<Args>(args)...);
+  }
+
  private:
   s21::list<T> object;
 };

@@ -55,4 +55,12 @@ TEST(stack_test_2, stack) {
   EXPECT_EQ(s21_tmp_1.top(), s21_tmp_0.top());
 }
 
+TEST(stack_test_3, stack) {
+  stack<int> stack{1, 2, 3, 4, 5, 6};
+  stack.emplace_front(101, 102);
+  EXPECT_TRUE(stack.top() == 102);
+  stack.pop();
+  EXPECT_TRUE(stack.top() == 101);
+}
+
 // -- TODO move operator
