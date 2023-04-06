@@ -112,10 +112,6 @@ class array {
   const_iterator end() const noexcept { return data_ + S; }
 
   // methods for accessing the container capacity information
-  /**
-   * @brief checks whether the container is empty
-   * @return \b true if container is empty; \b false otherwise
-   */
   [[nodiscard]] bool empty() const noexcept { return begin() == end(); }
 
   [[nodiscard]] size_type size() const noexcept { return S; }
