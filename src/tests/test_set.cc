@@ -376,7 +376,7 @@ TEST(Set, 15_erase) {
   int tmp[6] = {2, 3, 5, 8, 10, 12};
 
   int i = 0;
-  for (auto it = a.begin(); it != a.end(); it++) {
+  for (it = a.begin(); it != a.end(); it++) {
     ASSERT_EQ(*it, tmp[i]);
     i++;
   }
@@ -385,7 +385,7 @@ TEST(Set, 15_erase) {
   a.erase(it);
   int tmp2[5] = {2, 5, 8, 10, 12};
   i = 0;
-  for (auto it = a.begin(); it != a.end(); it++) {
+  for (it = a.begin(); it != a.end(); it++) {
     ASSERT_EQ(*it, tmp2[i]);
     i++;
   }
