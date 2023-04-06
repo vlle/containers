@@ -320,8 +320,8 @@ class list {
     }
   }
 
-  template<typename... Args>
-  iterator emplace(iterator pos, Args &&...args) {
+  template <typename... Args>
+  iterator emplace(iterator pos, Args &&... args) {
     s21::vector<T> temp{args...};
     auto it = temp.begin();
     iterator it_ret;
@@ -332,8 +332,8 @@ class list {
     return it_ret;
   }
 
-  template<typename... Args>
-  void emplace_back(Args &&...args) {
+  template <typename... Args>
+  void emplace_back(Args &&... args) {
     s21::vector<T> temp{args...};
     auto it = temp.begin();
     for (; it != temp.end(); ++it) {
@@ -341,8 +341,8 @@ class list {
     }
   }
 
-  template<typename... Args>
-  void emplace_front(Args &&...args) {
+  template <typename... Args>
+  void emplace_front(Args &&... args) {
     s21::vector<T> temp{args...};
     auto it = temp.begin();
     for (; it != temp.end(); ++it) {
