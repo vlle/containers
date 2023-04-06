@@ -121,10 +121,7 @@ class set {
 
   template <typename... Args>
   s21::vector<std::pair<iterator, bool>> emplace(Args &&... args) {
-    s21::vector<std::pair<iterator, bool>> ret;
-    for (auto &&item : {std::forward<Args>(args)...})
-      ret.push_back(insert(item));
-    return ret;
+    return root_->Emplace(std::forward<Args>(args)...);
   }
 
   // methods for viewing the container

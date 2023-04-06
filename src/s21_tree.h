@@ -254,6 +254,15 @@ class BinaryTree {
     CopyAllTree(other->right_);
   }
 
+
+  template <typename... Args>
+  s21::vector<std::pair<iterator, bool>> Emplace(Args &&... args) {
+    s21::vector<std::pair<iterator, bool>> ret;
+    for (auto &&item : {std::forward<Args>(args)...})
+      ret.push_back(insert(item));
+    return ret;
+  }
+
  private:
   void InitNode(const_reference value) {
     left_ = new BinaryTree(this);
@@ -446,6 +455,7 @@ class BinaryTree {
     }
   }
 
+
   enum class BalanceStatus {
     kBalanced,
     kLeftHeavy,
@@ -488,10 +498,12 @@ class BinaryTree {
     using iterator_category = std::bidirectional_iterator_tag;
     using difference_type = std::ptrdiff_t;
 
+    using value_type = BinaryTree::value_type;
     using local_value_type = value_type;
     using pointer = local_value_type *;
     using reference = local_value_type &;
 
+    tree_iterator() { tree_ = nullptr; }
     explicit tree_iterator(BinaryTree *tree) { tree_ = tree; }
 
     tree_iterator(const tree_iterator &other) { *this = other; }
