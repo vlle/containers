@@ -14,14 +14,14 @@ class MapCompare {
   }
 };
 
-template <typename Key, typename T>
+template <typename Key, typename T, class Compare = MapCompare<std::pair<Key, T>>>
 class map {
  public:
   // in-class type overrides
   using key_type = Key;
   using mapped_type = T;
   using value_type = std::pair<const key_type, mapped_type>;
-  using key_compare = MapCompare<std::pair<const Key, T>>;
+  using key_compare = Compare;
   using reference = value_type&;
   using const_reference = const value_type&;
   using iterator = typename BinaryTree<value_type, key_compare>::iterator;
