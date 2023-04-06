@@ -25,7 +25,7 @@ TEST_F(AvlTreeTest, SingleInsertValueTree) {
   my_container->insert(8);
   auto it = my_container->find(8);
   EXPECT_EQ((*it), 8);
-  EXPECT_TRUE(my_container->find(1).value());
+  EXPECT_TRUE(*my_container->find(1));
   EXPECT_TRUE(my_container->find(9).is_null());
 }
 
@@ -53,9 +53,9 @@ TEST(AvlTreeSuite, LeftRightRotate) {
   std::string expected = "1:0,2:1,5:0,";
   std::string my_data = my_container.inorder_traversal(endl);
   EXPECT_EQ(expected, my_data);
-  EXPECT_EQ(my_container.find(5).value(), 5);
-  EXPECT_EQ(my_container.find(2).value(), 2);
-  EXPECT_EQ(my_container.find(1).value(), 1);
+  EXPECT_EQ(*my_container.find(5), 5);
+  EXPECT_EQ(*my_container.find(2), 2);
+  EXPECT_EQ(*my_container.find(1), 1);
 }
 
 TEST(AvlTreeSuite, IteratePoorly) {
@@ -107,15 +107,15 @@ TEST_F(AvlTreeTest, DeleteRootNode) {
   my_container->insert(8);
   my_container->insert(10);
   my_container->insert(12);
-  EXPECT_EQ(my_container->find(3).value(), 3);
-  EXPECT_EQ(my_container->find(8).value(), 8);
-  EXPECT_EQ(my_container->find(12).value(), 12);
-  EXPECT_EQ(my_container->find(10).value(), 10);
+  EXPECT_EQ(*my_container->find(3), 3);
+  EXPECT_EQ(*my_container->find(8), 8);
+  EXPECT_EQ(*my_container->find(12), 12);
+  EXPECT_EQ(*my_container->find(10), 10);
   my_container->del(10);
   EXPECT_TRUE(my_container->find(10).is_null());
-  EXPECT_EQ(my_container->find(3).value(), 3);
-  EXPECT_EQ(my_container->find(8).value(), 8);
-  EXPECT_EQ(my_container->find(12).value(), 12);
+  EXPECT_EQ(*my_container->find(3), 3);
+  EXPECT_EQ(*my_container->find(8), 8);
+  EXPECT_EQ(*my_container->find(12), 12);
 }
 
 TEST_F(AvlTreeTest, SingleIteratorTest) {

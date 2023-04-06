@@ -170,7 +170,7 @@ class map {
   mapped_type& FindByKey(const key_type& key) {
     auto pair = std::make_pair(key, 0);
     auto res = root_->find(pair);
-    if (res.is_null()) throw std::out_of_range("Key is not in the map");
+    if (res == end()) throw std::out_of_range("Key is not in the map");
     return ((*res).second);
   }
 

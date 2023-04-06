@@ -5,7 +5,7 @@
 #include "s21_vector.h"
 
 namespace s21 {
-template <class T, class Compare = std::less<T>>
+template <typename T, class Compare = std::less<T>>
 class multiset {
  public:
   // in-class type overrides
