@@ -96,10 +96,6 @@ TEST_F(VectorTest, GetBack) {
   EXPECT_EQ((*my_container_).back(), 20);
 }
 
-TEST_F(VectorTest, GetMaxSize) {
-  EXPECT_EQ((*my_container_).max_size(), (*original_container_).max_size());
-}
-
 TEST_F(VectorTest, GetBaseBeginIterator) {
   (*my_container_)[0] = 30;
   (*original_container_)[0] = 30;

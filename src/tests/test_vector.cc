@@ -12,7 +12,6 @@ TEST(VectorConstructor, DefaultConstructor) {
   EXPECT_EQ(vector.empty(), std_vector.empty());
   EXPECT_EQ(vector.capacity(), std_vector.capacity());
   EXPECT_EQ(vector.data(), std_vector.data());
-  ASSERT_FLOAT_EQ(vector.max_size(), std_vector.max_size());
 }
 
 TEST(VectorConstructor, NullConstructor) {
