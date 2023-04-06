@@ -28,9 +28,7 @@ class BinaryTree {
   using iterator = tree_iterator;
   using const_iterator = tree_const_iterator;
 
-  BinaryTree() noexcept {
-    InitEmptyNode();
-  }
+  BinaryTree() noexcept { InitEmptyNode(); }
 
   BinaryTree(bool parent_is_root) noexcept : parent_(nullptr) {
     InitEmptyNode();
@@ -51,7 +49,8 @@ class BinaryTree {
   };
 
   BinaryTree(const BinaryTree &other) {
-    if (!other) throw std::invalid_argument("s21::tree::CopyConstructor(): No root");
+    if (!other)
+      throw std::invalid_argument("s21::tree::CopyConstructor(): No root");
     CopyTree(other);
   }
 
@@ -69,13 +68,9 @@ class BinaryTree {
     DeleteNode();
   }
 
-  void Merge(const BinaryTree *other) {
-    this->CopyAllTree(other);
-  }
+  void Merge(const BinaryTree *other) { this->CopyAllTree(other); }
 
-  iterator find(const value_type value) {
-    return Find(value);
-  }
+  iterator find(const value_type value) { return Find(value); }
 
   BinaryTree *FindNode(const value_type value) {
     if (!data_) return nullptr;
@@ -88,22 +83,15 @@ class BinaryTree {
     }
   }
 
-
-  size_type count(const value_type value) {
-    return CountAll(value);
-  }
+  size_type count(const value_type value) { return CountAll(value); }
 
   size_type count_unique(const value_type value) {
     return FindNode(value) ? 1 : 0;
   }
 
-  iterator lower_bound(const value_type &key) {
-    return FindLowerBound(key);
-  }
+  iterator lower_bound(const value_type &key) { return FindLowerBound(key); }
 
-  iterator upper_bound(const value_type &key) {
-    return FindUpperBound(key);
-  }
+  iterator upper_bound(const value_type &key) { return FindUpperBound(key); }
 
   size_type del(const_reference value) {
     BinaryTree *node = FindNode(value);
@@ -116,7 +104,9 @@ class BinaryTree {
     return DeleteByAddress(node);
   }
 
-  size_type max_size() { return std::numeric_limits<size_type>::max() / sizeof(BinaryTree<T>); }
+  size_type max_size() {
+    return std::numeric_limits<size_type>::max() / sizeof(BinaryTree<T>);
+  }
 
   bool contains(const value_type value) {
     return this->FindNode(value) ? true : false;
@@ -172,14 +162,13 @@ class BinaryTree {
     CopyAllTree(other->right_);
   }
 
-
   template <typename... Args>
-    s21::vector<std::pair<iterator, bool>> Emplace(Args &&... args) {
-      s21::vector<std::pair<iterator, bool>> ret;
-      for (auto &&item : {std::forward<Args>(args)...})
-        ret.push_back(insert(item));
-      return ret;
-    }
+  s21::vector<std::pair<iterator, bool>> Emplace(Args &&...args) {
+    s21::vector<std::pair<iterator, bool>> ret;
+    for (auto &&item : {std::forward<Args>(args)...})
+      ret.push_back(insert(item));
+    return ret;
+  }
 
  private:
   void InitNode(const_reference value) {
@@ -204,7 +193,7 @@ class BinaryTree {
     parent_->root_child_ = this;
   }
 
-  void InitRoot(BinaryTree* node) {
+  void InitRoot(BinaryTree *node) {
     root_child_ = node;
     height_ = -2;
   }
@@ -219,9 +208,7 @@ class BinaryTree {
     height_ = -1;
   }
 
-  bool IsParentRoot() {
-    return parent_ && parent_->height_ == -2;
-  }
+  bool IsParentRoot() { return parent_ && parent_->height_ == -2; }
 
   size_type RemoveNode() {
     DeleteNode();
@@ -247,7 +234,7 @@ class BinaryTree {
       return 0;
     else {
       return (value == data_->value ? 1 : 0) + left_->CountAll(value) +
-        right_->CountAll(value);
+             right_->CountAll(value);
     }
   }
 
@@ -266,7 +253,7 @@ class BinaryTree {
     return 1;
   }
 
-  iterator FindLowerBound(const value_type& key) {
+  iterator FindLowerBound(const value_type &key) {
     BinaryTree *node = this;
     while (node->data_ && comparator_(node->data_->value, key)) {
       node = node->right_;
@@ -275,7 +262,7 @@ class BinaryTree {
     return node ? iterator(node) : end();
   }
 
-  iterator FindUpperBound(const value_type& key) {
+  iterator FindUpperBound(const value_type &key) {
     BinaryTree *node = this;
     while (node->data_ && !comparator_(node->data_->value, key)) {
       node = node->left_;
@@ -284,7 +271,7 @@ class BinaryTree {
     return node ? iterator(node) : end();
   }
 
-  iterator Find(const value_type& value) {
+  iterator Find(const value_type &value) {
     BinaryTree *node = FindNode(value);
     if (node) {
       return tree_iterator(node);
@@ -386,8 +373,8 @@ class BinaryTree {
       if (comparator_(value, data_->value)) {
         ret = left_->InsertNonUniqueValue(value);
       } else if (comparator_(data_->value, value) ||
-          (!(comparator_(value, data_->value) &&
-             !comparator_(data_->value, value)))) {
+                 (!(comparator_(value, data_->value) &&
+                    !comparator_(data_->value, value)))) {
         ret = right_->InsertNonUniqueValue(value);
       }
       height_++;
@@ -407,7 +394,7 @@ class BinaryTree {
       AssignBalanceStatus();
       return std::make_pair(this, true);
     } else if (comparator_(value, data_->value) ||
-        comparator_(data_->value, value)) {
+               comparator_(data_->value, value)) {
       std::pair<BinaryTree *, bool> ret = {{}, {}};
       if (comparator_(value, data_->value)) {
         ret = left_->InsertValue(value);
@@ -423,7 +410,6 @@ class BinaryTree {
       return std::make_pair(this, false);
     }
   }
-
 
   enum class BalanceStatus {
     kNone,
@@ -454,10 +440,10 @@ class BinaryTree {
   BalanceStatus status_;
 
   struct node_ {
-    public:
-      value_type value;
+   public:
+    value_type value;
 
-      node_(value_type value) noexcept : value(value){};
+    node_(value_type value) noexcept : value(value){};
   };
 
   node_ *data_;
@@ -549,7 +535,7 @@ class BinaryTree {
       return std::make_pair(res, false);
     }
 
-    local_value_type& operator*() const {
+    local_value_type &operator*() const {
       if (!tree_ || !tree_->data_) {
         throw std::runtime_error("s21::tree::operator*: No value");
       }
@@ -598,7 +584,7 @@ class BinaryTree {
       return tree_ != other.tree_;
     }
 
-    private:
+   private:
     BinaryTree *left_most_tree(BinaryTree *tree) {
       while (tree->left_ && tree->left_->data_) {
         tree = tree->left_;
@@ -638,7 +624,9 @@ class BinaryTree {
 
     ~tree_const_iterator() { tree_ = nullptr; }
 
-    tree_const_iterator begin() { return tree_const_iterator(MinimumNode(tree_)); }
+    tree_const_iterator begin() {
+      return tree_const_iterator(MinimumNode(tree_));
+    }
 
     tree_const_iterator end() {
       BinaryTree *node = tree_;
@@ -702,7 +690,7 @@ class BinaryTree {
       return std::make_pair(res, false);
     }
 
-    local_value_type& operator*() const {
+    local_value_type &operator*() const {
       if (!tree_ || !tree_->data_) {
         throw std::runtime_error("s21::tree::operator*: No value");
       }
@@ -751,7 +739,7 @@ class BinaryTree {
       return tree_ != other.tree_;
     }
 
-    private:
+   private:
     BinaryTree *left_most_tree(BinaryTree *tree) {
       while (tree->left_ && tree->left_->data_) {
         tree = tree->left_;

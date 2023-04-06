@@ -271,7 +271,8 @@ TEST(MapModifiers, Merge) {
 
 TEST(MapModifiers, Emplace) {
   s21::map<int, int> map{{15, 1500}, {12, 4823}, {22, 232}, {1, 43}, {4, 54}};
-  map.emplace(std::make_pair(1500, 15), std::make_pair(1600, 16), std::make_pair(1700, 17));
+  map.emplace(std::make_pair(1500, 15), std::make_pair(1600, 16),
+              std::make_pair(1700, 17));
   bool find = map.contains(1500);
   EXPECT_TRUE(find);
   find = map.contains(1600);
