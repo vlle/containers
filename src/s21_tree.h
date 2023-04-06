@@ -72,17 +72,6 @@ class BinaryTree {
 
   iterator find(const value_type value) { return Find(value); }
 
-  BinaryTree *FindNode(const value_type value) {
-    if (!data_) return nullptr;
-    if (comparator_(value, data_->value)) {
-      return left_->FindNode(value);
-    } else if (comparator_(data_->value, value)) {
-      return right_->FindNode(value);
-    } else {
-      return this;
-    }
-  }
-
   size_type count(const value_type value) { return CountAll(value); }
 
   size_type count_unique(const value_type value) {
@@ -160,6 +149,17 @@ class BinaryTree {
     CopyAllTree(other->left_);
     InsertNonUniqueValue(other->data_->value);
     CopyAllTree(other->right_);
+  }
+
+  BinaryTree *FindNode(const value_type value) {
+    if (!data_) return nullptr;
+    if (comparator_(value, data_->value)) {
+      return left_->FindNode(value);
+    } else if (comparator_(data_->value, value)) {
+      return right_->FindNode(value);
+    } else {
+      return this;
+    }
   }
 
   template <typename... Args>
@@ -460,6 +460,7 @@ class BinaryTree {
     using reference = local_value_type &;
 
     tree_iterator() { tree_ = nullptr; }
+
     explicit tree_iterator(BinaryTree *tree) { tree_ = tree; }
 
     tree_iterator(const tree_iterator &other) { *this = other; }
@@ -589,6 +590,7 @@ class BinaryTree {
     using reference = local_value_type &;
 
     tree_const_iterator() { tree_ = nullptr; }
+
     explicit tree_const_iterator(BinaryTree *tree) { tree_ = tree; }
 
     tree_const_iterator(const tree_const_iterator &other) { *this = other; }
