@@ -62,5 +62,3 @@ TEST(stack_test_3, stack) {
   stack.pop();
   EXPECT_TRUE(stack.top() == 101);
 }
-
-// -- TODO move operator
