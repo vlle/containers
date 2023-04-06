@@ -125,7 +125,7 @@ class map {
 
   void clear() {
     delete root_;
-    root_ = new BinaryTree<value_type, key_compare>;
+    root_ = new BinaryTree<value_type, key_compare>(root);
     size_ = 0;
   }
 
