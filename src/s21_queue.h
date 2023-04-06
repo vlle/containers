@@ -54,7 +54,9 @@ class queue {
   void swap(queue &other) { object.swap(other.object); }
 
   template <typename... Args>
-  void emplace_back(Args &&... args) {}
+  void emplace_back(Args &&... args) {
+    object.emplace_back(std::forward<Args>(args)...);
+  }
 
  private:
   list<value_type> object;

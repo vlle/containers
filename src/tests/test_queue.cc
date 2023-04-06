@@ -61,3 +61,13 @@ TEST(queue_test_2, queue) {
   EXPECT_EQ(s21_tmp_0.front(), s21_tmp_1.front());
   EXPECT_EQ(s21_tmp_0.back(), s21_tmp_1.back());
 }
+
+TEST(queue_emplace_back, queue) {
+  queue<int> queue{52, 12, 34};
+  queue.emplace_back(1, 5, 3);
+  EXPECT_TRUE(queue.back() == 3);
+  queue.pop();
+  queue.pop();
+  queue.pop();
+  EXPECT_TRUE(queue.front() == 1);
+}

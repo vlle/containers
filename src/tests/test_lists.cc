@@ -436,3 +436,22 @@ TEST(list_access_test_1, list) {
   EXPECT_EQ(s21_tmp.front(), tmp.front());
   EXPECT_EQ(s21_tmp.back(), tmp.back());
 }
+
+TEST(list_emplace, list) {
+  list<int> list;
+  list.emplace_front(3, 2, 1);
+  list.emplace_back(7, 8, 9);
+  auto list_it = list.begin();
+  list_it++;
+  list_it++;
+  list_it++;
+  list.emplace(list_it, 4, 5, 6);
+
+  unsigned long count = 1;
+  auto it = list.begin();
+  for (; it != list.end(); it++) {
+    EXPECT_EQ(*it, count);
+    count++;
+  }
+  EXPECT_EQ(list.max_size(), list.max_size());
+}

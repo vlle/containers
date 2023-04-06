@@ -618,3 +618,14 @@ TEST(Set, 36_additional) {
   ASSERT_EQ(*it, arr[11]);
   it++;
 }
+
+TEST(Set, 37_emplace) {
+  s21::set<int> ad{132, 120, 122, 121, 118, 119, 140, 135, 134, 138, 137, 136};
+//  ad.emplace(12, 999, 133);
+//  bool find = ad.contains(12);
+//  EXPECT_TRUE(find == true);
+//  find = ad.contains(999);
+//  EXPECT_TRUE(find == true);
+//  find = ad.contains(133);
+//  EXPECT_TRUE(find == true);
+}

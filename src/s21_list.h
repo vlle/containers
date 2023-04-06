@@ -7,6 +7,8 @@
 #include <iostream>
 #include <limits>
 
+#include "s21_vector.h"
+
 namespace s21 {
 template <typename T>
 struct list_node {
@@ -319,18 +321,33 @@ class list {
   }
 
   template<typename... Args>
-  iterator emplace(const_iterator pos, Args &&...args) {
+  iterator emplace(iterator pos, Args &&...args) {
+    s21::vector<T> temp{args...};
+    auto it = temp.begin();
+    iterator it_ret;
+    for (; it != temp.end(); ++it) {
+      it_ret = insert(pos, *it);
+    }
 
+    return it_ret;
   }
 
   template<typename... Args>
   void emplace_back(Args &&...args) {
-
+    s21::vector<T> temp{args...};
+    auto it = temp.begin();
+    for (; it != temp.end(); ++it) {
+      push_back(*it);
+    }
   }
 
   template<typename... Args>
   void emplace_front(Args &&...args) {
-
+    s21::vector<T> temp{args...};
+    auto it = temp.begin();
+    for (; it != temp.end(); ++it) {
+      push_front(*it);
+    }
   }
 
   class ListIterator {
