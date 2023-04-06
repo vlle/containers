@@ -479,15 +479,6 @@ class BinaryTree {
       return tree_iterator(node);
     }
 
-    tree_iterator left_node_iterator(BinaryTree *tree) {
-      return tree_iterator(MinimumNode(tree));
-    }
-
-    tree_iterator right_node_iterator(BinaryTree *tree) {
-      tree = right_most_tree(tree);
-      return tree_iterator(tree);
-    }
-
     bool is_null() { return tree_ == nullptr || tree_->data_ == nullptr; }
 
     BinaryTree *data() { return tree_; }
@@ -585,21 +576,6 @@ class BinaryTree {
     }
 
    private:
-    BinaryTree *left_most_tree(BinaryTree *tree) {
-      while (tree->left_ && tree->left_->data_) {
-        tree = tree->left_;
-      }
-      return tree;
-    }
-
-    BinaryTree *right_most_tree(BinaryTree *tree) {
-      while (tree && tree->right_ && tree->right_->data_) {
-        tree = tree->right_;
-      }
-      if (tree && tree->right_) tree = tree->right_;
-      return tree;
-    }
-
     BinaryTree *tree_;
   };
 
@@ -632,15 +608,6 @@ class BinaryTree {
       BinaryTree *node = tree_;
       while (node && node->height_ != -2) node = node->parent_;
       return tree_const_iterator(node);
-    }
-
-    tree_const_iterator left_node_iterator(BinaryTree *tree) {
-      return tree_const_iterator(MinimumNode(tree));
-    }
-
-    tree_const_iterator right_node_iterator(BinaryTree *tree) {
-      tree = right_most_tree(tree);
-      return tree_const_iterator(tree);
     }
 
     bool is_null() { return tree_ == nullptr || tree_->data_ == nullptr; }
@@ -740,21 +707,6 @@ class BinaryTree {
     }
 
    private:
-    BinaryTree *left_most_tree(BinaryTree *tree) {
-      while (tree->left_ && tree->left_->data_) {
-        tree = tree->left_;
-      }
-      return tree;
-    }
-
-    BinaryTree *right_most_tree(BinaryTree *tree) {
-      while (tree && tree->right_ && tree->right_->data_) {
-        tree = tree->right_;
-      }
-      if (tree && tree->right_) tree = tree->right_;
-      return tree;
-    }
-
     BinaryTree *tree_;
   };
 };
