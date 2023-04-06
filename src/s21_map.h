@@ -158,7 +158,7 @@ class map {
     value_type value = std::make_pair(k, obj);
     std::pair<iterator, bool> ret = insert(value);
     if (ret.second == false) {
-      ret.first.value().second = obj;
+      (*(ret.first)).second = obj;
     }
     return ret;
   }
@@ -169,9 +169,9 @@ class map {
  private:
   mapped_type& FindByKey(const key_type& key) {
     auto pair = std::make_pair(key, 0);
-    auto res = root_->FindNode(pair);
-    if (!res) throw std::out_of_range("Key is not in the map");
-    return res->value().second;
+    auto res = root_->find(pair);
+    if (res.is_null()) throw std::out_of_range("Key is not in the map");
+    return ((*res).second);
   }
 
   static constexpr bool root = true;

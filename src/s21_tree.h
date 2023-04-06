@@ -123,41 +123,23 @@ class BinaryTree {
              !comparator_(value, data_->value));
   }
 
-  BinaryTree *FindMultiNode(const value_type value) {
-    if (!data_) return nullptr;
-    if (comparator_(value, data_->value)) {
-      return left_->FindMultiNode(value);
-    } else if (comparator_(data_->value, value)) {
-      return right_->FindMultiNode(value);
-    } else {
-      BinaryTree *node = this;
-      while (node->equal(value)) {
-        if (node->right_->data_ && node->right_->equal(value))
-          node = node->right_;
-      }
-      return node;
-    }
-  }
-
   size_type count_all(const value_type value) {
     if (!data_)
       return 0;
     else {
       return (value == data_->value ? 1 : 0) + left_->count_all(value) +
-             right_->count_all(value);
+        right_->count_all(value);
     }
   }
 
   size_type count(const value_type value) {
-    return count_all(value); /* cursed */
+    return count_all(value);
   }
 
   size_type count_unique(const value_type value) {
     return FindNode(value) ? 1 : 0;
   }
 
-  /* Returns an iterator pointing to the first element that is not less than
-   * (i.e. greater or equal to) key. */
   iterator lower_bound(const value_type &key) {
     BinaryTree *node = this;
     while (node->data_ && comparator_(node->data_->value, key)) {
@@ -237,16 +219,6 @@ class BinaryTree {
     return it.end();
   }
 
-  friend std::ostream &operator<<(std::ostream &o, const BinaryTree &node) {
-    if (node.left_ && node.right_ && node.data_) {
-      return o << &node << ' ' << node.left_ << ' ' << node.right_ << ' '
-               << node.data_->value;
-    } else {
-      return o << &node << ' ' << node.left_ << ' ' << node.right_ << ' '
-               << node.data_;
-    }
-  }
-
   void CopyAllTree(const BinaryTree *other) {
     if (!other || !other->data_) return;
     CopyAllTree(other->left_);
@@ -256,12 +228,12 @@ class BinaryTree {
 
 
   template <typename... Args>
-  s21::vector<std::pair<iterator, bool>> Emplace(Args &&... args) {
-    s21::vector<std::pair<iterator, bool>> ret;
-    for (auto &&item : {std::forward<Args>(args)...})
-      ret.push_back(insert(item));
-    return ret;
-  }
+    s21::vector<std::pair<iterator, bool>> Emplace(Args &&... args) {
+      s21::vector<std::pair<iterator, bool>> ret;
+      for (auto &&item : {std::forward<Args>(args)...})
+        ret.push_back(insert(item));
+      return ret;
+    }
 
  private:
   void InitNode(const_reference value) {
@@ -417,8 +389,8 @@ class BinaryTree {
       if (comparator_(value, data_->value)) {
         ret = left_->InsertNonUniqueValue(value);
       } else if (comparator_(data_->value, value) ||
-                 (!(comparator_(value, data_->value) &&
-                    !comparator_(data_->value, value)))) {
+          (!(comparator_(value, data_->value) &&
+             !comparator_(data_->value, value)))) {
         ret = right_->InsertNonUniqueValue(value);
       }
       height_++;
@@ -438,7 +410,7 @@ class BinaryTree {
       AssignBalanceStatus();
       return std::make_pair(this, true);
     } else if (comparator_(value, data_->value) ||
-               comparator_(data_->value, value)) {
+        comparator_(data_->value, value)) {
       std::pair<BinaryTree *, bool> ret = {{}, {}};
       if (comparator_(value, data_->value)) {
         ret = left_->InsertValue(value);
@@ -484,10 +456,10 @@ class BinaryTree {
   BalanceStatus status_;
 
   struct node_ {
-   public:
-    value_type value;
+    public:
+      value_type value;
 
-    node_(value_type value) noexcept : value(value){};
+      node_(value_type value) noexcept : value(value){};
   };
 
   node_ *data_;
@@ -579,7 +551,7 @@ class BinaryTree {
       return std::make_pair(res, false);
     }
 
-    local_value_type operator*() {
+    local_value_type& operator*() {
       if (!tree_ || !tree_->data_) {
         throw std::runtime_error("No value");
       }
@@ -630,7 +602,7 @@ class BinaryTree {
       return tree_ != other.tree_;
     }
 
-   private:
+    private:
     BinaryTree *left_most_tree(BinaryTree *tree) {
       while (tree->left_ && tree->left_->data_) {
         tree = tree->left_;
@@ -657,6 +629,7 @@ class BinaryTree {
     using pointer = const_value_type *;
     using reference = const_value_type &;
 
+    tree_const_iterator() { tree_ = nullptr; }
     explicit tree_const_iterator(BinaryTree *tree) { tree_ = tree; }
 
     tree_const_iterator(const tree_const_iterator &other) { *this = other; }
@@ -781,7 +754,7 @@ class BinaryTree {
       return tree_ != other.tree_;
     }
 
-   private:
+    private:
     BinaryTree *left_most_tree(BinaryTree *tree) {
       while (tree->left_ && tree->left_->data_) {
         tree = tree->left_;
