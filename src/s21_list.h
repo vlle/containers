@@ -34,7 +34,7 @@ class list {
 
   // main methods for interacting with the class
   list() : m_size_(0) {
-    head_ = new list_node(value_type{});
+    head_ = new list_node<T>(value_type{});
     tail_ = head_;
   }
 

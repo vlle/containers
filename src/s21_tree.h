@@ -1,5 +1,5 @@
-#ifndef SRC_S21_AVLTREE_H
-#define SRC_S21_AVLTREE_H
+#ifndef SRC_S21_TREE_H_
+#define SRC_S21_TREE_H_
 
 #include <algorithm>
 #include <cmath>
@@ -714,4 +714,4 @@ class BinaryTree {
 };
 }  // namespace s21
 
-#endif  // SRC_S21_AVLTREE_H
+#endif  // SRC_S21_TREE_H_
