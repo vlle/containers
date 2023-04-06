@@ -447,7 +447,7 @@ TEST(list_emplace, list) {
   list_it++;
   list.emplace(list_it, 4, 5, 6);
 
-  unsigned long count = 1;
+  int count = 1;
   auto it = list.begin();
   for (; it != list.end(); it++) {
     EXPECT_EQ(*it, count);

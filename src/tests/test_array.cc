@@ -14,8 +14,9 @@ class ArrayTest : public ::testing::Test {
 
 TEST_F(ArrayTest, InitializerListConstructor) {
   for (std::size_t i = 0; i < arr_int.size(); i++) {
-    EXPECT_EQ(arr_int[i], i + 1);
-    EXPECT_EQ(carr_int[i], i + 1);
+    int v = i;
+    EXPECT_EQ(arr_int[i], v + 1);
+    EXPECT_EQ(carr_int[i], v + 1);
   }
   std::string temp_str[3] = {"one", "two", "three"};
   for (std::size_t i = 0; i < arr_str.size(); i++)
@@ -104,8 +105,9 @@ TEST_F(ArrayTest, Data) {
 
 TEST_F(ArrayTest, At) {
   for (std::size_t i = 0; i < arr_int.size(); i++) {
-    EXPECT_EQ(arr_int.at(i), i + 1);
-    EXPECT_EQ(carr_int.at(i), i + 1);
+    int v = i;
+    EXPECT_EQ(arr_int.at(i), v + 1);
+    EXPECT_EQ(carr_int.at(i), v + 1);
   }
   std::string temp_str[3] = {"one", "two", "three"};
   for (std::size_t i = 0; i < arr_str.size(); i++) {
@@ -120,15 +122,19 @@ TEST_F(ArrayTest, AtException) {
 }
 
 TEST_F(ArrayTest, Size) {
-  EXPECT_EQ(arr_int.size(), 5);
-  EXPECT_EQ(carr_int.size(), 5);
-  EXPECT_EQ(arr_str.size(), 3);
+  unsigned long val = 5;
+  EXPECT_EQ(arr_int.size(), val);
+  EXPECT_EQ(carr_int.size(), val);
+  val = 3;
+  EXPECT_EQ(arr_str.size(), val);
 }
 
 TEST_F(ArrayTest, MaxSize) {
-  EXPECT_EQ(arr_int.max_size(), 5);
-  EXPECT_EQ(carr_int.max_size(), 5);
-  EXPECT_EQ(arr_str.max_size(), 3);
+  unsigned long val = 5;
+  EXPECT_EQ(arr_int.max_size(), val);
+  EXPECT_EQ(carr_int.max_size(), val);
+  val = 3;
+  EXPECT_EQ(arr_str.max_size(), val);
 }
 
 TEST_F(ArrayTest, Iterator) {

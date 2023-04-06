@@ -153,8 +153,9 @@ TEST_F(MapTest, Erase) {
   ASSERT_EQ(my_container.size(), expected_container.size());
   EXPECT_NO_THROW(my_container.clear(); expected_container.clear(););
   EXPECT_EQ(expected_container.size(), my_container.size());
-  EXPECT_EQ(my_container.size(), 0);
-  EXPECT_EQ(expected_container.size(), 0);
+  const unsigned long val = 0;
+  EXPECT_EQ(my_container.size(), val);
+  EXPECT_EQ(expected_container.size(), val);
 }
 
 TEST(MapElementAccess, braces_throw) {

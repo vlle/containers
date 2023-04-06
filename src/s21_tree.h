@@ -163,7 +163,7 @@ class BinaryTree {
   }
 
   template <typename... Args>
-  s21::vector<std::pair<iterator, bool>> Emplace(Args &&... args) {
+  s21::vector<std::pair<iterator, bool>> Emplace(Args &&...args) {
     s21::vector<std::pair<iterator, bool>> ret;
     for (auto &&item : {std::forward<Args>(args)...})
       ret.push_back(insert(item));

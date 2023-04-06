@@ -268,14 +268,16 @@ TEST(Set, 1) {
 TEST(Set, 2_test_size) {
   s21::set<int> a{-120, 55, 5};
 
-  ASSERT_EQ(3, a.size());
+  const unsigned long val = 3;
+  ASSERT_EQ(val, a.size());
 }
 
 TEST(Set, 3_test_empty) {
   s21::set<int> a;
 
   ASSERT_EQ(true, a.empty());
-  ASSERT_EQ(0, a.size());
+  const unsigned long val = 0;
+  ASSERT_EQ(val, a.size());
 }
 
 TEST(Set, 3_test_not_empty) {
@@ -486,7 +488,8 @@ TEST(Set, 23_merge) {
     i++;
   }
 
-  ASSERT_EQ(a.size(), 6);
+  const unsigned long val = 6;
+  ASSERT_EQ(a.size(), val);
 }
 
 TEST(Set, 24_merge_empty) {
@@ -518,9 +521,11 @@ TEST(Set, 25_merge_empty_2) {
 TEST(Set, 26_size) {
   s21::set<int> a{1, 2, 3};
   a.erase(a.find(2));
-  ASSERT_EQ(a.size(), 2);
+  unsigned long val = 2;
+  ASSERT_EQ(a.size(), val);
   a.clear();
-  ASSERT_EQ(a.size(), 0);
+  val = 0;
+  ASSERT_EQ(a.size(), val);
 }
 
 TEST(Set, 27_copy) {

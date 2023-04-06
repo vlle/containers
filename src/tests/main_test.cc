@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 
+#include "test_avl_tree.cc"
 #include "test_lists.cc"
 #include "test_map.cc"
 #include "test_queue.cc"

@@ -3,7 +3,7 @@ project(my_project)
 include (CTest)
 
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_FLAGS "-Wall -Werror -Wextra -pedantic -g")
+set(CMAKE_CXX_FLAGS "-Wall -Werror -Wextra -Wpedantic -fsanitize=address")
 
 include(FetchContent)
 FetchContent_Declare(

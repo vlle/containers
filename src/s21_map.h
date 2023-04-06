@@ -14,7 +14,8 @@ class MapCompare {
   }
 };
 
-template <typename Key, typename T, class Compare = MapCompare<std::pair<Key, T>>>
+template <typename Key, typename T,
+          class Compare = MapCompare<std::pair<Key, T>>>
 class map {
  public:
   // in-class type overrides
