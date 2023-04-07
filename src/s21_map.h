@@ -74,6 +74,7 @@ class map {
   mapped_type& operator[](const key_type& key) {
     std::pair<iterator, bool> it_bool = root_->insert({key, {}});
     iterator it = it_bool.first;
+    if (it_bool.second == true) size_++;
     return (*it).second;
   }
 
