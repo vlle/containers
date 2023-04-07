@@ -72,12 +72,9 @@ class map {
   mapped_type& at(const key_type& key) { return FindByKey(key); }
 
   mapped_type& operator[](const key_type& key) {
-    try {
-      return at(key);
-    } catch (std::out_of_range const&) {
-      root_->insert({key, {}});
-    }
-    return at(key);
+    std::pair<iterator, bool> it_bool = root_->insert({key, {}});
+    iterator it = it_bool.first;
+    return (*it).second;
   }
 
   // methods for iterating over class elements (access to iterator)
